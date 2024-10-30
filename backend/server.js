@@ -41,7 +41,7 @@ app.get("/api/products/filter", async (req, res) => {
 
         if (req.query.name) {
             params.push(req.query.name);
-            query_command += ` AND name=$${params.length}`;
+            query_command += ` AND LOWER(name) LIKE '%'||LOWER($${params.length})||'%'`;
         }
         if (req.query.color) {
             params.push(req.query.color);
