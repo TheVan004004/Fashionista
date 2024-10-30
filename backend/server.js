@@ -14,8 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = new pg.Client({
     user: "postgres",
     host: "localhost",
-    database: "ShopQuanAo", // use Van's database
-    password: "100804", // use Van's password
+    database: "ShopQuanAo",
+    password: "100804", // use your password
     port: 5432
 });
 db.connect();
@@ -57,7 +57,7 @@ app.get("/api/products/filter", async (req, res) => {
             const price_start = price_parts[0], price_end = price_parts[1];
             params.push(price_start);
             params.push(price_end);
-            query_command += ` AND "price (1000)" BETWEEN $${params.length - 1} AND $${params.length}`;
+            query_command += ` AND "price (1000d)" BETWEEN $${params.length - 1} AND $${params.length}`;
         }
         if (req.query.category_id) {
             params.push(req.query.category_id);
