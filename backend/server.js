@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from 'pg';
+import fs from 'fs';
 import cors from "cors";
 const app = express();
 const port = 4000;
@@ -32,6 +33,21 @@ app.get("/api/products", async (req, res) => {
     }
 })
 
+// remove vietnamese tones (input)
+function removeVietnameseTones(str) {
+    return str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd')
+        .replace(/Đ/g, 'D');
+}
+//remove (data in database)
+const sql = await fs.readFileSync('database.sql', 'utf8');
+const query_remove = sql.split("----")[1];
+await db.query(query_remove);
+
+
+
 // GET: filter by product name, by (color, size, price_range, category_id), by category_id, by brand_id 
 //(use dynamic query and price_range is string like "200-400")
 app.get("/api/products/filter", async (req, res) => {
@@ -41,8 +57,9 @@ app.get("/api/products/filter", async (req, res) => {
         const params = [];
 
         if (req.query.name) {
-            params.push(req.query.name);
-            query_command += ` AND LOWER(name) LIKE '%'||LOWER($${params.length})||'%'`;
+            const name = removeVietnameseTones(req.query.name);
+            params.push(name);
+            query_command += ` AND remove_vietnamese_tones(name) LIKE '%'||LOWER($${params.length})||'%'`;
         }
         if (req.query.color) {
             params.push(req.query.color);
