@@ -15,6 +15,7 @@ CREATE TABLE "products" (
 
 ----
 
+-- Remove Vietnamese Tones
 CREATE OR REPLACE FUNCTION remove_vietnamese_tones(input TEXT) RETURNS TEXT AS $$
 BEGIN
     input := LOWER(input);
