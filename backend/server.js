@@ -1,11 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from 'pg';
-
+import cors from "cors";
 const app = express();
 const port = 4000;
 
 // Middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -13,8 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = new pg.Client({
     user: "postgres",
     host: "localhost",
-    database: "ShopQuanAo", // use Van's database
-    password: "100804", // use Van's password
+    database: "fashionista", // use Van's database
+    password: "040728", // use Van's password
     port: 5432
 });
 db.connect();
@@ -41,7 +42,7 @@ app.get("/api/products/filter", async (req, res) => {
 
         if (req.query.name) {
             params.push(req.query.name);
-            query_command += ` AND name=$${params.length}`;
+            query_command += ` AND LOWER(name) LIKE '%'||LOWER($${params.length})||'%'`;
         }
         if (req.query.color) {
             params.push(req.query.color);
