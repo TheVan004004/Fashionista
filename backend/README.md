@@ -10,5 +10,5 @@ To install packages
 Run server in port 4000
 
 ## PostgresSQL
-Create databse "ShopQuanAo" and place it into database property of db in server.js
+Create databse "ShopQuanAo" and place it into database property of db in server.js.
 Replace password in server.js by your password
