@@ -1,0 +1,279 @@
+
+
+#product {
+    margin-top: 30px;
+    height: 700px; 
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-bottom: 200px;
+  }
+  
+  #product .picture{
+    height:850px; width: 80%;
+  }
+  
+  .infor .name-clothe{
+    font-family: arial; font-size: 40px; font-weight: bold;
+  }
+  .infor .describe{
+    font-family: arial; font-size: 20px; font-weight:lighter;
+  }
+  .infor .original-price{
+    padding-top: 5px;
+  }
+  .price a{
+    margin-right: 35px;
+  }
+  .infor .price button{
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(5, 83, 252); 
+    color: white; 
+    display: flex; 
+    align-items: center;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 18px;
+    padding-right: 18px;
+    border-radius: 8px;
+    border: none;
+  }
+  #product .right-section{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  
+  }
+  
+  #product .infor{
+    display: grid;
+    grid-template-rows: 1fr 0.5fr 0.5fr 1fr 1fr 0.5fr 1fr 0.5fr 1fr 1fr;
+  
+  }
+  
+  #product .price{
+   
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    font-size: 30px;
+    font-weight: bold;
+  
+  }
+  #product .discount{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  }
+  
+  .discount a{
+    font-size: 24px; font-family: arial;
+  }
+   .discount box{
+    background-color: rgb(235, 212, 196); 
+    color: rgb(246, 104, 4); 
+    display: flex; 
+    align-items: center;
+    margin-left: 30px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 6px;
+    font-family: arial;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .infor .color{
+    display: flex; flex-direction: row; align-items: center;
+  }
+  .color .text{
+    font-family: arial; font-size: 18px;
+  }
+  .color .specific{
+    font-family: arial; font-size: 18px;font-weight: bold;
+  }
+  .infor .img-color{
+    display: flex; flex-direction: row; align-items: center;
+    margin-bottom: 10px;
+  }
+  .img-color button{
+    background-color: white; 
+    height: 80%; width: 70px; 
+    border-width: 1.5px; 
+    border-radius: 20px; 
+    margin-left: 30px;
+  }
+  .infor .size{
+    font-family: arial;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .infor .size div{
+    font-family: arial; font-size: 18px;
+  }
+  .infor .specific-size{
+    background-color: white;
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  
+  }
+  .specific-size button{
+    height: 45px;
+    width: 95px;
+    border-radius: 20px;
+    font-size: 22px;
+    font-family: arial;
+    background-color:rgb(207, 207, 204) ;
+    color: black;
+    border: none;
+  }
+  .infor .quantity{
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  
+  }
+  .quantity .button1 button{
+    height: 50px; width: 120px; 
+    border-width: 2px; 
+    border-radius: 40px; 
+    font-size: 25px;
+    background-color: white;
+  }
+  .quantity .button2 button{
+    height: 50px; width: 650px; 
+    border-width: 2px; 
+    border-radius: 40px; 
+    font-family: arial; 
+    font-weight:bold; 
+    font-size: 25px;
+    color: white;
+    background-color: black;
+  }
+  
+  .service{
+    display: grid;
+    grid-template-rows: 1fr 1.5fr ;
+  }
+  
+  #product .product-policy{
+    display: grid;
+    grid-template-rows:1fr 1fr ;
+  }
+  .product-policy .line{
+    display: grid;
+    grid-template-columns:1fr 1fr ;
+  }
+  .line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .line div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .line .img{
+    flex: 1;
+  }
+  
+  .line .passage{
+    font-family: arial;
+    flex: 6;
+    font-size: 20px;
+  }
+  
+  #product-feature{
+    display: grid;
+    grid-template-rows: 1.75fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+  }
+  #product-feature .prominent{
+    font-weight: bold;
+    font-size:20px;
+  }
+  #product-feature div{
+    font-size: 20px;
+    font-family: arial;
+  }
+  
+  #similar{
+    margin: 80px;
+  }
+  
+  #similar .title{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 50px;
+  }
+  #similar .line{
+    display: flex;
+    align-items: center;
+  }
+  #similar .line-infor{
+    height:2px;
+    width:300px;
+    color:gray;
+    background-color:gray; 
+    border: none;
+  }
+  #similar .text{
+        display: grid;
+        justify-content: center;
+        font-size: 30px;
+        font-weight: bold;
+        font-size: roboto;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-family: roboto;   
+  }
+  #similar .product{
+    display: flex;
+    flex-direction: row;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    height: 280px;
+  }
+  
+  #similar .img-object{
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    height: 300px;
+    flex:1; 
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  #similar .last-img-object{
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    height: 300px;
+    flex:1; 
+    margin-right: -60px;
+    margin-bottom: 10px;
+  }
+  .img-object  img,
+  .last-img-object  img{
+    height: 420px; width: 80%;
+  }
+  #text-object{
+        display: flex;
+        flex-direction: column;
+  }
+  #text-object .name-product{
+    font-size: 15px; padding-top: 12px; 
+  }
+  #text-object .price{
+    padding-top: 5px;
+  }
+  

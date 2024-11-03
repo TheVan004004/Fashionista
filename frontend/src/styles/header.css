@@ -1,0 +1,81 @@
+#header{
+    padding-left: 2vw;
+    padding-right: 2vw;
+    position:sticky;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-bottom: 1px var(--text-color) solid;
+}
+
+#menu-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: start;
+    gap: 2vw;
+    background-color: white;
+}
+  
+#menu-left .icon {
+    cursor: pointer;
+}
+
+#menu-left .icon svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--text-color);
+    cursor: pointer;
+}
+
+#menu-left .icon svg:hover {
+    fill: var(--hover-color);
+}
+
+#menu-left .icon[name="search-icon"] {
+    position: relative;
+}
+#menu-left .icon[name="search-icon"] svg {
+    position: absolute;
+    top:0;
+    right:0;
+    z-index: 200;
+}
+#menu-left .icon .box-search {
+    z-index: 100;
+    position: absolute;
+    top:-10px;
+    right:-10px;
+    display:flex;
+    justify-content: left;
+    align-items: center;
+    height: 40px;
+    border-radius: 1000px;
+    /* transition: 1000ms ease-in-out; */
+}
+#menu-left .icon .box-search input {
+    padding-left: 20px;
+    width: 100%;
+    align-self: center;
+    border:none !important;
+    background: none !important;
+    outline: none !important;
+}
+#menu-left .icon .box-search.hidden input {
+    display: none;
+}
+#menu-left .icon .box-search.hidden{   
+    width: 70px;
+    background:none;
+    
+}
+#menu-left .icon .box-search.show {
+    width: 50vw;
+    background-color: aliceblue;
+}
