@@ -47,13 +47,15 @@ app.get("/api/products", async (req, res) => {
             const query_command = sql_command[2];
             const result = await db.query(query_command, [products[i].id]);
             const getColor = result.rows;
-            const allColorByName = [], allColorByHexCode = [];
+            const allColor = [];
             getColor.forEach((color) => {
-                allColorByName.push(color.color_name);
-                allColorByHexCode.push(color.hex_code);
+                const colorObject = {
+                    name: color.color_name,
+                    hex_code: color.hex_code
+                }
+                allColor.push(colorObject);
             })
-            products[i].color_name = allColorByName;
-            products[i].color_code = allColorByHexCode;
+            products[i].color = allColor;
 
             // convert image into url
             products[i].image = path.join(__dirname + '/public/images', products[i].image + '.png');
