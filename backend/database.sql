@@ -1,20 +1,69 @@
--- Copy and paste this into PostgreSQL to Create table--
+-- Copy and paste this into PostgreSQL to Create table (from line 2 to line 53)--
+CREATE TABLE "categories" (
+  "id" serial PRIMARY KEY,
+  "name" text,
+  "image" text
+);
+
 CREATE TABLE "products" (
   "id" serial PRIMARY KEY,
   "name" text,
-  "image" text,
-  size varchar(4),
-  color text,
-  "buyturn" int,
-  "quantity" int,
+  "image_product" text,
   "brand_id" int,
-  "category_id" int,
-  "price (1000d)" int,
-  sale float
+  "category_id" int
 );
 
-----
+CREATE TABLE "brands" (
+  "id" serial PRIMARY KEY,
+  "name" text,
+  "image" text
+);
 
+CREATE TABLE "size" (
+  "id" serial PRIMARY KEY,
+  "name" varchar(5)
+);
+
+CREATE TABLE "color" (
+  "id" serial PRIMARY KEY,
+  "name" text,
+  "hex_code" char(7)
+);
+
+CREATE TABLE "product_details" (
+  "id" serial PRIMARY KEY,
+  "product_id" int,
+  "image" text,
+  "size_id" int,
+  "color_id" int,
+  "buyturn" int,
+  "quantity" int,
+  "price" int,
+  "sale" float
+);
+
+ALTER TABLE "products" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
+
+ALTER TABLE "products" ADD FOREIGN KEY ("brand_id") REFERENCES "brands" ("id");
+
+ALTER TABLE "product_details" ADD FOREIGN KEY ("size_id") REFERENCES "size" ("id");
+
+ALTER TABLE "product_details" ADD FOREIGN KEY ("color_id") REFERENCES "color" ("id");
+
+ALTER TABLE "product_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
+
+
+----
+--Use '----' to split each sql command
+--get product's name, price, sale, brand, category, image
+SELECT DISTINCT ON(products.name) products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name
+FROM products
+JOIN brands ON brands.id=products.brand_id
+JOIN categories ON categories.id=products.category_id
+JOIN product_details ON product_details.product_id=products.id;
+
+
+----
 -- Remove Vietnamese Tones
 CREATE OR REPLACE FUNCTION remove_vietnamese_tones(input TEXT) RETURNS TEXT AS $$
 BEGIN
