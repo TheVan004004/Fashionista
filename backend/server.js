@@ -4,6 +4,7 @@ import pg from 'pg';
 import fs from 'fs';
 import cors from "cors";
 import { dirname } from "path";
+import path from 'path';
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -35,7 +36,28 @@ app.get("/api/products", async (req, res) => {
         const query_command = sql_command[1];
         const result = await db.query(query_command);
         const products = result.rows;
-        // add all_color into each object of products
+        /*products which are  array have many objects. 
+        Each obj includes id, name, image(only image name, not URL form), price, sale, brand and category name
+        */
+
+        // add 'color' and modify 'image' attribute in each obj of products
+        for (let i = 0; i < products.length; i++) {
+
+            // add property 'color' into each object of products
+            const query_command = sql_command[2];
+            const result = await db.query(query_command, [products[i].id]);
+            const getColor = result.rows;
+            const allColorByName = [], allColorByHexCode = [];
+            getColor.forEach((color) => {
+                allColorByName.push(color.color_name);
+                allColorByHexCode.push(color.hex_code);
+            })
+            products[i].color_name = allColorByName;
+            products[i].color_code = allColorByHexCode;
+
+            // convert image into url
+            products[i].image = path.join(__dirname + '/public/images', products[i].image + '.png');
+        }
         res.json(products);
     } catch (error) {
         console.log(`Error getting product by name: ${error}`);

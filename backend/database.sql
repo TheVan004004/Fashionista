@@ -54,14 +54,20 @@ ALTER TABLE "product_details" ADD FOREIGN KEY ("product_id") REFERENCES "product
 
 
 ----
---Use '----' to split each sql command
 --get product's name, price, sale, brand, category, image
-SELECT DISTINCT ON(products.name) products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name
+SELECT DISTINCT ON(products.id) products.id,products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name
 FROM products
 JOIN brands ON brands.id=products.brand_id
 JOIN categories ON categories.id=products.category_id
-JOIN product_details ON product_details.product_id=products.id;
+JOIN product_details ON product_details.product_id=products.id
+ORDER BY products.id ASC;
 
+----
+SELECT DISTINCT ON (color_id) products.name,color.name as color_name,hex_code
+FROM products
+JOIN product_details ON product_details.product_id=products.id
+JOIN color ON color.id=product_details.color_id
+WHERE product_details.product_id= $1;
 
 ----
 -- Remove Vietnamese Tones
