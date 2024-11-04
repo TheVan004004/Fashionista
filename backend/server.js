@@ -60,7 +60,7 @@ app.get("/api/products", async (req, res) => {
         }
         res.json(products);
     } catch (error) {
-        console.log(`Error getting product by name: ${error}`);
+        console.log(`Error getting all products: ${error}`);
         res.status(500).json({ message: "Server error" });
     }
 })
