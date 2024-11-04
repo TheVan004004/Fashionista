@@ -1,9 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from 'pg';
+import fs from 'fs';
 import cors from "cors";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
 const app = express();
 const port = 4000;
+const __dirname = dirname(fileURLToPath(import.meta.url)); // get Fashionista's URL
 
 // Middleware
 app.use(cors());
@@ -14,17 +19,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = new pg.Client({
     user: "postgres",
     host: "localhost",
-    database: "ShopQuanAo",
+    database: "Fashionista",
     password: "100804", // use your password
     port: 5432
 });
 db.connect();
 
+// Read .sql file
+const sql = await fs.readFileSync('database.sql', 'utf8');
+const sql_command = sql.split("----"); // Separate commands in the .sql file with "----", each commands is element of sql_command
+
 //GET all Products data
 app.get("/api/products", async (req, res) => {
     try {
-        const result = await db.query("SELECT * FROM products");
+        const query_command = sql_command[1];
+        const result = await db.query(query_command);
         const products = result.rows;
+        // add all_color into each object of products
         res.json(products);
     } catch (error) {
         console.log(`Error getting product by name: ${error}`);
@@ -32,7 +43,21 @@ app.get("/api/products", async (req, res) => {
     }
 })
 
-// GET: filter by product name, by (color, size, price_range, category_id), by category_id, by brand_id 
+// remove vietnamese tones (input)
+function removeVietnameseTones(str) {
+    return str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd')
+        .replace(/Đ/g, 'D');
+}
+//create function remove (data in database)
+const query_remove = sql_command[sql_command.length - 1];
+await db.query(query_remove);
+
+
+
+// GET: filter by product name, by color, size, price_range, by category_id, by brand_id 
 //(use dynamic query and price_range is string like "200-400")
 app.get("/api/products/filter", async (req, res) => {
     try {
@@ -41,8 +66,9 @@ app.get("/api/products/filter", async (req, res) => {
         const params = [];
 
         if (req.query.name) {
-            params.push(req.query.name);
-            query_command += ` AND LOWER(name) LIKE '%'||LOWER($${params.length})||'%'`;
+            const name = removeVietnameseTones(req.query.name);
+            params.push(name);
+            query_command += ` AND remove_vietnamese_tones(name) LIKE '%'||LOWER($${params.length})||'%'`;
         }
         if (req.query.color) {
             params.push(req.query.color);
@@ -57,7 +83,7 @@ app.get("/api/products/filter", async (req, res) => {
             const price_start = price_parts[0], price_end = price_parts[1];
             params.push(price_start);
             params.push(price_end);
-            query_command += ` AND "price (1000d)" BETWEEN $${params.length - 1} AND $${params.length}`;
+            query_command += ` AND "price" BETWEEN $${params.length - 1} AND $${params.length}`;
         }
         if (req.query.category_id) {
             params.push(req.query.category_id);
