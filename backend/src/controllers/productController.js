@@ -16,7 +16,7 @@ const getAllProducts = async (req, res) => {
         // add 'color' and modify 'image' attribute in each obj of products
         //First, get backend's url
         const __dirname = dirname(fileURLToPath(import.meta.url));
-        const __backendURL = dirname(__dirname);
+        const __srcURL = dirname(__dirname);
         for (let i = 0; i < products.length; i++) {
 
             // add property 'color' into each object of products
@@ -34,7 +34,7 @@ const getAllProducts = async (req, res) => {
             products[i].color = allColor;
 
             // convert image into url
-            products[i].image = path.join(__backendURL + '/public/images', products[i].image + '.png');
+            products[i].image = path.join(__srcURL + '/public/images', products[i].image + '.png');
         }
         res.json(products);
     } catch (error) {
