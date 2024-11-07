@@ -1,4 +1,4 @@
--- Copy and paste this into PostgreSQL to Create table (from line 2 to line 53)--
+-- Copy and paste this into PostgreSQL to Create table (from line 2 to line 88)--
 CREATE TABLE "categories" (
   "id" serial PRIMARY KEY,
   "name" text,
@@ -42,15 +42,50 @@ CREATE TABLE "product_details" (
   "sale" float
 );
 
+CREATE TABLE "users" (
+  "id" serial PRIMARY KEY,
+  "username" text,
+  "password" text,
+  "name" text,
+  "role" int,
+  "avatar" text,
+  "phone" varchar(15),
+  "address" text,
+  "dob" date,
+  "sex" int
+);
+
+CREATE TABLE "orders" (
+  "id" serial PRIMARY KEY,
+  "user_id" int,
+  "status" int,
+  "note" text,
+  "total" int
+);
+
+CREATE TABLE "oder_details" (
+  "id" serial PRIMARY KEY,
+  "order_id" int,
+  "product_id" int,
+  "price" int,
+  "quantity" int
+);
+
 ALTER TABLE "products" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
 
 ALTER TABLE "products" ADD FOREIGN KEY ("brand_id") REFERENCES "brands" ("id");
+
+ALTER TABLE "orders" ADD FOREIGN KEY ("id") REFERENCES "users" ("id");
 
 ALTER TABLE "product_details" ADD FOREIGN KEY ("size_id") REFERENCES "size" ("id");
 
 ALTER TABLE "product_details" ADD FOREIGN KEY ("color_id") REFERENCES "color" ("id");
 
+ALTER TABLE "oder_details" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
+
 ALTER TABLE "product_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
+
+ALTER TABLE "oder_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
 
 ----
