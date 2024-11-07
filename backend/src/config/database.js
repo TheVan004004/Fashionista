@@ -1,6 +1,8 @@
 import pg from 'pg';
 import fs from 'fs';
-import 'dotenv/config';
+import env from "dotenv";
+
+env.config();
 
 // connect database
 const db = new pg.Client({

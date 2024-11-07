@@ -2,9 +2,10 @@ import express from "express";
 import { configEngine } from "./config/config.js";
 import { db } from "./config/database.js";
 import { router } from "./routes/api.js";
-import 'dotenv/config';
+import env from "dotenv";
 
 const app = express();
+env.config();
 const port = process.env.PORT;
 
 //config template engine
