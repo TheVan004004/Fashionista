@@ -1,9 +1,18 @@
 import { db } from '../config/database.js';
+import path from 'path';
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 const getProfile = async (req, res) => {
     try {
         const result = await db.query("SELECT * FROM users WHERE id = $1", [req.user.id]);
         const profile = result.rows[0];
+        if (profile.avatar) {
+            // convert avatar image to url
+            const __dirname = dirname(fileURLToPath(import.meta.url));
+            const __srcURL = dirname(__dirname);
+            profile.avatar = path.join(__srcURL + "/public/uploads", profile.avatar);
+        }
         res.json(profile);
     } catch (error) {
         console.log(`Error getting profile: ${error}`);

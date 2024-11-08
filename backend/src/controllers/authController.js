@@ -1,6 +1,6 @@
 import { db } from '../config/database.js';
 import bcrypt from "bcrypt";
-import passport from "passport";
+import { passport } from '../config/passportConfig.js';
 
 const signup = async (req, res) => {
     const username = req.body.username;
@@ -42,11 +42,11 @@ const signup = async (req, res) => {
     }
 }
 
-//login function is used like a middleware
-const login = (req, res, next) => {
+//login function use a passport.authenticate middleware (because we need control err and info)
+const login = (req, res) => {
     passport.authenticate('local', (err, user, info) => { //get err, user, info from cb(err, user, info) 
         if (err) {
-            next(err);  // next function in middleware
+            res.status(500).json({ message: "Error during authenticaton" })
         }
         else {
             if (!user) {
@@ -56,7 +56,8 @@ const login = (req, res, next) => {
                 });
             }
             req.login(user, (err) => {
-                if (err) next(err);
+                if (err)
+                    res.status(500).json({ message: "Sever error during login" });
                 else {
                     res.json({
                         success: true,
@@ -66,7 +67,7 @@ const login = (req, res, next) => {
                 }
             });
         }
-    })(req, res, next);
+    })(req, res);
 };
 
 const logout = (req, res) => {
