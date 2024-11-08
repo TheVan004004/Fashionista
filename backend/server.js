@@ -4,6 +4,7 @@ import pg from 'pg';
 import fs from 'fs';
 import cors from "cors";
 import { dirname } from "path";
+import path from 'path';
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -20,7 +21,7 @@ const db = new pg.Client({
     user: "postgres",
     host: "localhost",
     database: "Fashionista",
-    password: "100804", // use your password
+    password: "poo2k4bn", // use your password
     port: 5432
 });
 db.connect();
@@ -35,10 +36,33 @@ app.get("/api/products", async (req, res) => {
         const query_command = sql_command[1];
         const result = await db.query(query_command);
         const products = result.rows;
-        // add all_color into each object of products
+        /*products which are  array have many objects. 
+        Each obj includes id, name, image(only image name, not URL form), price, sale, brand and category name
+        */
+
+        // add 'color' and modify 'image' attribute in each obj of products
+        for (let i = 0; i < products.length; i++) {
+
+            // add property 'color' into each object of products
+            const query_command = sql_command[2];
+            const result = await db.query(query_command, [products[i].id]);
+            const getColor = result.rows;
+            const allColor = [];
+            getColor.forEach((color) => {
+                const colorObject = {
+                    name: color.color_name,
+                    hex_code: color.hex_code
+                }
+                allColor.push(colorObject);
+            })
+            products[i].color = allColor;
+
+            // convert image into url
+            products[i].image = path.join(__dirname + '/public/images', products[i].image + '.png');
+        }
         res.json(products);
     } catch (error) {
-        console.log(`Error getting product by name: ${error}`);
+        console.log(`Error getting all products: ${error}`);
         res.status(500).json({ message: "Server error" });
     }
 })
@@ -66,9 +90,9 @@ app.get("/api/products/filter", async (req, res) => {
         const params = [];
 
         if (req.query.name) {
-            const name = removeVietnameseTones(req.query.name);
+            const name = `%${removeVietnameseTones(req.query.name).toLowerCase()}%`;
             params.push(name);
-            query_command += ` AND remove_vietnamese_tones(name) LIKE '%'||LOWER($${params.length})||'%'`;
+            query_command += ` AND LOWER(name) LIKE $${params.length}`;
         }
         if (req.query.color) {
             params.push(req.query.color);

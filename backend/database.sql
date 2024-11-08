@@ -54,16 +54,150 @@ ALTER TABLE "product_details" ADD FOREIGN KEY ("product_id") REFERENCES "product
 
 
 ----
---Use '----' to split each sql command
---get product's name, price, sale, brand, category, image
-SELECT DISTINCT ON(products.name) products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name
+--get product's id, name, image, price, sale, brand name, category name
+SELECT DISTINCT ON(products.id) products.id,products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name
 FROM products
 JOIN brands ON brands.id=products.brand_id
 JOIN categories ON categories.id=products.category_id
-JOIN product_details ON product_details.product_id=products.id;
-
+JOIN product_details ON product_details.product_id=products.id
+ORDER BY products.id ASC
 
 ----
+SELECT DISTINCT ON (color_id) products.name,color.name as color_name,hex_code
+FROM products
+JOIN product_details ON product_details.product_id=products.id
+JOIN color ON color.id=product_details.color_id
+WHERE product_details.product_id= $1;
+
+----
+-- bán chạy nhất
+SELECT 
+    products.id,
+    products.name, 
+    products.image, 
+    MAX(product_details.price) AS price,  -- chọn giá cao nhất nếu sản phẩm có nhiều mức giá
+    MAX(product_details.sale) AS sale,    -- chọn sale cao nhất nếu có nhiều mức sale
+    brands.name AS brand_name,
+    categories.name AS category_name,
+    SUM(product_details.buyturn) AS total_buyturn
+FROM 
+    products
+JOIN 
+    brands ON brands.id = products.brand_id
+JOIN 
+    categories ON categories.id = products.category_id
+JOIN 
+    product_details ON product_details.product_id = products.id
+GROUP BY 
+    products.id, products.name, products.image, brands.name, categories.name
+ORDER BY 
+    total_buyturn DESC;
+
+----
+WITH RankedProducts AS (
+    SELECT 
+        products.id, 
+        products.name, 
+        products.image, 
+        product_details.price, 
+        product_details.sale, 
+        brands.name AS brand_name, 
+        categories.name AS category_name,
+        ROW_NUMBER() OVER (PARTITION BY products.id ORDER BY product_details.price DESC) AS row_num
+    FROM 
+        products
+    JOIN 
+        brands ON brands.id = products.brand_id
+    JOIN 
+        categories ON categories.id = products.category_id
+    JOIN 
+        product_details ON product_details.product_id = products.id
+)
+SELECT 
+    id, 
+    name, 
+    image, 
+    price, 
+    sale, 
+    brand_name, 
+    category_name
+FROM 
+    RankedProducts
+WHERE 
+    row_num = 1
+ORDER BY 
+    price ASC;
+
+----
+WITH RankedProducts AS (
+    SELECT 
+        products.id, 
+        products.name, 
+        products.image, 
+        product_details.price, 
+        product_details.sale, 
+        brands.name AS brand_name, 
+        categories.name AS category_name,
+        ROW_NUMBER() OVER (PARTITION BY products.id ORDER BY product_details.price DESC) AS row_num
+    FROM 
+        products
+    JOIN 
+        brands ON brands.id = products.brand_id
+    JOIN 
+        categories ON categories.id = products.category_id
+    JOIN 
+        product_details ON product_details.product_id = products.id
+)
+SELECT 
+    id, 
+    name, 
+    image, 
+    price, 
+    sale, 
+    brand_name, 
+    category_name
+FROM 
+    RankedProducts
+WHERE 
+    row_num = 1
+ORDER BY 
+    price DESC;
+----
+WITH RankedProducts AS (
+    SELECT 
+        products.id,
+        products.name, 
+        products.image, 
+        product_details.price, 
+        product_details.sale, 
+        brands.name AS brand_name, 
+        categories.name AS category_name,
+        ROW_NUMBER() OVER (PARTITION BY products.id ORDER BY product_details.sale DESC) AS rank
+    FROM 
+        products
+    JOIN 
+        brands ON brands.id = products.brand_id
+    JOIN 
+        categories ON categories.id = products.category_id
+    JOIN 
+        product_details ON product_details.product_id = products.id
+)
+SELECT 
+    id,
+    name,
+    image,
+    price,
+    sale,
+    brand_name,
+    category_name
+FROM 
+    RankedProducts
+WHERE 
+    rank = 1
+ORDER BY 
+    sale DESC;
+----
+
 -- Remove Vietnamese Tones
 CREATE OR REPLACE FUNCTION remove_vietnamese_tones(input TEXT) RETURNS TEXT AS $$
 BEGIN
