@@ -14,7 +14,7 @@ const getAllProducts = async (req, res) => {
         */
 
         // add 'color' and modify 'image' attribute in each obj of products
-        //First, get backend's url
+        //First, get src's url
         const __dirname = dirname(fileURLToPath(import.meta.url));
         const __srcURL = dirname(__dirname);
         for (let i = 0; i < products.length; i++) {
