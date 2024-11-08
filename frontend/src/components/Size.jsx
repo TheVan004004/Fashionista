@@ -1,0 +1,29 @@
+import { useContext, useEffect, useState } from "react";
+import { MainContext } from "../context/main.context";
+
+const Size = (props) => {
+    const { sizeName, type } = props
+    const { size, setSize, search } = useContext(MainContext)
+    const [active, setActive] = useState(false)
+    useEffect(() => {
+        if (size === sizeName) {
+            setActive(true)
+        }
+        else {
+            setActive(false)
+        }
+    }, [size])
+    return (
+
+        <button className={active ? "active size" : "size"}
+            onClick={() => {
+                if (active) { setSize("") }
+                else { setSize(sizeName) }
+                search()
+            }}>
+            {sizeName}
+        </button >
+    )
+}
+
+export default Size;
