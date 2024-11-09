@@ -8,6 +8,8 @@ import { passport } from "./config/passportConfig.js";
 const app = express();
 env.config();
 const port = process.env.PORT;
+const hostname = process.env.HOST_NAME;
+
 
 //config template engine
 configEngine(app);
@@ -22,7 +24,7 @@ app.use(passport.session());
 //define routes
 app.use("/", router);
 
-app.listen(port, () => {
-    console.log(`API is running at http://localhost:${port}`);
+app.listen(port, hostname, () => {
+    console.log(`API is running at http://${hostname}:${port}`);
 });
 

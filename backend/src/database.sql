@@ -89,15 +89,20 @@ ALTER TABLE "oder_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" 
 
 
 ----
+--sql_command[1]
 --get product's id, name, image, price, sale, brand name, category name
-SELECT DISTINCT ON(products.id) products.id,products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name
+SELECT products.id,products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name, SUM(buyturn) AS total_buyturn
 FROM products
 JOIN brands ON brands.id=products.brand_id
 JOIN categories ON categories.id=products.category_id
 JOIN product_details ON product_details.product_id=products.id
+GROUP BY products.id,products.name, products.image,price, sale, brands.name, categories.name
+HAVING SUM(buyturn)>0
 ORDER BY products.id ASC
 
+
 ----
+--sql_command[2]
 SELECT DISTINCT ON (color_id) products.name,color.name as color_name,hex_code
 FROM products
 JOIN product_details ON product_details.product_id=products.id

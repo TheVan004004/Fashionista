@@ -1,13 +1,13 @@
 import express from "express";
-import { getAllProducts } from "../controllers/productController.js";
+import { searchProducts } from "../controllers/collectionController.js";
 import { signup, login, logout } from "../controllers/authController.js";
 import { getProfile, postProfile } from "../controllers/profileController.js";
 import { uploadAvatar } from "../middleware/upload.js";
 
 const router = express.Router();
 
-//GET all Products data
-router.get("/api/products", getAllProducts);
+//Collection
+router.get("/api/collection", searchProducts) // Filter products by query params and Get all products if not have query params
 
 //Authentication
 router.post("/api/signup", signup); // Register
