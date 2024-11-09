@@ -1,0 +1,160 @@
+.body1{
+  display: grid;
+  grid-template-columns: 0.7fr 2fr;
+  height: 700px;
+  margin-top: 50px;
+  border: 1px solid black ;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+#left-section{
+  border-width:1px ;
+
+  border: 1px solid black ;
+  border-top: none;
+}
+#account-user {
+  
+  display: grid;
+  grid-template-columns: 1fr 2.5fr ;
+  height: 75px;
+  padding-top: 30px;
+  padding-bottom: 40px;
+}
+#account-user img{
+  height: 75px;
+  width: 75px;
+  border-radius: 60px;
+}
+#account-user .in4 p {
+  display: grid;
+  justify-content: start;
+  margin-top: 5px;
+  font-size: 16px;
+}
+#account-user .in4 p1{
+  display: grid;
+  justify-content: start;
+  font-weight: bold;
+  margin-bottom: 0px;
+  font-size: 25px;
+}
+#my-account,
+#shopping-list{
+  display: grid;
+  grid-template-columns: 1.5fr 4fr;
+  justify-content: center;
+  padding-top: 20px;
+}
+#my-account svg,
+#shopping-list svg{
+  height: 30px;
+  width: 30px;
+  margin-right: 0px;
+}
+#my-account .icon,
+#shopping-list .icon{
+  display: grid;
+  justify-content: end;
+  margin-right: 10px;
+}
+#my-account .text,
+#shopping-list .text{
+  display: grid;
+  justify-content: start;
+  font-size: 20px;
+}
+
+#right-section .head{
+  
+  display: grid;
+  grid-template-rows: 3fr 1.5fr;
+  height: 75px;
+  padding-top: 30px;
+  padding-bottom: 40px;
+  border: 1px solid black ;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+#right-section .body2{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  justify-content: start;
+  
+  margin-top: 45px;
+}
+#right-section .head h3{
+  display: grid;
+  justify-content: start;
+  font-size: 35px;
+  margin-top: 0px;
+  margin-left: 30px;
+}
+#right-section .head p{
+  display: grid;
+  justify-content: start; 
+  margin-top: -30px;
+  font-size: 16px;
+  margin-left: 30px;
+}
+.tool-tip,
+#dob,#sex{
+ padding-top: 15px;
+ padding-bottom: 15px;
+ font-size: 20px;
+ display: grid;
+ grid-template-columns: 1fr 3fr;
+ justify-content: start;
+ 
+}
+.tool-tip input{
+  height: 30px;
+  width: 300px;
+}
+#dob input{
+  height: 30px;
+  width: 120px;
+}
+#sex select{
+  height: 30px;
+  width: 70px;
+}
+
+#pick-img svg{
+  height: 100px;
+  width: 100px;
+  border-radius: 60px;
+  padding-top: 40px;
+}
+#pick-img button{
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border: 1px solid gray ;
+  background-color: white;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+#pick-img .text{
+  display: grid;
+  justify-content: start;
+  padding-left: 70px;
+  padding-top: 10px;
+}
+
+ #save{
+  background-color: rgb(226, 72, 11);
+  color: white;
+  border: none;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  cursor: pointer;
+}
+
+
