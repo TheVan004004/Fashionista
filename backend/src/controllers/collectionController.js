@@ -102,4 +102,14 @@ const searchProducts = async (req, res) => {
     }
 }
 
-export { searchProducts }
+const getAllColors = async (req, res) => {
+    try {
+        const result = await db.query("SELECT * FROM color");
+        res.json(result.rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error getting all colors" });
+    }
+}
+
+export { searchProducts, getAllColors }
