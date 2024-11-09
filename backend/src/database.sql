@@ -8,7 +8,7 @@ CREATE TABLE "categories" (
 CREATE TABLE "products" (
   "id" serial PRIMARY KEY,
   "name" text,
-  "image_product" text,
+  "image" text,
   "brand_id" int,
   "category_id" int
 );
