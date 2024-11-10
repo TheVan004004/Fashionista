@@ -1,20 +1,4 @@
-.container-ads {
-    padding: 2vw;
-    display: flex;
-    gap: 1vw;
-    flex-direction: column;
-}
 
-.search{
-    margin-top: 1vw;
-    width: 100%;
-    padding: 1vw;
-    background-color: var(--accent-color);
-}
-
-.search:hover{
-    background-color: var(--hover-color);
-}
 
 /* BANNER */
 #banner{
@@ -50,7 +34,9 @@
     position: relative;
     margin-top: 1vw;
     margin-bottom: 2vw;
-    background-color: var(--accent-color);
+    background-color: var(--hot-color);
+    z-index: 1;
+    height: 530px;
 }
 
 #discount .header {
@@ -76,7 +62,7 @@
 
 
 #discount .header .right .tooltip {
-    background-color: var(--hover-color); 
+    background-color: var(--sale-color); 
     color: white;
     padding: 1vw;
     display: flex;
@@ -87,10 +73,14 @@
 
 #discount .body {
     margin-top: 1vw;
-    display: flex;
-    flex-direction: row;
-    gap: 1vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    white-space: nowrap;
+    gap: 10px;
+    row-gap: 50px;
     width: 100%;
+    height: 470px;
+    overflow: hidden;
 }
 
 #discount .body .product {
@@ -117,9 +107,9 @@
     left: 1vw;
     font-size: 14px;
     font-weight: 600;
-    color: white;
+    color: var(--background-color);
     padding: 1vw;
-    background-color: var(--hover-color);
+    background-color: var(--sale-color);
     border-radius: 1vw;
 }
 
@@ -128,7 +118,7 @@
     margin-left: 2vw;
     margin-right: 2vw;
     display: flex;
-    gap: 1vw;
+    gap: 10px;
     flex-direction: column;
     justify-content: center;
 }
@@ -148,11 +138,12 @@
     background-color: var(--text-color);
 }
 
-#popular .body {
+#popular .body, #popular_2 .body {
     margin-top: 1vw;
-    display: flex;
-    flex-direction: row;
-    gap: 1vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    row-gap: 30px;
     width: 100%;
 }
 
@@ -168,33 +159,17 @@
     padding: 1vw;
     border-radius: 1000px;
     min-width: 100px ;
+    font-weight: 600;
 }
 #popular .select button:hover {
     background-color: var(--accent-color);
+    color: var(--background-color);
 }
 
 #popular .select button .active {
     background-color: var(--accent-color);
 }
 
-.product {
-    flex-grow: 1;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.product img{
-    width: 100%;
-}
-
-.product .text {
-    display:flex;
-    flex-direction: column;
-    justify-content: left;
-    gap: 10px;
-}
 
 .view-more {
     margin-top: 2vw;
@@ -203,13 +178,15 @@
     border: 1px var(--text-color) solid;
     border-radius: 1000px;
     padding: 15px;
-    transition: width 1s, background-color 1s;
+    transition: all 300ms;
 }
 
 .view-more:hover {
-    width: 400px;
-    background-color: var(--accent-color);
-    border: none;
+    width: 350px;
+    color: var(--background-color);
+    letter-spacing: 1px;
+    background-color: var(--hot-color);
+    border: 1px black solid;
 }
 
 /* POPULAR2 */
@@ -219,10 +196,35 @@
     gap:10px;
 }
 
-#popular_2 .body {
+
+.container-ads {
+    padding: 2vw;
     display: flex;
-    flex-direction: row;
     gap: 1vw;
-    width: 100%;  
-    padding-bottom: 2vw;
+    flex-direction: column;
+}
+
+.container-ads .search{
+    margin-top: 1vw;
+    width: 100%;
+    padding: 1vw;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+}
+
+.container-ads .search:hover{
+    background-color: var(--hot-color);
+}
+
+@media only screen and (max-width: 1080px) {
+    #discount .body, #popular .body {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        overflow: hidden;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #discount .body, #popular .body {
+        grid-template-columns: 1fr 1fr 1fr ;
+    }
 }

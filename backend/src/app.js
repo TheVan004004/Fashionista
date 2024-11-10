@@ -8,7 +8,7 @@ import { passport } from "./config/passportConfig.js";
 const app = express();
 env.config();
 const port = process.env.PORT;
-const hostname = process.env.HOST_NAME;
+const hostname = process.env.DB_HOST;
 
 
 //config template engine

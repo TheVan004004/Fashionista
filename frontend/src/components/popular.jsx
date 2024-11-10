@@ -1,9 +1,9 @@
+import { useContext } from 'react';
 import Product from '../product/product';
+import { MainContext } from '../context/main.context';
 
 const Popular = () => {
-    const product = {
-        name: "Chưa có name",
-    }
+    const { listPopular } = useContext(MainContext)
     return (
         <>
             <div id="popular" >
@@ -16,10 +16,13 @@ const Popular = () => {
                     <button>5</button>
                 </div>
                 <div className="body">
-                    <Product product={product} />
-                    <Product product={product} />
-                    <Product product={product} />
-                    <Product product={product} />
+                    {listPopular.map((product, index) => {
+                        if (index < 5) return (
+                            <Product product={product} key={product.id * product.price} />
+                        )
+                        else return (<></>)
+                    })
+                    }
                 </div>
                 <button className="view-more">Xem thêm</button>
             </div>

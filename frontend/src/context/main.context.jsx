@@ -1,21 +1,46 @@
-import { createContext, useState } from "react";
-import { searchAPI } from "../services/services";
+import { createContext, useEffect, useState } from "react";
+import { searchAPI, getAllProductsAPI, getMostPopularAPI, getMostSaleAPI } from "../services/services";
 
 export const MainContext = createContext({})
 
 export const ContextWrapper = (props) => {
-    const [color, setColor] = useState("")
+    const [colorFilter, setColorFilter] = useState("")
     const [size, setSize] = useState("")
     const [minPrice, setMinPrice] = useState("")
     const [maxPrice, setMaxPrice] = useState("")
     const [listResult, setListResult] = useState([])
     const [inputSearch, setInputSearch] = useState("")
     const [productDetail, setProductDetail] = useState({})
+    const [sort, setSort] = useState("most_buyturn")
+    const [listPopular, setListPopular] = useState([])
+    const [listBestSaler, setListBestSaler] = useState([])
+    const [user, setUser] = useState(null)
+    console.log(user)
+    useEffect(() => {
+        getProductPopular()
+        getBestSaler()
+    }, []);
+    useEffect(() => {
+        console.log(inputSearch, colorFilter, size, minPrice, maxPrice)
+        search()
+    }, [colorFilter, minPrice, maxPrice, sort])
+    const getProductPopular = async () => {
+        const res = await getMostPopularAPI()
+        const data = await res.data
+        setListPopular(data)
+    }
+    const getBestSaler = async () => {
+        const res = await getMostSaleAPI()
+        const data = await res.data
+        setListBestSaler(data)
+    }
     const search = async () => {
-        if (inputSearch === "") return;
-        console.log("run")
+        if (inputSearch === "") {
+            return;
+        }
         try {
-            const res = await searchAPI(inputSearch, color, size, minPrice, maxPrice);
+            window.scrollTo({ top: 0 })
+            const res = await searchAPI(inputSearch, colorFilter.hex_code, size, minPrice, maxPrice, sort);
             if (res && res.data) {
                 const data = res.data
                 setListResult(data)
@@ -24,18 +49,20 @@ export const ContextWrapper = (props) => {
         catch (e) {
 
         }
-
     }
     return (
         <MainContext.Provider
             value={{
-                color, setColor,
+                sort, setSort,
+                colorFilter, setColorFilter,
                 size, setSize,
                 minPrice, setMinPrice,
                 maxPrice, setMaxPrice,
                 listResult, setListResult,
                 search, inputSearch, setInputSearch,
-                productDetail, setProductDetail
+                productDetail, setProductDetail,
+                listPopular, listBestSaler,
+                user, setUser
             }}
         >
             {props.children}

@@ -1,0 +1,336 @@
+.product {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+.product .container_img { 
+    width: 100%;
+    height: 350px;
+    position: relative;
+}
+.product .mini_img { 
+    height: 200px;
+}
+.product .container_img .hover_product { 
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    gap: 10px;
+}
+.product .container_img .sale {
+    position: absolute;
+    padding-left: 10px;
+    left: 0;
+    bottom: 0;
+    background-color: var(--hot-color);
+    width: 100px;
+    height: 30px;
+    border-top-right-radius: 30px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    color: var(--background-color);
+    font-weight: 600;
+}
+
+.product .text {
+    padding-top: 10px;
+    display:flex;
+    flex-direction: column;
+    justify-content: left;
+    overflow: hidden;
+    min-width: 0;
+    text-transform: capitalize;
+    gap: 5px;
+}
+.product .text .text_name {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+.product .text .text_price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+.color_options {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.size_options {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+.size_options div {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.size_options div.active {
+    color: white;
+    background-color: black;
+    border: 1px solid black;
+}
+
+/* Product_detail */
+#product {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 60px;
+    margin-left:7vw;
+    margin-right: 7vw;
+  }
+  
+#product .picture{
+    margin-bottom: 20px;
+    height:850px; width: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+  
+.infor .name-clothe{
+    font-family: arial; font-size: 32px; font-weight: bold;
+}
+.infor .describe{
+    font-family: arial; font-size: 16px; font-weight:lighter;
+    display: flex;
+    flex-wrap: "wrap";
+}
+
+#product .right-section{
+    display: grid;
+    grid-template-rows: 1fr 1fr;  
+}
+  
+#product .infor{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+  
+#product .discount{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  }
+  
+.discount a{
+    font-size: 24px; font-family: arial;
+  }
+.discount box{
+    background-color: rgb(235, 212, 196); 
+    color: rgb(246, 104, 4); 
+    display: flex; 
+    align-items: center;
+    margin-left: 30px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 6px;
+    font-family: arial;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+.infor .quantity{
+    margin-top: 15px;
+    display: grid; 
+    grid-template-columns: 1fr 8fr;
+    column-gap: 10px;
+}
+
+.infor .quantity div{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1000px;
+    padding: 5px 10px;
+}
+
+.infor .quantity .submit {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    transition: all 1s;
+}
+
+.infor .quantity .submit:hover {
+    letter-spacing: 1px;
+}
+
+.infor .quantity .quantity_input {
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    padding: 5px 5px;
+}
+
+.infor .quantity .quantity_input p{
+    width: 30px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+  
+  .service{
+    display: grid;
+    grid-template-rows: 1fr 1.5fr ;
+  }
+  
+  #product .product-policy{
+    display: grid;
+    grid-template-rows:1fr 1fr ;
+  }
+  .product-policy .line{
+    display: grid;
+    grid-template-columns:1fr 1fr ;
+  }
+  .line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .line div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .line .img{
+    flex: 1;
+  }
+  
+  .line .passage{
+    font-family: arial;
+    flex: 6;
+    font-size: 20px;
+  }
+  
+  /* #product-feature{
+    display: grid;
+    grid-template-rows: 1.75fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+  }
+  #product-feature .prominent{
+    font-weight: bold;
+    font-size:20px;
+  }
+  #product-feature div{
+    font-size: 20px;
+    font-family: arial;
+  }
+   */
+
+
+
+
+
+/* chưa duyệt */
+  #similar{
+    margin: 80px;
+  }
+  
+  #similar .title{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 50px;
+  }
+  #similar .line{
+    display: flex;
+    align-items: center;
+  }
+  #similar .line-infor{
+    height:2px;
+    width:300px;
+    color:gray;
+    background-color:gray; 
+    border: none;
+  }
+  #similar .text{
+        display: grid;
+        justify-content: center;
+        font-size: 30px;
+        font-weight: bold;
+        font-size: roboto;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-family: roboto;   
+  }
+  #similar .product{
+    display: flex;
+    flex-direction: row;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    height: 280px;
+    gap: "10px"
+  }
+  
+  #similar .img-object{
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    height: 300px;
+    flex:1; 
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  #similar .last-img-object{
+    display: flex;
+    flex-direction: column;
+    background-color:white;
+    height: 300px;
+    flex:1; 
+    margin-right: -60px;
+    margin-bottom: 10px;
+  }
+  .img-object  img,
+  .last-img-object  img{
+    height: 420px; width: 80%;
+  }
+  #text-object{
+        display: flex;
+        flex-direction: column;
+  }
+  #text-object .name-product{
+    font-size: 15px; padding-top: 12px; 
+  }
+  #text-object .price{
+    padding-top: 5px;
+  }
+  
+@media only screen and (max-width: 1080px) {
+    #product {
+        grid-template-columns: 1fr;
+        margin-left:2vw;
+        margin-right: 2vw;
+    }
+}

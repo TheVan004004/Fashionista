@@ -1,9 +1,10 @@
 :root {
   --background-color: white;
   --text-color: black;
-  --accent-color: rgb(255, 171, 60);
-  --hover-color: rgb(196, 50, 50);
-  --active-color: blue;
+  --accent-color: #02457A;
+  --blur-color: #97CADB;
+  --sale-color: rgb(196, 50, 50) ;
+  --hot-color:rgb(255, 128, 50);
 }
 body {
   margin: 0;
@@ -24,6 +25,13 @@ code {
   margin: 0;
 }
 
+a {
+  color: var(--blur-color);
+  cursor: pointer;
+}
+a:hover{
+  color: var(--accent-color);
+}
 button {
   background: none;
   border:none;

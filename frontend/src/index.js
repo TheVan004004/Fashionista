@@ -13,6 +13,9 @@ import { ContextWrapper } from './context/main.context';
 import ProductDetail from './product/ProductDetail';
 import Header from './layout/header';
 import Footer from './layout/footer';
+import User from './user/User';
+import Profile from './user/profile';
+import ShopList from './user/ShopList';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +32,20 @@ const router = createBrowserRouter([
       {
         path: '/product',
         element: <ProductDetail />,
+      },
+      {
+        path: '/user',
+        element: <User />,
+        children: [
+          {
+            index: true,
+            element: <Profile />,
+          },
+          {
+            path: '/user/shopping',
+            element: <ShopList />,
+          }
+        ]
       },
     ],
   },
