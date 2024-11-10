@@ -45,12 +45,12 @@
 #menu-left .icon .box-search {
     z-index: 100;
     position: absolute;
-    top:-10px;
+    top:-5px;
     right:-10px;
     display:flex;
     justify-content: left;
     align-items: center;
-    height: 40px;
+    height: 35px;
     border-radius: 1000px;
     /* transition: 1000ms ease-in-out; */
 }

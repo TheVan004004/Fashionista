@@ -17,17 +17,21 @@ const Search = () => {
                     listResult.length > 0
                         ?
                         <>
-                            <div className="sort-dropdown">
-                                <label htmlFor="sort">Sắp xếp theo:</label>
-                                <select id="sort">
-                                    <option>Bán chạy</option>
-                                    <option>Mới nhất</option>
-                                    <option>Thấp đến cao</option>
-                                    <option>Cao đến thấp</option>
-                                    <option>Sale</option>
-                                </select>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                <h2>Result: </h2>
+                                <div className="sort-dropdown">
+                                    <label htmlFor="sort">Sắp xếp theo:</label>
+                                    <select id="sort">
+                                        <option>Bán chạy</option>
+                                        <option>Mới nhất</option>
+                                        <option>Thấp đến cao</option>
+                                        <option>Cao đến thấp</option>
+                                        <option>Sale</option>
+                                    </select>
+
+                                </div>
                             </div>
-                            <h3>Result: </h3>
+
                             <div className="product-list">
                                 {
                                     listResult.map((product, index) => {

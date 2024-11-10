@@ -36,7 +36,7 @@ const Product = (props) => {
                         className="hover_product"
                     >
                         <HiOutlineShoppingCart style={{ fontSize: "36px" }} />
-                        <p> Đặt hàng ngay </p>
+                        <p> Thêm vào giỏ hàng </p>
                     </div>
                 }
             </div>

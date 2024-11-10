@@ -33,7 +33,7 @@ const Filter = () => {
                 <HiOutlineXCircle
                     style={{
                         position: "absolute",
-                        top: "10px",
+                        top: "20px",
                         right: "10px",
                         fontSize: "24px",
                         cursor: "pointer",

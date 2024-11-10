@@ -4,12 +4,13 @@ import { useContext, useState } from 'react';
 import { searchAPI } from '../services/services';
 import { MainContext } from '../context/main.context';
 import UserBox from '../user/user.box';
-import { HiOutlineHome, HiOutlineMenu, HiOutlineShoppingBag, HiOutlineUserCircle, HiSearch, HiUserCircle } from "react-icons/hi";
+import { HiOutlineHome, HiOutlineMenu, HiOutlineShoppingBag, HiOutlineUserCircle, HiSearch } from "react-icons/hi";
 const Header = () => {
     const navigate = useNavigate();
     const [isSearch, setIsSearch] = useState(false)
     const [boxUser, setBoxUser] = useState("")
     const { inputSearch, setInputSearch, search } = useContext(MainContext)
+    const user = "";
     return (
         <>
             <div id="header">
@@ -54,10 +55,31 @@ const Header = () => {
                         <HiOutlineShoppingBag />
                     </div>
                     <div className="icon"
-                        onClick={() => setBoxUser("isLogin")}
+
                         name="user-icon"
                     >
-                        <HiOutlineUserCircle />
+                        {user !== ""
+                            ?
+                            <div
+                                style={{
+                                    width: "18px",
+                                    height: "18px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    backgroundColor: "gray",
+                                    padding: "5px",
+                                    borderRadius: "1000px",
+                                    textAlign: "center"
+                                }}
+                                onClick={() => {
+                                    navigate("/user")
+                                    setIsSearch(false)
+                                }}
+                            >U</div>
+                            :
+                            <HiOutlineUserCircle onClick={() => setBoxUser("isLogin")} />
+                        }
                     </div>
                     <div className="icon"
                         onClick={() => { console.log("click") }}

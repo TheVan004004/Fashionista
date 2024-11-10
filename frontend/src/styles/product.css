@@ -172,11 +172,12 @@
 
 .infor .quantity .submit {
     background-color: var(--accent-color);
+    color: var(--background-color);
+    transition: all 1s;
 }
 
 .infor .quantity .submit:hover {
-    font-weight: 600;
-    background-color: var(--accent-color);
+    letter-spacing: 1px;
 }
 
 .infor .quantity .quantity_input {

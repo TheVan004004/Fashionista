@@ -52,10 +52,9 @@
 }
 
 #filterSidebar .filter-section .price-select {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1vw;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
@@ -68,7 +67,7 @@
 #filterSidebar .filter-section .filter-size {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.5vw;
+    gap: 5px;
 }
 
 #filterSidebar .filter-section .filter-size button {
@@ -107,7 +106,7 @@
 }
 
 .color-option button.active {
-    box-shadow: 0 0 0 4px white, 0 0 0 5px  var(--text-color);
+    box-shadow: 0 0 0 3px white, 0 0 0 4px  var(--text-color);
 }
 
 
