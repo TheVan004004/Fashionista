@@ -36,6 +36,7 @@
     margin-bottom: 2vw;
     background-color: var(--hot-color);
     z-index: 1;
+    height: 530px;
 }
 
 #discount .header {
@@ -72,10 +73,13 @@
 
 #discount .body {
     margin-top: 1vw;
-    display: flex;
-    flex-direction: row;
-    gap: 1vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    white-space: nowrap;
+    gap: 10px;
+    row-gap: 50px;
     width: 100%;
+    height: 470px;
     overflow: hidden;
 }
 
@@ -114,7 +118,7 @@
     margin-left: 2vw;
     margin-right: 2vw;
     display: flex;
-    gap: 1vw;
+    gap: 10px;
     flex-direction: column;
     justify-content: center;
 }
@@ -134,11 +138,12 @@
     background-color: var(--text-color);
 }
 
-#popular .body {
+#popular .body, #popular_2 .body {
     margin-top: 1vw;
-    display: flex;
-    flex-direction: row;
-    gap: 1vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    row-gap: 30px;
     width: 100%;
 }
 
@@ -191,15 +196,6 @@
     gap:10px;
 }
 
-#popular_2 .body {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 1vw;
-    width: 100%; 
-    padding-bottom: 2vw;
-}
 
 .container-ads {
     padding: 2vw;
@@ -218,4 +214,17 @@
 
 .container-ads .search:hover{
     background-color: var(--hot-color);
+}
+
+@media only screen and (max-width: 1080px) {
+    #discount .body, #popular .body {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        overflow: hidden;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #discount .body, #popular .body {
+        grid-template-columns: 1fr 1fr 1fr ;
+    }
 }

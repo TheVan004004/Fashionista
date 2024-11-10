@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 
 const Product = (props) => {
-    const { product } = props
+    const { product, type } = props
     const { productDetail, setProductDetail } = useContext(MainContext)
     const [isHover, setIsHover] = useState(false)
     const navigate = useNavigate()
@@ -20,11 +20,11 @@ const Product = (props) => {
             onMouseLeave={() => setIsHover(false)}
         >
             <div
-                className="container_img"
+                className={type && type === "mini" ? "mini_img container_img" : "container_img"}
             >
                 <img
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-thun-nu-TSN7301-DEN%20(10).JPG" alt="" />
+                    src={product.image} alt="" />
                 {product.sale > 0 &&
                     <div className="sale">
                         <div>sale: {product.sale * 100}%</div>
@@ -36,7 +36,13 @@ const Product = (props) => {
                         className="hover_product"
                     >
                         <HiOutlineShoppingCart style={{ fontSize: "36px" }} />
-                        <p> Thêm vào giỏ hàng </p>
+                        {
+                            type && type === "mini"
+                                ?
+                                <></>
+                                :
+                                <p> Thêm vào giỏ hàng </p>
+                        }
                     </div>
                 }
             </div>
@@ -47,14 +53,14 @@ const Product = (props) => {
                     className="text_price"
                     style={{
                         display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
+                        flexDirection: type === "mini" ? "column" : "row",
+                        alignItems: "flex-start",
                         gap: "10px"
                     }}>
                     {product.sale > 0
                         ?
                         <>
-                            <div style={{ fontSize: "16px", fontWeight: "600", color: "red" }} >
+                            <div style={{ fontSize: "16px", fontWeight: "600", color: 'var(--sale-color)' }} >
                                 {(product.price * (1 - product.sale) * 1000).toLocaleString("vi-VN")}đ
                             </div>
                             <del
@@ -68,21 +74,28 @@ const Product = (props) => {
                     }
                 </div>
             </div>
-            <div className="color_options">
-                {
-                    product.color &&
-                    product.color.map((color, index) => {
-                        return (
-                            <div style={{
-                                width: "20px",
-                                height: "20px",
-                                borderRadius: "1000px",
-                                backgroundColor: color.hex_code
-                            }}></div>
-                        )
-                    })
-                }
-            </div>
+            {
+                type && type === "mini"
+                    ?
+                    <></>
+                    :
+                    <div className="color_options">
+                        {
+                            product.color &&
+                            product.color.map((color, index) => {
+                                return (
+                                    <div style={{
+                                        width: "20px",
+                                        height: "20px",
+                                        borderRadius: "1000px",
+                                        backgroundColor: color.hex_code
+                                    }}></div>
+                                )
+                            })
+                        }
+                    </div>
+            }
+
         </div >
     )
 }

@@ -2,54 +2,32 @@ import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../context/main.context";
 
 const Color = (props) => {
-    const { colorName, type } = props
-    const { color, setColor, search } = useContext(MainContext)
+    const { color } = props
+    const { colorFilter, setColorFilter, search } = useContext(MainContext)
     const [colorClassName, setColorClassName] = useState("")
     const [active, setActive] = useState(false)
     useEffect(() => {
-        switch (colorName) {
-            case "Đỏ":
-                setColorClassName("red")
-                break;
-            case "Đen":
-                setColorClassName("black")
-                break;
-            case "Trắng":
-                setColorClassName("white")
-                break;
-            case "Ghi":
-                setColorClassName("gray")
-                break;
-            case "Be":
-                setColorClassName("beige")
-                break;
-            case "Nâu":
-                setColorClassName("brown")
-                break;
-            case "Xanh rêu":
-                setColorClassName("dark-green")
-                break;
-            default:
-                break;
-        }
-        if (color === colorName) {
+        if (color.hex_code === colorFilter.hex_code) {
             setActive(true)
         }
         else {
             setActive(false)
         }
-    }, [color])
+    }, [colorFilter])
     return (
         <>
             <div className="color-option"
                 onClick={() => {
-                    if (active) { setColor("") }
-                    else { setColor(colorName) }
-                    search()
+                    if (active) {
+                        setColorFilter({})
+                    }
+                    else {
+                        setColorFilter(color)
+                    }
                 }}
             >
-                <button className={active ? `active ${colorClassName}` : colorClassName}></button>
-                <p>{colorName}</p>
+                <button className={active ? "active" : ""} style={{ backgroundColor: color.hex_code }}></button>
+                <p>{color.name}</p>
             </div >
         </>
     )

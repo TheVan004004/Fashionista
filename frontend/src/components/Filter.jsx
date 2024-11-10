@@ -4,10 +4,19 @@ import { MainContext } from '../context/main.context';
 import Color from './Color';
 import Size from './Size';
 import { HiAdjustments, HiOutlineXCircle } from 'react-icons/hi';
+import { getAllColorAPI } from '../services/services';
 const Filter = () => {
-    const { color, size, minPrice, maxPrice, setColor, setSize, setMinPrice, setMaxPrice } = useContext(MainContext)
+    const { color, size, minPrice, maxPrice, colorFilter, setColorFiler, setMinPrice, setMaxPrice } = useContext(MainContext)
     const [active, setActive] = useState(true)
-    useEffect(() => { })
+    const [listColor, setListColor] = useState([])
+    useEffect(() => {
+        getColor()
+    }, [])
+    const getColor = async () => {
+        const res = await getAllColorAPI()
+        const data = await res.data
+        setListColor(data)
+    }
     return (
         <>
 
@@ -103,10 +112,13 @@ const Filter = () => {
                 <div className="filter-section">
                     <h4>Màu sắc</h4>
                     <div className="filter-color">
-                        <Color colorName="Đỏ" type="" />
-                        <Color colorName="Đen" type="" />
-                        <Color colorName="Ghi" type="" />
-                        <Color colorName="Trắng" type="" />
+                        {
+                            listColor.map((color, index) => {
+                                return (
+                                    <Color color={color} key={color.hex_code} />
+                                )
+                            })
+                        }
                     </div>
                 </div>
 

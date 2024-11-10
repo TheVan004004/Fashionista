@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { validate, isRequired, isConfirmed, minChar } from '../validation'
 import { signUpAPI } from "../services/services";
 import { HiOutlineXCircle } from "react-icons/hi";
+import { MainContext } from "../context/main.context";
 function Register({ setBoxUser }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -9,6 +10,7 @@ function Register({ setBoxUser }) {
   const [errorNameMessage, setErrorNameMessage] = useState("");
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
   const [errorPasswordConfirmMessage, setErrorPasswordConfirmMessage] = useState("");
+  const { setUser } = useContext(MainContext)
   const handleSubmit = async () => {
     const nameError = validate(username, [isRequired]);
     const passwordError = validate(password, [isRequired, minChar], { min: 5 });
@@ -17,9 +19,15 @@ function Register({ setBoxUser }) {
     setErrorPasswordMessage(passwordError);
     setErrorPasswordConfirmMessage(passwordConfirmError)
     if (nameError === "" && passwordError === "" && passwordConfirmError === "") {
-      const res = await signUpAPI(username, password)
-      const data = await res.json()
-      console.log(data)
+      try {
+        const res = await signUpAPI(username, password)
+        const data = await res.data.user
+        setUser(data)
+        setBoxUser("")
+      }
+      catch (e) {
+        alert(e.message)
+      }
     }
   };
   return (

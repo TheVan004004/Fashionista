@@ -1,6 +1,9 @@
 
+import { useContext } from 'react';
 import ProductDiscount from '../product/product.discount';
+import { MainContext } from '../context/main.context';
 const Discount = () => {
+    const { listBestSaler } = useContext(MainContext)
     return (
         <>
             <div id="discount">
@@ -22,11 +25,14 @@ const Discount = () => {
                     </div>
                 </div>
                 <div className="body">
-                    <ProductDiscount />
-                    <ProductDiscount />
-                    <ProductDiscount />
-                    <ProductDiscount />
-                    <ProductDiscount />
+                    {
+                        listBestSaler.map((product, index) => {
+                            if (index < 5) return (
+                                <ProductDiscount product={product} key={product.id * product.price} />
+                            )
+                            else return (<></>)
+                        })
+                    }
                 </div>
             </div>
         </>

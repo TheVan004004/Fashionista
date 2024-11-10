@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { MainContext } from '../context/main.context';
 const ProductDetail = () => {
     const { productDetail, setProductDetail } = useContext(MainContext)
-    const [colorPicked, setColorPicked] = useState(productDetail.color[0].name)
+    const [colorPicked, setColorPicked] = useState(productDetail.color[0].name || "")
     const [sizePicked, setSizePicked] = useState("")
     const [quantity, setQuantity] = useState(1)
     const sizes = ["M", "L", "XL", "XXL"]
@@ -16,7 +16,7 @@ const ProductDetail = () => {
                 <div>
                     <img className="picture"
                         alt=""
-                        src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-thun-nu-yody-TSN7274-REU,%20CVN7058-NAU%20(4).jpg" />
+                        src={productDetail.image} />
                 </div>
                 <div className="right-section">
                     <div className="infor">

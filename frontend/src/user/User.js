@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { HiOutlineClipboardList, HiOutlineHome, HiOutlineUserCircle } from "react-icons/hi";
 import { Outlet, useNavigate } from "react-router-dom";
+import { MainContext } from "../context/main.context";
 
 
 const User = () => {
   const navigate = useNavigate()
   const [state, setState] = useState("myAcc")
+  const { user, setUser } = useContext(MainContext)
   return (
 
     <div id="user">
@@ -15,7 +17,7 @@ const User = () => {
             style={{ fontSize: "48px" }}
             onClick={() => { }} />
           <div className="in4">
-            <p style={{ fontSize: "24px", fontWeight: "600" }}>Tên tài khoản</p>
+            <p style={{ fontSize: "24px", fontWeight: "600" }}>{user && user.username}</p>
             {/* <p>Sửa hồ sơ</p> */}
           </div>
         </div>

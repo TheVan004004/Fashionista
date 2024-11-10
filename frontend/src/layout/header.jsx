@@ -9,8 +9,7 @@ const Header = () => {
     const navigate = useNavigate();
     const [isSearch, setIsSearch] = useState(false)
     const [boxUser, setBoxUser] = useState("")
-    const { inputSearch, setInputSearch, search } = useContext(MainContext)
-    const user = "";
+    const { inputSearch, setInputSearch, search, user } = useContext(MainContext)
     return (
         <>
             <div id="header">
@@ -58,7 +57,7 @@ const Header = () => {
 
                         name="user-icon"
                     >
-                        {user !== ""
+                        {user
                             ?
                             <div
                                 style={{

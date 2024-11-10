@@ -3,7 +3,7 @@ import env from "dotenv";
 
 env.config();
 const port = process.env.PORT;
-const hostname = process.env.HOST_NAME;
+const hostname = process.env.DB_HOST;
 
 // get all products function
 const getAllProducts = async () => {
