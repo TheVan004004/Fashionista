@@ -1,20 +1,4 @@
-.container-ads {
-    padding: 2vw;
-    display: flex;
-    gap: 1vw;
-    flex-direction: column;
-}
 
-.search{
-    margin-top: 1vw;
-    width: 100%;
-    padding: 1vw;
-    background-color: var(--accent-color);
-}
-
-.search:hover{
-    background-color: var(--hover-color);
-}
 
 /* BANNER */
 #banner{
@@ -50,7 +34,8 @@
     position: relative;
     margin-top: 1vw;
     margin-bottom: 2vw;
-    background-color: var(--accent-color);
+    background-color: var(--hot-color);
+    z-index: 1;
 }
 
 #discount .header {
@@ -76,7 +61,7 @@
 
 
 #discount .header .right .tooltip {
-    background-color: var(--hover-color); 
+    background-color: var(--sale-color); 
     color: white;
     padding: 1vw;
     display: flex;
@@ -91,6 +76,7 @@
     flex-direction: row;
     gap: 1vw;
     width: 100%;
+    overflow: hidden;
 }
 
 #discount .body .product {
@@ -117,9 +103,9 @@
     left: 1vw;
     font-size: 14px;
     font-weight: 600;
-    color: white;
+    color: var(--background-color);
     padding: 1vw;
-    background-color: var(--hover-color);
+    background-color: var(--sale-color);
     border-radius: 1vw;
 }
 
@@ -168,33 +154,17 @@
     padding: 1vw;
     border-radius: 1000px;
     min-width: 100px ;
+    font-weight: 600;
 }
 #popular .select button:hover {
     background-color: var(--accent-color);
+    color: var(--background-color);
 }
 
 #popular .select button .active {
     background-color: var(--accent-color);
 }
 
-.product {
-    flex-grow: 1;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.product img{
-    width: 100%;
-}
-
-.product .text {
-    display:flex;
-    flex-direction: column;
-    justify-content: left;
-    gap: 10px;
-}
 
 .view-more {
     margin-top: 2vw;
@@ -203,13 +173,15 @@
     border: 1px var(--text-color) solid;
     border-radius: 1000px;
     padding: 15px;
-    transition: width 1s, background-color 1s;
+    transition: all 300ms;
 }
 
 .view-more:hover {
-    width: 400px;
-    background-color: var(--accent-color);
-    border: none;
+    width: 350px;
+    color: var(--background-color);
+    letter-spacing: 1px;
+    background-color: var(--hot-color);
+    border: 1px black solid;
 }
 
 /* POPULAR2 */
@@ -222,7 +194,28 @@
 #popular_2 .body {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 1vw;
-    width: 100%;  
+    width: 100%; 
     padding-bottom: 2vw;
+}
+
+.container-ads {
+    padding: 2vw;
+    display: flex;
+    gap: 1vw;
+    flex-direction: column;
+}
+
+.container-ads .search{
+    margin-top: 1vw;
+    width: 100%;
+    padding: 1vw;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+}
+
+.container-ads .search:hover{
+    background-color: var(--hot-color);
 }

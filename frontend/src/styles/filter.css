@@ -1,4 +1,4 @@
-#filterSidebar {
+#filterSidebar.active {
     padding: 2vw;
     display:flex;
     flex-direction: column;
@@ -11,8 +11,24 @@
     z-index: 50;
     height: calc(100vh - 60px);
     overflow-y: auto ;
+    overflow-x: hidden;
+    transition: ease-in-out 500ms;
 }
-
+#filterSidebar {
+    display:flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: 20px;
+    padding-top: 2vw;
+    width: 0px;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    transition: ease-in-out 500ms;
+}
+#filterSidebar h4 {
+    white-space: nowrap;
+    overflow: hidden;
+}
 #filterSidebar .filter-section,#filterSidebar .filter-section .filter-group,#filterSidebar .filter-section .filter-price  {
     display: flex;
     gap: 10px;
@@ -27,7 +43,6 @@
     background-color: aliceblue;
     padding: 10px;
     align-items: center;
-   
 }
 
 #filterSidebar .filter-section .price-inputs input {
@@ -106,5 +121,4 @@
 .brown { background-color: #8B4513; }
 .beige { background-color: #F5F5DC; }
 .dark-green { background-color: #006400; }
-
 

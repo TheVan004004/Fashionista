@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { searchAPI } from "../services/services";
+import { searchAPI, getAllProductsAPI } from "../services/services";
 
 export const MainContext = createContext({})
 
@@ -13,9 +13,9 @@ export const ContextWrapper = (props) => {
     const [productDetail, setProductDetail] = useState({})
     const search = async () => {
         if (inputSearch === "") return;
-        console.log("run")
         try {
-            const res = await searchAPI(inputSearch, color, size, minPrice, maxPrice);
+            // const res = await searchAPI(inputSearch, color, size, minPrice, maxPrice);
+            const res = await getAllProductsAPI();
             if (res && res.data) {
                 const data = res.data
                 setListResult(data)
@@ -24,7 +24,6 @@ export const ContextWrapper = (props) => {
         catch (e) {
 
         }
-
     }
     return (
         <MainContext.Provider

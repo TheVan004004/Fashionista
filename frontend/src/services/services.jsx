@@ -11,5 +11,17 @@ const searchAPI = (name, color, size, minprice, maxprice) => {
     }
     return axios.get(`${url}api/products/filter`, data)
 }
+const getAllProductsAPI = () => {
+    return axios.get(`${url}api/products`)
+}
 
-export { searchAPI }
+const signUpAPI = (username, password) => {
+    const data = {
+        body: {
+            username: username,
+            password: password
+        }
+    }
+    return axios.post(`${url}api/signup`, data)
+}
+export { searchAPI, getAllProductsAPI, signUpAPI }

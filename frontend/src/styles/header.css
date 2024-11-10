@@ -10,8 +10,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: white;
-    border-bottom: 1px var(--text-color) solid;
+    background-color: var(--accent-color);
 }
 
 #menu-left {
@@ -20,7 +19,7 @@
     justify-content: flex-start;
     align-items: start;
     gap: 2vw;
-    background-color: white;
+    color: var(--background-color);
 }
   
 #menu-left .icon {
@@ -28,15 +27,11 @@
 }
 
 #menu-left .icon svg {
-    width: 18px;
-    height: 18px;
-    fill: var(--text-color);
+    width: 24px;
+    height: 24px;
     cursor: pointer;
 }
 
-#menu-left .icon svg:hover {
-    fill: var(--hover-color);
-}
 
 #menu-left .icon[name="search-icon"] {
     position: relative;

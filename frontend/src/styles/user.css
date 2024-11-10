@@ -1,0 +1,50 @@
+/* src/components/Login.css */
+.login-container, .register-container {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border: 1px solid #000000;
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 101;
+}
+  
+.login-container input,.register-container input {
+    display: block;
+    width: 400px;
+    padding: 10px 15px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+  
+.login-container button,.register-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--blur-color);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+.login-container button:hover,.register-container button:hover {
+    background-color: var(--accent-color);
+    opacity: 1;
+}
+
+
+.container_input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px
+}
+
+.container_input p {
+  color: var(--sale-color);
+}
