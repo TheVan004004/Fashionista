@@ -26,6 +26,11 @@
     font-size: 16px;
 }
   
+#search .header-search {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+}
 #search .product-list {
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -33,3 +38,21 @@
     row-gap: 40px;
 }
 
+@media only screen and (max-width: 1080px) {
+    #search .product-list {
+        grid-template-columns: 1fr 1fr ;
+        column-gap: 15px;
+    }
+    #search .header-search {
+        flex-direction: column;
+        gap: 10px;
+        align-items: start;
+        justify-content: left;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #search .product-list {
+        grid-template-columns: 1fr ;
+    }
+}

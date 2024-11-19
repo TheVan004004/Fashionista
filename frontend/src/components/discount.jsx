@@ -1,6 +1,10 @@
 
+import { useContext } from 'react';
 import ProductDiscount from '../product/product.discount';
+import { MainContext } from '../context/main.context';
+import CountDownTime from './CountDownTime';
 const Discount = () => {
+    const { listBestSaler } = useContext(MainContext)
     return (
         <>
             <div id="discount">
@@ -12,21 +16,19 @@ const Discount = () => {
 
                     <div className="right">
                         <div >Kết thúc sau</div>
-                        <div className="tooltip">
-                            <div>00</div>
-                        </div>
-                        :
-                        <div className="tooltip">00</div>
-                        :
-                        <div className="tooltip">00</div>
+
+                        <CountDownTime />
                     </div>
                 </div>
                 <div className="body">
-                    <ProductDiscount />
-                    <ProductDiscount />
-                    <ProductDiscount />
-                    <ProductDiscount />
-                    <ProductDiscount />
+                    {
+                        listBestSaler.map((product, index) => {
+                            if (index < 5) return (
+                                <ProductDiscount product={product} key={product.id * product.price} />
+                            )
+                            else return (<></>)
+                        })
+                    }
                 </div>
             </div>
         </>

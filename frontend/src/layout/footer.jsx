@@ -1,4 +1,6 @@
 import '../styles/footer.css'
+import { FaFacebook, FaYoutube } from "react-icons/fa";
+import { RiInstagramFill } from "react-icons/ri";
 const Footer = () => {
     return (
         <>
@@ -19,31 +21,29 @@ const Footer = () => {
                     </div>
 
                     <div className="footer-section">
-                        <h3>Về YODY</h3>
+                        <h3>Về FASHIONISTA</h3>
                         <ul>
                             <li><a href="#">Giới thiệu</a></li>
                             <li><a href="#">Liên hệ</a></li>
-                            <li><a href="#">Tuyển dụng</a></li>
                             <li><a href="#">Tin tức</a></li>
                             <li><a href="#">Hệ thống cửa hàng</a></li>
                             <li><a href="#">Tin khuyến mãi</a></li>
                         </ul>
                         <h3>Địa chỉ liên hệ</h3>
-                        <p>Địa chỉ: Đường An Định - Phường Việt Hòa - Thành phố Hải Dương</p>
+                        <p>Địa chỉ: Đại học Bách Khoa Hà Nội</p>
                     </div>
 
                     <div className="footer-section">
-                        <h3>YODY lắng nghe bạn</h3>
+                        <h3>FASHIONISTA lắng nghe bạn</h3>
                         <p>Chúng tôi luôn trân trọng và mong đợi mọi ý kiến đóng góp từ khách hàng để có thể nâng cấp trải
                             nghiệm dịch vụ và sản phẩm tốt hơn nữa.</p>
-                        <p><strong>Liên hệ đặt hàng</strong><br />024 999 86 999</p>
-                        <p><strong>Góp ý khiếu nại</strong><br />1800 2086</p>
-                        <p><strong>Email</strong><br />chamsockhachhang@yody.vn</p>
-                        <div className="social-icons">
-                            <a href="#"><img src="./asset/css/image/icons8-facebook.svg" alt="Facebook" /></a>
-                            <a href="#"><img src="./asset/css/image/icons8-insta.svg" alt="Instagram" /></a>
-                            <a href="#"><img src="./asset/css/image/icons8-zalo-48.svg" alt="Zalo" /></a>
-                            <a href="#"><img src="./asset/css/image/icons8-insta.svg" alt="YouTube" /></a>
+                        <p><strong>Liên hệ đặt hàng</strong><br />012 345 6789</p>
+                        <p><strong>Góp ý khiếu nại</strong><br />1800 1000</p>
+                        <p><strong>Email</strong><br />chamsockhachhang@fashionista.vn</p>
+                        <div className="social-icons" style={{ display: "flex", gap: "10px" }}>
+                            <a href="#"><FaFacebook /></a>
+                            <a href="#"><RiInstagramFill /></a>
+                            <a href="#"><FaYoutube /></a>
                         </div>
                     </div>
                 </div>

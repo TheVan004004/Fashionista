@@ -1,9 +1,11 @@
-import { useContext, useEffect, useRef } from 'react';
-import './product.css'
+import { useContext, useEffect, useState } from 'react';
 import { MainContext } from '../context/main.context';
 const ProductDetail = () => {
     const { productDetail, setProductDetail } = useContext(MainContext)
-    const ref = useRef(null)
+    const [colorPicked, setColorPicked] = useState(productDetail.color[0].name || "")
+    const [sizePicked, setSizePicked] = useState("")
+    const [quantity, setQuantity] = useState(1)
+    const sizes = ["M", "L", "XL", "XXL"]
     useEffect(() => {
         console.log(productDetail)
         window.scrollTo({ top: 0 })
@@ -12,102 +14,178 @@ const ProductDetail = () => {
         <>
             <div id="product" >
                 <div>
-                    <img class="picture" src="clothes/model1.webp" />
+                    <img className="picture"
+                        alt=""
+                        src={productDetail.image} />
                 </div>
-                <div class="right-section">
-                    <div class="infor">
-                        <div class="name-clothe">
+                <div className="right-section">
+                    <div className="infor">
+                        <div className="name-clothe">
                             {productDetail.name}
                         </div>
-                        <div class="describe">
+                        <div className="describe">
                             Thoáng khí
                         </div>
-                        <div class="original-price">
-                            599.000đ
+                        <div style={{
+                            marginTop: "5px",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: "15px"
+                        }}>
+                            {productDetail.sale > 0
+                                ?
+                                <>
+                                    <div style={{ fontSize: "24px", fontWeight: "600", color: "red" }} >
+                                        {(productDetail.price * (1 - productDetail.sale) * 1000).toLocaleString("vi-VN")}đ
+                                    </div>
+                                    <del
+                                        style={{ fontSize: "16px", color: "gray" }}
+                                    >{(productDetail.price * 1000).toLocaleString("vi-VN")}đ</del>
+                                    <div style={{
+                                        backgroundColor: "#ffe0e0",
+                                        padding: "5px",
+                                        borderRadius: "1000px",
+                                        fontSize: "16px", color: "red"
+                                    }}>
+                                        -{productDetail.sale * 100}%
+                                    </div>
+                                </>
+                                :
+                                <div style={{ fontSize: "14px" }} >
+                                    {(productDetail.price * 1000).toLocaleString("vi-VN")}đ
+                                </div>
+                            }
                         </div>
-                        <div class="price">
-                            <a>599.000đ</a>
-                            <button>-10%</button>
-                        </div>
-                        <div class="discount" >
-                            <a>Mã giảm giá</a>
+
+                        <div className="discount" >
+                            <a>Mã giảm giá (Chưa có)</a>
                             <box >Giảm 50k</box>
                             <box>Giảm 100k</box>
                         </div>
-                        <div class="color">
-                            <a class="text">Màu sắc:</a>
-                            <a class="specific">Trắng</a>
-                        </div>
-                        <div class="img-color">
-                            <button></button>
-                        </div>
-                        <div class="size">
-                            <div>Kích thước</div>
-                            <div>Hướng dẫn chọn size</div>
-                        </div>
-                        <div class="specific-size">
-                            <button>
-                                S
-                            </button>
-                            <button>
-                                M
-                            </button>
-                            <button>
-                                L
-                            </button>
-                            <button>
-                                XL
-                            </button>
-                            <button>
-                                2XL
-                            </button>
-                        </div>
-                        <div class="quantity" >
-                            <div class="button1">
-                                <button>1</button>
+
+                        <div
+                            style={{
+                                marginTop: "15px",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "15px"
+                            }}
+                        >
+
+                            <div style={{ fontSize: "16px", fontWeight: "600" }}>Màu sắc: {colorPicked}</div>
+                            <div className="color_options"
+                                style={{ gap: "20px" }}
+                            >
+                                {
+                                    productDetail.color &&
+                                    productDetail.color.map((color, index) => {
+                                        return (
+                                            <div style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                borderRadius: "1000px",
+                                                backgroundColor: color.hex_code,
+                                                cursor: "pointer",
+                                                boxShadow: colorPicked === color.name ? "0 0 0 4px white, 0 0 0 5px  var(--text-color)" : "none",
+                                            }}
+                                                onClick={() => setColorPicked(color.name)}
+                                            ></div>
+                                        )
+                                    })
+                                }
                             </div>
-                            <div class="button2">
-                                <button>Chọn kích thước</button>
+                        </div>
+
+                        <div
+                            style={{
+                                marginTop: "15px",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "15px"
+                            }}
+                        >
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignContent: "center",
+                                    fontSize: "16px",
+                                }}>
+                                <div style={{ fontWeight: "600" }}>Kích thước: {sizePicked}</div>
+                                <a> Hướng dẫn chọn kích thước</a>
+                            </div>
+
+                            <div className="size_options">
+                                {
+                                    sizes.map((size, index) => {
+                                        return (
+                                            <div
+                                                className={size === sizePicked && "active"}
+                                                key={size + index}
+                                                onClick={() => setSizePicked(size)}
+                                            >
+                                                {size}
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div className="quantity" >
+                            <div className="quantity_input">
+                                <div
+                                    onClick={() => {
+                                        if (quantity > 0) setQuantity(quantity - 1)
+                                    }}
+                                >-</div>
+                                <p>{quantity}</p>
+                                <div
+                                    onClick={() => setQuantity(quantity + 1)}
+                                >+</div>
+                            </div>
+                            <div className="submit">
+                                {sizePicked === "" ? "Chọn kích thước" : "Thêm vào giỏ hàng"}
                             </div>
                         </div>
                     </div>
 
-                    <div class="service">
-                        <div class="product-policy">
-                            <div class="line">
+                    <div className="service">
+                        <div className="product-policy">
+                            <div className="line">
                                 <div>
-                                    <div class="img">
+                                    <div className="img">
                                         <img src="icon/return.svg" />
                                     </div>
-                                    <div class="passage">
+                                    <div className="passage">
                                         Đổi trả cực dễ chỉ cần số
                                         <br /> điện thoại
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="img">
+                                    <div className="img">
                                         <img src="icon/return-60.svg" />
                                     </div>
-                                    <div class="passage">
+                                    <div className="passage">
                                         60 ngày đổi tra vì bất cứ lí do gì
                                     </div>
                                 </div>
                             </div>
-                            <div class="line">
+                            <div className="line">
                                 <div>
-                                    <div class="img">
+                                    <div className="img">
                                         <img src="icon/phone.svg" />
                                     </div>
-                                    <div class="passage">
+                                    <div className="passage">
                                         Hotline 1900.27.27.37 hỗ
                                         <br /> trợ từ 8h30 - 22h mỗi ngày
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="img">
+                                    <div className="img">
                                         <img src="icon/location.svg" />
                                     </div>
-                                    <div class="passage">
+                                    <div className="passage">
                                         Đến tận nơi nhận hàng trả,
                                         <br />
                                         hoàn tiền trong 24h
@@ -116,7 +194,7 @@ const ProductDetail = () => {
                             </div>
                         </div>
                         <div id="product-feature" >
-                            <div class="prominent">Đặc điểm nổi bật</div>
+                            <div className="prominent">Đặc điểm nổi bật</div>
                             <div>*  Chất  liệu 100% Cotton mềm mại, chống nhăn</div>
                             <div>*  Form dáng: Regular</div>
                             <div>*  Vải thoáng khí và thấm hút mồ hôi tốt, thân thiện với da</div>
@@ -125,70 +203,70 @@ const ProductDetail = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* <div id="similar">
-                <div class="title" >
-                    <div class="line">
-                        <hr class="line-infor" />
+                <div className="title" >
+                    <div className="line">
+                        <hr className="line-infor" />
                     </div>
-                    <div class="text">
+                    <div className="text">
                         Sản phẩm tương tự
                     </div>
-                    <div class="line">
-                        <hr class="line-infor" />
+                    <div className="line">
+                        <hr className="line-infor" />
                     </div>
                 </div>
 
-                <div class="product">
-                    <div class="img-object">
-                        <div class="image">
+                <div className="product">
+                    <div className="img-object">
+                        <div className="image">
                             <img src="clothes/item1.webp" />
                         </div>
                         <div id="text-object">
-                            <div class="name-product">
+                            <div className="name-product">
                                 Áo Thu Đông Nữ Giữ Nhiệt Cổ 3cm
                             </div>
-                            <div class="price">
+                            <div className="price">
                                 849.000đ
                             </div>
                         </div>
                     </div>
-                    <div class="img-object">
-                        <div class="image">
+                    <div className="img-object">
+                        <div className="image">
                             <img src="clothes/item2.webp" />
                         </div>
                         <div id="text-object">
-                            <div class="name-product">
+                            <div className="name-product">
                                 Áo Thu Đông Nữ Giữ Nhiệt Cổ Tròn
                             </div>
-                            <div class="price">
+                            <div className="price">
                                 849.000đ
                             </div>
                         </div>
                     </div>
-                    <div class="img-object">
-                        <div class="image">
+                    <div className="img-object">
+                        <div className="image">
                             <img src="clothes/item3.webp" />
                         </div>
                         <div id="text-object">
-                            <div class="name-product">
+                            <div className="name-product">
                                 Áo Thu Đông Nữ Giữ Nhiệt Cổ Tròn
                             </div>
-                            <div class="price">
+                            <div className="price">
                                 849.000đ
                             </div>
                         </div>
                     </div>
-                    <div class="last-img-object">
-                        <div class="image">
+                    <div className="last-img-object">
+                        <div className="image">
                             <img src="clothes/item4.webp" />
                         </div>
                         <div id="text-object">
-                            <div class="name-product">
+                            <div className="name-product">
                                 Áo Thu Đông Nữ Giữ Nhiệt Cổ Tròn
                             </div>
-                            <div class="price">
+                            <div className="price">
                                 849.000đ
                             </div>
                         </div>

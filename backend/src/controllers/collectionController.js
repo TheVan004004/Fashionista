@@ -83,10 +83,10 @@ const searchProducts = async (req, res) => {
 
         //sort by price asc(desc), total_buyturn desc, sale desc
         if (req.query.sort == "price_asc") {
-            filteredProducts.sort((a, b) => a.price - b.price); // sort price asc
+            filteredProducts.sort((a, b) => a.price * (1 - a.sale) - b.price * (1 - b.sale)); // sort price asc
         }
         if (req.query.sort == "price_desc") {
-            filteredProducts.sort((a, b) => b.price - a.price); // sort price desc
+            filteredProducts.sort((a, b) => b.price * (1 - b.sale) - a.price * (1 - a.sale)); // sort price desc
         }
         if (req.query.sort == "most_buyturn") {
             filteredProducts.sort((a, b) => b.total_buyturn - a.total_buyturn) // sort total_buyturn desc

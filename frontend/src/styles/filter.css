@@ -1,5 +1,5 @@
-#filterSidebar {
-    padding: 2vw;
+#filterSidebar.active {
+    padding: 20px;
     display:flex;
     flex-direction: column;
     justify-content: left;
@@ -11,8 +11,24 @@
     z-index: 50;
     height: calc(100vh - 60px);
     overflow-y: auto ;
+    overflow-x: hidden;
+    transition: ease-in-out 500ms;
 }
-
+#filterSidebar {
+    display:flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: 20px;
+    padding-top: 10px;
+    width: 0px;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    transition: ease-in-out 500ms;
+}
+#filterSidebar h4 {
+    white-space: nowrap;
+    overflow: hidden;
+}
 #filterSidebar .filter-section,#filterSidebar .filter-section .filter-group,#filterSidebar .filter-section .filter-price  {
     display: flex;
     gap: 10px;
@@ -22,12 +38,11 @@
 
 #filterSidebar .filter-section .price-inputs {
     display: flex;
-    gap: 1vw;
+    gap: 10px;
     flex-direction: row;
     background-color: aliceblue;
     padding: 10px;
     align-items: center;
-   
 }
 
 #filterSidebar .filter-section .price-inputs input {
@@ -37,10 +52,9 @@
 }
 
 #filterSidebar .filter-section .price-select {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1vw;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
@@ -53,7 +67,7 @@
 #filterSidebar .filter-section .filter-size {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.5vw;
+    gap: 5px;
 }
 
 #filterSidebar .filter-section .filter-size button {
@@ -92,19 +106,14 @@
 }
 
 .color-option button.active {
-    box-shadow: 0 0 0 4px white, 0 0 0 5px  var(--text-color);
+    box-shadow: 0 0 0 3px white, 0 0 0 4px  var(--text-color);
 }
 
 
-
-.green { background-color: #4CAF50; }
-.black { background-color: #000; }
-.red { background-color: #FF0000; }
-.gray { background-color: #808080; }
-.white { background-color: #FFF; border: 1px solid #ccc; }
-.blue { background-color: #0000FF; }
-.brown { background-color: #8B4513; }
-.beige { background-color: #F5F5DC; }
-.dark-green { background-color: #006400; }
-
-
+@media only screen and (max-width: 1080px) {
+    #filterSidebar.active {
+        padding: 5px;
+        gap: 10px;
+        width: 200px;
+    }
+}

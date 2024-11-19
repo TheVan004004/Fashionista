@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../context/main.context";
 
 const Size = (props) => {
-    const { sizeName, type } = props
-    const { size, setSize, search } = useContext(MainContext)
+    const { sizeName } = props
+    const { size, setSize } = useContext(MainContext)
     const [active, setActive] = useState(false)
     useEffect(() => {
         if (size === sizeName) {
@@ -19,7 +19,6 @@ const Size = (props) => {
             onClick={() => {
                 if (active) { setSize("") }
                 else { setSize(sizeName) }
-                search()
             }}>
             {sizeName}
         </button >
