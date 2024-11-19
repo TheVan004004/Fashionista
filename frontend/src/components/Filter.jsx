@@ -7,7 +7,7 @@ import { HiAdjustments, HiOutlineXCircle } from 'react-icons/hi';
 import { getAllColorAPI } from '../services/services';
 const Filter = () => {
     const { color, size, minPrice, maxPrice, colorFilter, setColorFiler, setMinPrice, setMaxPrice } = useContext(MainContext)
-    const [active, setActive] = useState(true)
+    const [openFilter, setOpenFilter] = useState(true)
     const [listColor, setListColor] = useState([])
     useEffect(() => {
         getColor()
@@ -24,7 +24,7 @@ const Filter = () => {
                 style={{
                     position: "fixed",
                     top: "80px",
-                    left: active ? "-100px" : "10px",
+                    left: openFilter ? "-100px" : "10px",
                     fontSize: "24px",
                     cursor: "pointer",
                     zIndex: "100",
@@ -34,11 +34,12 @@ const Filter = () => {
                     borderRadius: "1000px",
                     transition: "ease-in-out 0.5s"
                 }}
-                onClick={() => setActive(true)}
+                onClick={() => setOpenFilter(true)}
             />
 
 
-            <div id="filterSidebar" className={active ? "active" : ""}>
+            <div id="filterSidebar" className={openFilter ? "active" : ""}
+            >
                 <HiOutlineXCircle
                     style={{
                         position: "absolute",
@@ -47,7 +48,7 @@ const Filter = () => {
                         fontSize: "24px",
                         cursor: "pointer",
                     }}
-                    onClick={() => setActive(false)}
+                    onClick={() => setOpenFilter(false)}
                 />
                 <div className="filter-section">
                     <h4>Nhóm sản phẩm</h4>

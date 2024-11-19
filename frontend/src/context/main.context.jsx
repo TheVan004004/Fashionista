@@ -15,6 +15,7 @@ export const ContextWrapper = (props) => {
     const [listPopular, setListPopular] = useState([])
     const [listBestSaler, setListBestSaler] = useState([])
     const [user, setUser] = useState(null)
+    const [isSearch, setIsSearching] = useState(false)
     console.log(user)
     useEffect(() => {
         getProductPopular()
@@ -39,12 +40,14 @@ export const ContextWrapper = (props) => {
             return;
         }
         try {
+
             window.scrollTo({ top: 0 })
             const res = await searchAPI(inputSearch, colorFilter.hex_code, size, minPrice, maxPrice, sort);
             if (res && res.data) {
                 const data = res.data
                 setListResult(data)
             }
+            setIsSearching(true)
         }
         catch (e) {
 
@@ -62,7 +65,8 @@ export const ContextWrapper = (props) => {
                 search, inputSearch, setInputSearch,
                 productDetail, setProductDetail,
                 listPopular, listBestSaler,
-                user, setUser
+                user, setUser,
+                isSearch, setIsSearching
             }}
         >
             {props.children}

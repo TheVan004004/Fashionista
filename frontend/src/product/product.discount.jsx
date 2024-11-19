@@ -18,7 +18,7 @@ const ProductDiscount = ({ product }) => {
             onMouseLeave={() => setIsHover(false)}
         >
             <div className="container_img">
-                <img style={{ width: "100%", height: "400px", objectFit: "cover" }} src={product.image} alt="" />
+                <img style={{ width: "100%", height: "100%", objectFit: "cover" }} src={product.image} alt="" />
                 {
                     isHover &&
                     <div

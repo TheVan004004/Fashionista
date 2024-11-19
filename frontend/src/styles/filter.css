@@ -1,5 +1,5 @@
 #filterSidebar.active {
-    padding: 2vw;
+    padding: 20px;
     display:flex;
     flex-direction: column;
     justify-content: left;
@@ -19,7 +19,7 @@
     flex-direction: column;
     justify-content: left;
     gap: 20px;
-    padding-top: 2vw;
+    padding-top: 10px;
     width: 0px;
     height: calc(100vh - 60px);
     overflow: hidden;
@@ -38,7 +38,7 @@
 
 #filterSidebar .filter-section .price-inputs {
     display: flex;
-    gap: 1vw;
+    gap: 10px;
     flex-direction: row;
     background-color: aliceblue;
     padding: 10px;
@@ -110,14 +110,10 @@
 }
 
 
-
-.green { background-color: #4CAF50; }
-.black { background-color: #000; }
-.red { background-color: #FF0000; }
-.gray { background-color: #808080; }
-.white { background-color: #FFF; border: 1px solid #ccc; }
-.blue { background-color: #0000FF; }
-.brown { background-color: #8B4513; }
-.beige { background-color: #F5F5DC; }
-.dark-green { background-color: #006400; }
-
+@media only screen and (max-width: 1080px) {
+    #filterSidebar.active {
+        padding: 5px;
+        gap: 10px;
+        width: 200px;
+    }
+}

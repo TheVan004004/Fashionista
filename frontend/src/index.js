@@ -16,6 +16,8 @@ import Footer from './layout/footer';
 import User from './user/User';
 import Profile from './user/profile';
 import ShopList from './user/ShopList';
+import ErrorPage from './pages/error';
+import Private from './pages/private';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/user',
-        element: <User />,
+        element: <Private><User /></Private>,
         children: [
           {
             index: true,
@@ -48,6 +50,7 @@ const router = createBrowserRouter([
         ]
       },
     ],
+    errorElement: <ErrorPage />
   },
   {
     path: "about",

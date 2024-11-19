@@ -33,7 +33,7 @@
 }
 
 
-#menu-left .icon[name="search-icon"] {
+#menu-left .icon[name="search-icon"] ,#menu-left .icon[name="user-icon"]{
     position: relative;
 }
 #menu-left .icon[name="search-icon"] svg {

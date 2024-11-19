@@ -5,8 +5,9 @@ import Product from "../product/product";
 import '../styles/search.css'
 import { MainContext } from "../context/main.context";
 import { getAllProductsAPI } from "../services/services";
+import empty from '../access/empty.png'
 const Search = () => {
-    const { listResult, setListResult, setSort, listPopular } = useContext(MainContext)
+    const { listResult, setListResult, setSort, listPopular, inputSearch, isSearch, setIsSearching } = useContext(MainContext)
     const [listInit, setListInit] = useState([])
     useEffect(() => { getAllProduct() }, [])
     const getAllProduct = async () => {
@@ -39,11 +40,11 @@ const Search = () => {
             <Filter />
             <div className="main-content-search">
                 {
-                    listResult.length > 0
+                    isSearch
                         ?
                         <>
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                <h2>Result: </h2>
+                            <div className="header-search">
+                                <h2>Kết quả tìm kiếm:</h2>
                                 <div className="sort-dropdown">
                                     <label htmlFor="sort">Sắp xếp theo:</label>
                                     <select id="sort"
@@ -53,7 +54,6 @@ const Search = () => {
                                         }}
                                     >
                                         <option>Bán chạy</option>
-                                        <option>Mới nhất</option>
                                         <option>Thấp đến cao</option>
                                         <option>Cao đến thấp</option>
                                         <option>Sale</option>
@@ -61,16 +61,25 @@ const Search = () => {
 
                                 </div>
                             </div>
+                            {
+                                listResult.length > 0
+                                    ?
+                                    <div className="product-list">
+                                        {
+                                            listResult.map((product, index) => {
+                                                return (
+                                                    <Product product={product} key={product.id * product.price * index} />
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                    :
+                                    <div style={{ paddingTop: "40px", textAlign: "center" }}>
+                                        <img style={{ width: "300px", height: "300px" }} src={empty} alt="" />
+                                        <h3>Không tìm thấy sản phẩm phù hợp</h3>
+                                    </div>
+                            }
 
-                            <div className="product-list">
-                                {
-                                    listResult.map((product, index) => {
-                                        return (
-                                            <Product product={product} key={product.id * product.price * index} />
-                                        )
-                                    })
-                                }
-                            </div>
                         </>
                         :
                         <>

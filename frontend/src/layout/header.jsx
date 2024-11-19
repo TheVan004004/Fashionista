@@ -5,11 +5,13 @@ import { searchAPI } from '../services/services';
 import { MainContext } from '../context/main.context';
 import UserBox from '../user/user.box';
 import { HiOutlineHome, HiOutlineMenu, HiOutlineShoppingBag, HiOutlineUserCircle, HiSearch } from "react-icons/hi";
+import DropdownMenu from '../components/DropdownMenu';
 const Header = () => {
     const navigate = useNavigate();
     const [isSearch, setIsSearch] = useState(false)
     const [boxUser, setBoxUser] = useState("")
-    const { inputSearch, setInputSearch, search, user } = useContext(MainContext)
+    const [isOpenMenu, setIsOpenMenu] = useState(false)
+    const { inputSearch, setInputSearch, search, user, setIsSearching } = useContext(MainContext)
     return (
         <>
             <div id="header">
@@ -25,7 +27,10 @@ const Header = () => {
                         <div className={isSearch ? "show box-search" : "hidden box-search"}>
                             <input type="text" placeholder='Tìm kiếm sản phẩm'
                                 value={inputSearch}
-                                onChange={(e) => { setInputSearch(e.target.value) }}
+                                onChange={(e) => {
+                                    setInputSearch(e.target.value)
+                                    // setIsSearching(false)
+                                }}
                             />
                         </div>
                         <div
@@ -59,32 +64,47 @@ const Header = () => {
                     >
                         {user
                             ?
-                            <div
-                                style={{
-                                    width: "18px",
-                                    height: "18px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    backgroundColor: "gray",
-                                    padding: "5px",
-                                    borderRadius: "1000px",
-                                    textAlign: "center"
-                                }}
-                                onClick={() => {
-                                    navigate("/user")
-                                    setIsSearch(false)
-                                }}
-                            >U</div>
+                            <>
+                                <div
+                                    style={{
+                                        width: "18px",
+                                        height: "18px",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        backgroundColor: "gray",
+                                        padding: "5px",
+                                        borderRadius: "1000px",
+                                        textAlign: "center"
+                                    }}
+
+                                    onClick={() => {
+                                        // navigate("/user")
+                                        // setIsSearch(false)
+                                        setIsOpenMenu(!isOpenMenu)
+                                    }}
+                                >U</div>
+                                <DropdownMenu
+                                    isOpenMenu={isOpenMenu}
+                                    setIsOpenMenu={setIsOpenMenu}
+                                ></DropdownMenu>
+                            </>
+
                             :
-                            <HiOutlineUserCircle onClick={() => setBoxUser("isLogin")} />
+                            <>
+                                <HiOutlineUserCircle onClick={() => {
+                                    setBoxUser("isLogin")
+
+                                }} />
+
+                            </>
                         }
                     </div>
                     <div className="icon"
-                        onClick={() => { console.log("click") }}
                         name="menu-icon"
                     >
                         <HiOutlineMenu />
+
                     </div>
                 </div>
             </div>

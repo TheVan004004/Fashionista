@@ -1,11 +1,11 @@
 import Advertise from "../components/Advertise";
 import Banner from "../components/Banner";
-import Discount from "../components/Discount";
+import Discount from "../components/discount";
 import Popular from "../components/popular";
 import '../styles/homepage.css'
 const HomePage = () => {
     return (
-        <>
+        <div className="container_body">
             <Banner />
             <Discount />
             <Popular />
@@ -17,7 +17,7 @@ const HomePage = () => {
                 </div>
                 <button className="search">Tìm kiếm sản phẩm ngay</button>
             </div>
-        </>
+        </div>
     )
 }
 

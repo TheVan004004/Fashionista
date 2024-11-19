@@ -15,7 +15,8 @@ const UserBox = ({ boxUser, setBoxUser }) => {
                     height: "100%",
                     backgroundColor: "#00000096",
                     zIndex: "100",
-                    fontSize: "14px"
+                    fontSize: "14px",
+                    transition: "ease-in-out 1s"
                 }}>
                     <Login setBoxUser={setBoxUser} />
                 </div>

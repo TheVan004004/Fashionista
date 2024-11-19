@@ -23,7 +23,11 @@ const Product = (props) => {
                 className={type && type === "mini" ? "mini_img container_img" : "container_img"}
             >
                 <img
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                    }}
                     src={product.image} alt="" />
                 {product.sale > 0 &&
                     <div className="sale">
@@ -35,7 +39,9 @@ const Product = (props) => {
                     <div
                         className="hover_product"
                     >
-                        <HiOutlineShoppingCart style={{ fontSize: "36px" }} />
+                        <HiOutlineShoppingCart style={{
+                            fontSize: "36px",
+                        }} />
                         {
                             type && type === "mini"
                                 ?
@@ -54,7 +60,7 @@ const Product = (props) => {
                     style={{
                         display: "flex",
                         flexDirection: type === "mini" ? "column" : "row",
-                        alignItems: "flex-start",
+                        alignItems: "center",
                         gap: "10px"
                     }}>
                     {product.sale > 0
