@@ -46,13 +46,13 @@ const signup = async (req, res) => {
 const login = (req, res) => {
     passport.authenticate('local', (err, user, info) => { //get err, user, info from cb(err, user, info) 
         if (err) {
-            res.status(500).json({ message: "Error during authenticaton" })
+            res.status(500).json({ message: "Error during authentication" })
         }
         else {
             if (!user) {
                 return res.status(400).json({
                     success: false,
-                    message: info?.message || 'Invalid credentials', // if (info && info.message) = infor?.message  
+                    message: info?.message || 'Invalid credentials', // if (info && info.message) = info?.message  
                 });
             }
             req.login(user, (err) => {

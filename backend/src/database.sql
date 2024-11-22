@@ -110,6 +110,27 @@ JOIN color ON color.id=product_details.color_id
 WHERE product_details.product_id= $1;
 
 ----
+--sql_command[3]
+SELECT color.hex_code
+FROM products
+JOIN product_details ON products.image=product_details.image
+JOIN color ON color.id=product_details.color_id
+WHERE products.id= $1
+LIMIT 1;
+
+----
+--sql_command[4]
+-- get all product_details in database
+SELECT product_details.id,products.name, product_id, product_details.image, size.name as size_name, hex_code, price, sale, brands.name as brand_name, categories.name as category_name
+FROM product_details
+JOIN products ON products.id=product_details.product_id
+JOIN brands ON products.brand_id=brands.id
+JOIN categories ON products.category_id=categories.id
+JOIN color ON product_details.color_id=color.id
+JOIN size ON product_details.size_id=size.id
+WHERE hex_code=$1 AND size.name=$2; 
+
+----
 -- Remove Vietnamese Tones
 CREATE OR REPLACE FUNCTION remove_vietnamese_tones(input TEXT) RETURNS TEXT AS $$
 BEGIN

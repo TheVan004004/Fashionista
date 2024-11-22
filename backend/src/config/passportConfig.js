@@ -6,7 +6,7 @@ import { Strategy } from "passport-local";
 passport.use(new Strategy(async function verify(username, password, cb) {
     /* 
         verify(username,password,cb): Passport automatically get username, password from req.body
-        cb is callback, cb(err,user,infor): if user not found, 'user' is replaced by 'false', infor: {message: "..."}
+        cb is callback, cb(err,user,info): if user not found, 'user' is replaced by 'false', info: {message: "..."}
     */
     try {
         const result = await db.query("SELECT * FROM users WHERE username= $1", [username]);

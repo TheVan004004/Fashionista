@@ -3,12 +3,16 @@ import { searchProducts, getAllColors } from "../controllers/collectionControlle
 import { signup, login, logout } from "../controllers/authController.js";
 import { getProfile, postProfile } from "../controllers/profileController.js";
 import { uploadAvatar } from "../middleware/upload.js";
+import { orderProductDetail } from "../controllers/productController.js";
 
 const router = express.Router();
 
 //Collection
 router.get("/api/collection", searchProducts) // Filter products by query params and Get all products if not have query params
 router.get("/api/collection/color", getAllColors) // Get all colors from color table
+
+//Product_detail 
+router.get("/api/product/:id", orderProductDetail); // Select color, size to add into the cart
 
 //Authentication
 router.post("/api/signup", signup); // Register
