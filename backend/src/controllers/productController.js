@@ -11,7 +11,7 @@ const orderProductDetail = async (req, res) => {
         const color = req.query.color || colorCurrent;
         const size = req.query.size || "M";
         let query_command = sql_command[4];
-        const resultSelect = await db.query(query_command, [color, size]);
+        const resultSelect = await db.query(query_command, [product_id, color, size]);
 
         res.json(resultSelect.rows);
     } catch (error) {

@@ -121,14 +121,14 @@ LIMIT 1;
 ----
 --sql_command[4]
 -- get all product_details in database
-SELECT product_details.id,products.name, product_id, product_details.image, size.name as size_name, hex_code, price, sale, brands.name as brand_name, categories.name as category_name
+SELECT product_details.id,products.name, product_id, product_details.image, size.name as size_name, color.name as color_name, hex_code, price, sale, brands.name as brand_name, categories.name as category_name, buyturn, quantity
 FROM product_details
 JOIN products ON products.id=product_details.product_id
 JOIN brands ON products.brand_id=brands.id
 JOIN categories ON products.category_id=categories.id
 JOIN color ON product_details.color_id=color.id
 JOIN size ON product_details.size_id=size.id
-WHERE hex_code=$1 AND size.name=$2; 
+WHERE product_id=$1 AND hex_code=$2 AND size.name=$3; 
 
 ----
 -- Remove Vietnamese Tones
