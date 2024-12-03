@@ -25,6 +25,11 @@ const signup = async (req, res) => {
                             [username, hash]
                         );
                         const user = result.rows[0];
+                        const userId = result.rows[0].id;
+                        await db.query(
+                            `INSERT INTO cart (user_id) VALUES ($1)`,
+                            [userId]
+                        );
                         req.login(user, (err) => {
                             if (err)
                                 res.status(500).json({ message: "Login error" });

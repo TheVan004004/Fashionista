@@ -3,7 +3,8 @@ import { searchProducts, getAllColors } from "../controllers/collectionControlle
 import { signup, login, logout } from "../controllers/authController.js";
 import { getProfile, postProfile } from "../controllers/profileController.js";
 import { uploadAvatar } from "../middleware/upload.js";
-import { orderProductDetail } from "../controllers/productController.js";
+import { searchProductDetail } from "../controllers/productController.js";
+import { addCartItem, getAllCartItems, updateCartItem, deleteCartItem } from "../controllers/cartController.js";
 
 const router = express.Router();
 
@@ -12,7 +13,14 @@ router.get("/api/collection", searchProducts) // Filter products by query params
 router.get("/api/collection/color", getAllColors) // Get all colors from color table
 
 //Product_detail 
-router.get("/api/product/:id", orderProductDetail); // Select color, size to add into the cart
+router.get("/api/product/:id", searchProductDetail); // Select color, size to add into the cart
+
+//Cart
+router.post("/api/cart/:user_id/addProduct", addCartItem); // Add products into the cart
+router.get("/api/cart/:user_id", getAllCartItems) // Show all cart item in cart
+router.patch("/api/cart/:item_id/updateCartItem", updateCartItem) // Update item in the cart
+router.delete("/api/cart/:item_id", deleteCartItem) // Delete item in the cart 
+
 
 //Authentication
 router.post("/api/signup", signup); // Register
