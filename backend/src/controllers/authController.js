@@ -85,4 +85,3 @@ const logout = (req, res) => {
 }
 
 export { signup, login, logout };
-
