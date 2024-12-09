@@ -1,4 +1,4 @@
--- Copy and paste this into PostgreSQL to Create table (from line 2 to line 53)--
+-- Copy and paste this into PostgreSQL to Create table (from line 2 to line 88)--
 CREATE TABLE "categories" (
   "id" serial PRIMARY KEY,
   "name" text,
@@ -8,7 +8,7 @@ CREATE TABLE "categories" (
 CREATE TABLE "products" (
   "id" serial PRIMARY KEY,
   "name" text,
-  "image_product" text,
+  "image" text,
   "brand_id" int,
   "category_id" int
 );
@@ -42,26 +42,95 @@ CREATE TABLE "product_details" (
   "sale" float
 );
 
+CREATE TABLE "users" (
+  "id" serial PRIMARY KEY,
+  "username" text,
+  "password" text,
+  "name" text,
+  "role" int,
+  "avatar" text,
+  "phone" varchar(15),
+  "address" text,
+  "dob" date,
+  "sex" int
+);
+
+CREATE TABLE "orders" (
+  "id" serial PRIMARY KEY,
+  "user_id" int,
+  "status" int,
+  "note" text,
+  "total" int,
+  "created_at" datetime,
+);
+
+CREATE TABLE "oder_details" (
+  "id" serial PRIMARY KEY,
+  "order_id" int,
+  "product_id" int,
+  "price" int,
+  "quantity" int,
+  "created_at" datetime,
+);
+
 ALTER TABLE "products" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
 
 ALTER TABLE "products" ADD FOREIGN KEY ("brand_id") REFERENCES "brands" ("id");
+
+ALTER TABLE "orders" ADD FOREIGN KEY ("id") REFERENCES "users" ("id");
 
 ALTER TABLE "product_details" ADD FOREIGN KEY ("size_id") REFERENCES "size" ("id");
 
 ALTER TABLE "product_details" ADD FOREIGN KEY ("color_id") REFERENCES "color" ("id");
 
+ALTER TABLE "order_details" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
+
 ALTER TABLE "product_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
+
+ALTER TABLE "order_details" ADD FOREIGN KEY ("product_id") REFERENCES "product_details" ("id");
 
 
 ----
---Use '----' to split each sql command
---get product's name, price, sale, brand, category, image
-SELECT DISTINCT ON(products.name) products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name
+--sql_command[1]
+--get product's id, name, image, price, sale, brand name, category name
+SELECT products.id,products.name, products.image,price, sale, brands.name AS brand_name, categories.name AS category_name, SUM(buyturn) AS total_buyturn
 FROM products
 JOIN brands ON brands.id=products.brand_id
 JOIN categories ON categories.id=products.category_id
-JOIN product_details ON product_details.product_id=products.id;
+JOIN product_details ON product_details.product_id=products.id
+GROUP BY products.id,products.name, products.image,price, sale, brands.name, categories.name
+HAVING SUM(buyturn)>0
+ORDER BY products.id ASC
 
+
+----
+--sql_command[2]
+SELECT DISTINCT ON (color_id) products.name,color.name as color_name,hex_code
+FROM products
+JOIN product_details ON product_details.product_id=products.id
+JOIN color ON color.id=product_details.color_id
+WHERE product_details.product_id= $1;
+
+----
+--sql_command[3]
+SELECT color.hex_code
+FROM products
+JOIN product_details ON products.image=product_details.image
+JOIN color ON color.id=product_details.color_id
+WHERE products.id= $1
+LIMIT 1;
+
+----
+--sql_command[4]
+-- get all product_details in database
+SELECT product_details.id,products.name, product_id, product_details.image, size.name as size_name, color.name as color_name, hex_code, price, sale, brands.name as brand_name, categories.name as category_name, buyturn, quantity
+FROM product_details
+JOIN products ON products.id=product_details.product_id
+JOIN brands ON products.brand_id=brands.id
+JOIN categories ON products.category_id=categories.id
+JOIN color ON product_details.color_id=color.id
+JOIN size ON product_details.size_id=size.id
+WHERE product_id=$1 AND hex_code=$2 AND size.name=$3; 
 
 ----
 -- Remove Vietnamese Tones

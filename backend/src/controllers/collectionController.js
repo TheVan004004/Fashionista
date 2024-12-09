@@ -95,7 +95,14 @@ const searchProducts = async (req, res) => {
             filteredProducts.sort((a, b) => b.sale - a.sale) // sort sale desc
         }
 
-        res.json(filteredProducts);
+        //pagination
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+        const result = filteredProducts.slice(startIndex, endIndex);
+
+        res.json(result);
     } catch (error) {
         console.log(`Error getting all products: ${error}`);
         res.status(500).json({ message: "Server error" });

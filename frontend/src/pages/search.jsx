@@ -88,7 +88,7 @@ const Search = () => {
                                 {
                                     listInit.map((product, index) => {
                                         return (
-                                            <Product product={product} key={product.id * product.price} />
+                                            <Product product={product} key={product.id} />
                                         )
                                     })
                                 }
