@@ -9,7 +9,10 @@ import empty from '../access/empty.png'
 const Search = () => {
     const { listResult, setListResult, setSort, listPopular, inputSearch, isSearch, setIsSearching } = useContext(MainContext)
     const [listInit, setListInit] = useState([])
-    useEffect(() => { getAllProduct() }, [])
+    useEffect(() => {
+        getAllProduct()
+        window.scrollTo({ top: 0 })
+    }, [])
     const getAllProduct = async () => {
         const res = await getAllProductsAPI()
         const data = await res.data

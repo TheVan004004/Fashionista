@@ -112,7 +112,6 @@
 
 @media only screen and (max-width: 1080px) {
     #filterSidebar.active {
-        padding: 5px;
         gap: 10px;
         width: 200px;
     }

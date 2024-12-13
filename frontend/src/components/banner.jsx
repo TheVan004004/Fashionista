@@ -31,7 +31,7 @@ const Banner = () => {
                         return (
                             <div
                                 className={"container-img"}
-
+                                key={`banner_${index}`}
                             >
                                 <img src={banner} alt="" />
                             </div>
@@ -43,7 +43,7 @@ const Banner = () => {
                 {
                     listBanner.map((banner, index) => {
                         return (
-                            <div className={index === currentIndex && "active"} key={"banner" + index}
+                            <div className={index === currentIndex ? "active" : ""} key={"banner" + index}
 
                             ></div>
                         )
@@ -58,10 +58,10 @@ const Banner = () => {
                 {
                     listBanner.map((_, index) => {
                         return (
-                            <button className={index === currentIndex && "active"}
+                            <button className={index === currentIndex ? "active" : ""}
+                                key={'banner_position_' + index}
                                 onClick={() => {
                                     setCurrentIndex(index)
-                                    console.log("haha")
                                 }}
                             >
                             </button>

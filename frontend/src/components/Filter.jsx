@@ -27,12 +27,12 @@ const Filter = () => {
                     left: openFilter ? "-100px" : "10px",
                     fontSize: "24px",
                     cursor: "pointer",
-                    zIndex: "100",
+                    zIndex: "10",
                     padding: "5px",
                     color: "var(--background-color)",
                     backgroundColor: "var(--accent-color)",
                     borderRadius: "1000px",
-                    transition: "ease-in-out 0.5s"
+                    transition: "ease-in-out 0.5s",
                 }}
                 onClick={() => setOpenFilter(true)}
             />
