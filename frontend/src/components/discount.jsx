@@ -24,7 +24,7 @@ const Discount = () => {
                     {
                         listBestSaler.map((product, index) => {
                             if (index < 5) return (
-                                <ProductDiscount product={product} key={product.id * product.price} />
+                                <ProductDiscount product={product} key={"discount_" + product.id * product.price} />
                             )
                             else return (<></>)
                         })

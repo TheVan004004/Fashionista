@@ -20,6 +20,7 @@ const Login = ({ setBoxUser }) => {
       const data = await res.data.user
       setUser(data)
       setBoxUser("")
+      console.log(document.cookie)
     }
   };
 
