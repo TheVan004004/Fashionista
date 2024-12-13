@@ -5,6 +5,7 @@ import { getProfile, postProfile } from "../controllers/profileController.js";
 import { uploadAvatar } from "../middleware/upload.js";
 import { searchProductDetail } from "../controllers/productController.js";
 import { addCartItem, getAllCartItems, updateCartItem, deleteCartItem } from "../controllers/cartController.js";
+import { apiOrder } from "../controllers/orderController.js";
 
 const router = express.Router();
 
@@ -26,6 +27,9 @@ router.delete("/api/cart/:item_id", deleteCartItem) // Delete item in the cart
 router.post("/api/signup", signup); // Register
 router.post("/api/login", login); // Log in
 router.post("/api/logout", logout); // Log out
+
+//Order
+router.post("/api/order/:user_id", apiOrder);
 
 // Require User's account is logged in
 //Profile

@@ -1,4 +1,4 @@
--- Copy and paste this into PostgreSQL to Create table (from line 2 to line 108)--
+-- Copy and paste this into PostgreSQL to Create table (from line 2 to line 110)--
 CREATE TABLE "categories" (
   "id" serial PRIMARY KEY,
   "name" text,
@@ -60,13 +60,14 @@ CREATE TABLE "orders" (
   "user_id" int,
   "status" int,
   "note" text,
-  "total" int
+  "total" int,
+  "created_at" date
 );
 
-CREATE TABLE "oder_details" (
+CREATE TABLE "order_details" (
   "id" serial PRIMARY KEY,
   "order_id" int,
-  "product_id" int,
+  "product_details_id" int,
   "price" int,
   "quantity" int
 );
@@ -81,11 +82,12 @@ ALTER TABLE "product_details" ADD FOREIGN KEY ("size_id") REFERENCES "size" ("id
 
 ALTER TABLE "product_details" ADD FOREIGN KEY ("color_id") REFERENCES "color" ("id");
 
-ALTER TABLE "oder_details" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
+ALTER TABLE "order_details" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
 
 ALTER TABLE "product_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
-ALTER TABLE "oder_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
+ALTER TABLE "order_details" ADD FOREIGN KEY ("product_details_id") REFERENCES "product_details" ("id");
+
 
 --Add cart, cart_items table
 CREATE TABLE "cart" (
@@ -106,7 +108,7 @@ ALTER TABLE "cart" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 ALTER TABLE "cart_items" ADD FOREIGN KEY ("cart_id") REFERENCES "cart" ("id");
 
-ALTER TABLE "oder_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
+ALTER TABLE "cart_items" ADD FOREIGN KEY ("product_details_id") REFERENCES "product_details" ("id");
 
 
 ----
