@@ -1,5 +1,5 @@
 import Advertise from "../components/Advertise";
-import Banner from "../components/Banner";
+import Banner from "../components/banner";
 import Discount from "../components/discount";
 import Popular from "../components/popular";
 import "../styles/pages/homepage.css";

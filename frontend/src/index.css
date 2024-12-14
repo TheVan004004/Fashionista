@@ -1,38 +1,72 @@
 :root {
   --background-color: white;
   --text-color: black;
-  --accent-color: #02457A;
-  --blur-color: #97CADB;
-  --sale-color: rgb(196, 50, 50) ;
-  --hot-color:rgb(255, 128, 50);
+  --accent-color: #02457a;
+  --blur-color: #97cadb;
+  --sale-color: rgb(196, 50, 50);
+  --hot-color: rgb(255, 128, 50);
 }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 a {
+  text-decoration: none;
   color: var(--blur-color);
   cursor: pointer;
 }
-a:hover{
+a:hover {
   color: var(--accent-color);
 }
-button {
+button,
+input,
+select {
+  outline: none;
   background: none;
-  border:none;
+  border: none;
+}
+ul {
+  list-style-type: none;
+}
+
+table {
+  border-radius: 10px;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+td,
+th {
+  border: 1px solid var(--blur-color);
+  width: auto;
+  text-align: left;
+  padding: 10px;
+}
+
+tr:nth-child(odd) {
+  background-color: var(--blur-color);
+}
+
+tr:nth-child(even) {
+  background-color: white;
+}
+
+th {
+  background-color: var(--accent-color);
+  color: var(--background-color);
 }
