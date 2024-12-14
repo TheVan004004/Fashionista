@@ -1,26 +1,31 @@
-
-import { useContext, useState } from 'react';
-import { validate, isRequired } from '../validation'
-import { HiOutlineXCircle } from 'react-icons/hi';
-import { loginAPI } from '../services/services';
-import { MainContext } from '../context/main.context';
+import { useContext, useState } from "react";
+import { validate, isRequired } from "../validation";
+import { HiOutlineXCircle } from "react-icons/hi";
+import { loginAPI } from "../services/services";
+import { MainContext } from "../context/main.context";
+import { toast } from "react-toastify";
 const Login = ({ setBoxUser }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [errorNameMessage, setErrorNameMessage] = useState("");
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
-  const { setUser } = useContext(MainContext)
+  const { setUser } = useContext(MainContext);
   const handleSubmit = async () => {
     const nameError = validate(username, [isRequired]);
     const passwordError = validate(password, [isRequired]);
     setErrorNameMessage(nameError);
     setErrorPasswordMessage(passwordError);
-    if (nameError === "" && passwordError === "") {
-      const res = await loginAPI(username, password)
-      const data = await res.data.user
-      setUser(data)
-      setBoxUser("")
-      console.log(document.cookie)
+    try {
+      if (nameError === "" && passwordError === "") {
+        const res = await loginAPI(username, password);
+        const data = await res.data.user;
+        setUser(data);
+        setBoxUser("");
+      }
+      toast.success("Đăng nhập thành công");
+    } catch (e) {
+      // console.log();
+      toast.error(e.response.data.message);
     }
   };
 
@@ -40,7 +45,7 @@ const Login = ({ setBoxUser }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
           onClick={() => setBoxUser("")}
         />
@@ -51,14 +56,11 @@ const Login = ({ setBoxUser }) => {
           placeholder="Tên người dùng"
           value={username}
           onChange={(e) => {
-            setUsername(e.target.value)
-            setErrorNameMessage("")
+            setUsername(e.target.value);
+            setErrorNameMessage("");
           }}
         />
-        {
-          errorNameMessage &&
-          <p >{errorNameMessage}</p>
-        }
+        {errorNameMessage && <p>{errorNameMessage}</p>}
       </div>
       <div className="container_input">
         <input
@@ -66,28 +68,28 @@ const Login = ({ setBoxUser }) => {
           placeholder="Mật khẩu"
           value={password}
           onChange={(e) => {
-            setPassword(e.target.value)
-            setErrorPasswordMessage("")
+            setPassword(e.target.value);
+            setErrorPasswordMessage("");
           }}
         />
-        {
-          errorPasswordMessage &&
-          <p>{errorPasswordMessage}</p>
-        }
+        {errorPasswordMessage && <p>{errorPasswordMessage}</p>}
       </div>
 
       <button onClick={handleSubmit}>Login</button>
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignContent: "center",
-      }}>
-        <p>Bạn mới biết đến Fashionista? <a
-          onClick={() => setBoxUser("isRegister")}
-        >Đăng ký</a></p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        <p>
+          Bạn mới biết đến Fashionista?{" "}
+          <a onClick={() => setBoxUser("isRegister")}>Đăng ký</a>
+        </p>
       </div>
     </div>
   );
-}
+};
 
 export default Login;

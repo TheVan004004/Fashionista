@@ -1,0 +1,98 @@
+#admin {
+  display: flex;
+}
+
+#admin .container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+#admin button {
+  padding: 10px 15px;
+  background-color: var(--blur-color);
+  color: var(--accent-color);
+  border-radius: 10px;
+  transition: ease-in-out 500ms;
+  font-weight: 600;
+}
+
+#admin .pre_delete td {
+  background-color: rgb(255, 128, 128);
+}
+#admin input,
+select {
+  width: 100%;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+#admin button:hover {
+  color: white;
+  background-color: var(--accent-color);
+}
+#admin button.active {
+  color: white;
+  background-color: var(--sale-color);
+}
+
+#admin .container-nav.active {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 20px;
+  width: 150px;
+  border-right: 1px solid var(--text-color);
+  position: sticky;
+  top: 50px;
+  z-index: 50;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: ease-in-out 500ms;
+}
+
+#admin .container-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 20px;
+  padding-top: 10px;
+  width: 0px;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  transition: ease-in-out 500ms;
+}
+
+.nav-text a {
+  color: #090909;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.nav-menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#admin .action {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#admin .action .icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: ease-in-out 500ms;
+}
+
+#admin .action .icon:hover {
+  scale: 110%;
+}
+
+#admin .action .icon.remove:hover {
+  color: var(--sale-color);
+}

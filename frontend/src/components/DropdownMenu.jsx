@@ -1,25 +1,41 @@
-const DropdownMenu = ({ isOpenMenu }) => {
-    return (
-        <div style={{
-            position: "absolute",
-            top: "35px",
-            right: "0px",
-            width: isOpenMenu ? "100px" : "0px",
-            height: isOpenMenu ? "100px" : "0px",
-            backgroundColor: "var(--background-color)",
-            color: "black",
-            borderRadius: "10px",
-            overflow: "hidden",
-            transition: "height 300ms, width 300ms",
-            display: "flex",
-            flexDirection: "column",
-            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        }}>
+import { useNavigate } from "react-router-dom";
+const DropdownMenu = ({ isOpenMenu, setIsOpenMenu }) => {
+  const navigate = useNavigate();
+  const logout = async () => {};
+  return (
+    <div
+      id="menu-user"
+      style={{
+        height: isOpenMenu ? "120px" : "0px",
+      }}
+    >
+      <button
+        onClick={() => {
+          navigate("/admin");
+          setIsOpenMenu(false);
+        }}
+      >
+        Quản lý sản phẩm
+      </button>
+      <button
+        onClick={() => {
+          navigate("/user");
+          setIsOpenMenu(false);
+        }}
+      >
+        Tài khoản của tôi
+      </button>
+      <button
+        onClick={() => {
+          navigate("/user/shopping");
+          setIsOpenMenu(false);
+        }}
+      >
+        Đơn hàng
+      </button>
+      <button onClick={logout}>Đăng xuất </button>
+    </div>
+  );
+};
 
-            <div>Log Out </div>
-
-        </div>
-    )
-}
-
-export default DropdownMenu
+export default DropdownMenu;

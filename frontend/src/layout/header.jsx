@@ -72,7 +72,7 @@ const Header = () => {
           <div
             className="icon"
             onClick={() => {
-              console.log("click");
+              navigate("/cart");
             }}
             name="bag-icon"
           >
@@ -83,8 +83,8 @@ const Header = () => {
               <>
                 <div
                   style={{
-                    width: "18px",
-                    height: "18px",
+                    width: "24px",
+                    height: "24px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",

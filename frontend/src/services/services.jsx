@@ -41,6 +41,25 @@ const loginAPI = (username, password) => {
   };
   return axios.post(`${url}api/login`, data);
 };
+const viewDetailProductAPI = ({ product_id, size, color }) => {
+  const data = {
+    params: {
+      id: product_id,
+      size: size,
+      color: color,
+    },
+  };
+  return axios.get(`${url}api/product/${product_id}`, data);
+};
+
+const getCartAPI = (user_id) => {
+  const data = {
+    params: {
+      user_id: user_id,
+    },
+  };
+  return axios.get(`${url}api/cart/${user_id}`, data);
+};
 export {
   searchAPI,
   getAllProductsAPI,
@@ -49,4 +68,6 @@ export {
   getMostPopularAPI,
   getMostSaleAPI,
   loginAPI,
+  viewDetailProductAPI,
+  getCartAPI,
 };
