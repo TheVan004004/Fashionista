@@ -1,87 +1,95 @@
 import { db } from '../config/database.js';
 import bcrypt from "bcrypt";
 import { passport } from '../config/passportConfig.js';
+import resData from '../helpers/jsonFormat.js';
 
-const signup = async (req, res) => {
+const apiSignup = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
 
     try {
         const checkUsernameExist = await db.query("SELECT * FROM users WHERE username= $1", [username]);
         if (checkUsernameExist.rows.length > 0) {
-            res.status(400).json({ message: "Username already exists. Try logging in." });
+            const result = resData('Username already exists. Try logging in.', 1, '');
+            res.status(400).json(result);
         }
         else {
-            if (password == confirmPassword) {
-                //Use saltRounds: 10;
-                bcrypt.hash(password, 10, async (err, hash) => {
-                    if (err) {
-                        console.error("Error hashing password:", err);
-                        res.status(500).json({ message: "Error hashing password" });
-                    } else {
-                        const result = await db.query(
-                            "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *",
-                            [username, hash]
-                        );
-                        const user = result.rows[0];
-                        const userId = result.rows[0].id;
-                        await db.query(
-                            `INSERT INTO cart (user_id) VALUES ($1)`,
-                            [userId]
-                        );
-                        req.login(user, (err) => {
-                            if (err)
-                                res.status(500).json({ message: "Login error" });
-                            else
-                                res.json({ message: "Registration successful", user: user });
-                        })
-                    }
-                })
-            }
-            else
-                res.status(500).json({ message: "Error confirming password" })
+            //Use saltRounds: 10;
+            bcrypt.hash(password, 10, async (err, hash) => {
+                if (err) {
+                    console.error(">>> Error hashing password:", err);
+                    const result = resData('Error hashing password', 1, '');
+                    res.status(500).json(result);
+                } else {
+                    const result = await db.query(
+                        "INSERT INTO users (username, password,role) VALUES ($1, $2,$3) RETURNING *",
+                        [username, hash, 'user']
+                    );
+                    const user = result.rows[0];
+                    const userId = result.rows[0].id;
+                    await db.query(
+                        `INSERT INTO cart (user_id) VALUES ($1)`,
+                        [userId]
+                    );
+                    req.login(user, (err) => {
+                        if (err) {
+                            const result = resData('Login error', 1, '');
+                            res.status(500).json(result);
+                        }
+                        else {
+                            const result = resData('Registration successful', 0, user);
+                            res.json(result);
+                        }
+                    })
+                }
+            })
         }
     } catch (error) {
-        res.status(500).json({ message: "Sever error" });
+        const result = resData('Sever error', 1, '');
+        res.status(500).json(result);
     }
 }
 
 //login function use a passport.authenticate middleware (because we need control err and info)
-const login = (req, res) => {
+const apiLogin = (req, res) => {
     passport.authenticate('local', (err, user, info) => { //get err, user, info from cb(err, user, info) 
         if (err) {
-            res.status(500).json({ message: "Error during authentication" })
+            const result = resData('Error during authentication', 1, '');
+            res.status(500).json(result);
         }
         else {
             if (!user) {
-                return res.status(400).json({
-                    success: false,
-                    message: info?.message || 'Invalid credentials', // if (info && info.message) = info?.message  
-                });
+                let message = info?.message || 'Invalid credentials';
+                const result = resData(message, 1, '');
+                return res.status(400).json({ ...result, success: false });
             }
             req.login(user, (err) => {
-                if (err)
-                    res.status(500).json({ message: "Sever error during login" });
+                if (err) {
+                    const result = resData('Sever error', 1, '');
+                    res.status(500).json(result);
+                }
                 else {
-                    res.json({
-                        success: true,
-                        message: info?.message || 'Login successful',
-                        user: req.user,
-                    });
+                    let message = info?.message || 'Login successful';
+                    const result = resData(message, 0, req.user);
+                    res.json({ ...result, success: true });
                 }
             });
         }
     })(req, res);
 };
 
-const logout = (req, res) => {
+const apiLogout = (req, res) => {
     req.logout((err) => {
-        if (err)
-            res.status(500).json({ message: "Logout error" });
-        else
-            res.json({ message: "Logout successful" });
+        if (err) {
+            const result = resData('Logout error', 1, '');
+            res.status(500).json(result);
+        }
+        else {
+            const result = resData('Logout successfully', 0, '');
+            res.json(result);
+        }
     })
 }
 
-export { signup, login, logout };
+const authController = { apiSignup, apiLogin, apiLogout };
+export default authController;

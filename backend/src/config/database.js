@@ -1,5 +1,4 @@
 import pg from 'pg';
-import fs from 'fs';
 import env from "dotenv";
 
 env.config();
@@ -16,8 +15,4 @@ const db = new pg.Pool({
     connectionTimeoutMillis: 2000
 });
 
-// read file database.sql
-const sql = await fs.readFileSync('database.sql', 'utf8');
-const sql_command = sql.split("----"); // Separate commands in the .sql file with "----", each commands is element of sql_command
-
-export { db, sql_command };
+export { db };

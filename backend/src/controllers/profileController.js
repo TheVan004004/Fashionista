@@ -1,44 +1,36 @@
-import { db } from '../config/database.js';
-import path from 'path';
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import resData from '../helpers/jsonFormat.js';
+import profileServices from '../services/profileServices..js';
 
-const getProfile = async (req, res) => {
+const apiGetProfile = async (req, res) => {
+    if (!req.user) {
+        const result = resData('Please login', 0, '');
+        return res.status(400).json(result);
+    }
     try {
-        const result = await db.query("SELECT * FROM users WHERE id = $1", [req.user.id]);
-        const profile = result.rows[0];
-        if (profile.avatar) {
-            // convert avatar image to url
-            const __dirname = dirname(fileURLToPath(import.meta.url));
-            const __srcURL = dirname(__dirname);
-            profile.avatar = path.join(__srcURL + "/public/uploads", profile.avatar);
-        }
-        res.json(profile);
+        const result = await profileServices.getProfile(req.user.id);
+        res.json(result);
     } catch (error) {
-        console.log(`Error getting profile: ${error}`);
-        res.status(500).json({ message: "Server error" });
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
     }
 }
 
-const postProfile = async (req, res) => {
-    const name = req.body.name || null;
-    const phone = req.body.phone || null;
-    const address = req.body.address || null;
-    const dob = req.body.dob || null;
-    const sex = req.body.sex || null;
-    const avatar = req.file?.originalname || null;
-
+const apiPostProfile = async (req, res) => {
+    if (!req.user) {
+        const result = resData('Please login', 0, '');
+        return res.status(400).json(result);
+    }
     try {
-        await db.query(
-            "UPDATE users SET name=$1, phone=$2, address=$3, dob=$4, sex=$5, avatar=$6 WHERE id=$7"
-            , [name, phone, address, dob, sex, avatar, req.user.id]
-        );
-        res.json({ message: "Updated profile successfully" });
+        const result = await profileServices.postProfile(req.body, req.user.id);
+        res.json(result);
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Sever error" });
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
     }
 
 }
 
-export { getProfile, postProfile }
+const profileController = { apiGetProfile, apiPostProfile };
+export default profileController;

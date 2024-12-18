@@ -1,8 +1,8 @@
 import express from "express";
-import { configEngine } from "./config/config.js";
-import { router } from "./routes/api.js";
+import { configEngine } from "./src/config/config.js";
+import { router } from "./src/routes/api.js";
 import env from "dotenv";
-import { passport } from "./config/passportConfig.js";
+import { passport } from "./src/config/passportConfig.js";
 
 const app = express();
 env.config();
