@@ -11,6 +11,7 @@ const router = express.Router();
 //Collection
 router.get("/api/collection", productController.apiFilteredProducts) // Filter products by query params and Get all products if not have query params
 router.get("/api/collection/color", productController.apiGetAllColors) // Get all colors from color table
+router.get("/api/collection/category", productController.apiGetCategories)
 
 //Product_detail 
 router.get("/api/product/:id", productDetailController.apiSearchProductDetail); // Select color, size to add into the cart
@@ -29,7 +30,7 @@ router.post("/api/logout", authController.apiLogout); // Log out
 
 //Order
 router.post("/api/order", orderController.apiOrder);
-router.patch("/api/order/:order_id", orderController.apiUpdateCartItem);
+router.patch("/api/order/:order_id", orderController.apiUpdateOrder);
 
 // Require User's account is logged in
 //Profile

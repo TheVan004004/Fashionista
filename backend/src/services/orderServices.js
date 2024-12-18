@@ -58,12 +58,12 @@ const updateStatusOrder = async (orderId) => {
          where id= $1`,
         [orderId]
     )
-    if (resultStatus.row[0] == 'pending') {
+    if (resultStatus.rows[0] == 'pending') {
         const { rows } = await db.query(
             `UPDATE orders
-         SET status = $1
-         WHERE id=$2
-         RETURNING *;`,
+        SET status = $1
+        WHERE id=$2
+        RETURNING *;`,
             ['completed', orderId]
         )
         const result = resData('Update successfully', 0, rows[0]);

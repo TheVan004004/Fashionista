@@ -99,5 +99,12 @@ const getAllColors = async () => {
     return result;
 }
 
-const productServices = { getAllProducts, filterProducts, getAllColors }
+const getAllCategories = async () => {
+    const { rows } = await db.query(
+        `SELECT * FROM categories`
+    );
+    const result = resData('Get all categories', 0, rows);
+    return result;
+}
+const productServices = { getAllProducts, filterProducts, getAllColors, getAllCategories }
 export default productServices;
