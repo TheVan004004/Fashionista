@@ -112,6 +112,7 @@ export default function ProductManage() {
             <th>Giá (VNĐ)</th>
             <th>Giảm giá</th>
             <th>Tổng lượt mua</th>
+            <th>Tồn kho</th>
             <th style={{ width: "60px" }}></th>
           </tr>
         </thead>
@@ -174,6 +175,9 @@ export default function ProductManage() {
                 </td>
                 <td style={{ width: "120px", textAlign: "center" }}>
                   {product.total_buyturn}
+                </td>
+                <td style={{ width: "120px", textAlign: "center" }}>
+                  {product.quantity}
                 </td>
                 <td className="action">
                   <HiPencilAlt className="icon edit" />

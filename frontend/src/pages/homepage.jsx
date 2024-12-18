@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Advertise from "../components/Advertise";
 import Banner from "../components/banner";
 import Discount from "../components/discount";
@@ -15,7 +16,9 @@ const HomePage = () => {
           <Advertise className="sub1" />
           <Advertise className="sub2" />
         </div>
-        <button className="search">Tìm kiếm sản phẩm ngay</button>
+        <Link to="/search">
+          <button className="search">Tìm kiếm sản phẩm ngay</button>
+        </Link>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 #filterSidebar.active {
+  flex-shrink: 0;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -108,11 +109,4 @@
 
 .color-option button.active {
   box-shadow: 0 0 0 3px white, 0 0 0 4px var(--text-color);
-}
-
-@media only screen and (max-width: 1080px) {
-  #filterSidebar.active {
-    gap: 10px;
-    width: 200px;
-  }
 }

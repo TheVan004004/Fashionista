@@ -178,7 +178,7 @@
 #profile td,
 #customers th {
   border: none;
-  padding: 20px;
+  padding: 15px;
 }
 
 #profile tr {
@@ -194,7 +194,7 @@
 
 #profile tr td:first-child {
   flex-shrink: 0;
-  width: 120px;
+  width: 150px;
   text-align: right;
   font-size: 16px;
   font-weight: 600;
@@ -202,13 +202,28 @@
 #profile tr td:last-child {
   flex-grow: 1;
 }
+
 #profile tr td:last-child input,
 #profile tr td:last-child p,
 #profile tr td:last-child select {
+  border-radius: 20px;
   box-sizing: border-box;
   width: 100%;
   padding: 15px;
   background-color: aliceblue;
+  transition: ease-in-out 1000ms;
+}
+
+#profile .isEdit tr td:last-child input,
+#profile .isEdit tr td:last-child p,
+#profile .isEdit tr td:last-child select {
+  font-weight: 600;
+  border-radius: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 15px;
+  background-color: var(--blur-color);
+  transition: ease-in-out 500ms;
 }
 
 #profile .right-body {
@@ -225,11 +240,21 @@
   height: 200px;
   border-radius: 1000px;
   border: 2px black;
+  margin-bottom: 10px;
 }
 
 #profile button {
+  cursor: pointer;
+  border-radius: 20px;
   padding: 15px 20px;
   background-color: var(--blur-color);
   font-size: 16px;
   font-weight: 600;
+  transition: ease-in-out 300ms;
+}
+
+#profile button:hover {
+  scale: 110%;
+  background-color: var(--accent-color);
+  color: white;
 }

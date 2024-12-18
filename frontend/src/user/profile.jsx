@@ -1,15 +1,28 @@
 import { useContext, useState } from "react";
 import { MainContext } from "../context/main.context";
+import { HiPencil } from "react-icons/hi";
+import { updateDataUserAPI } from "../services/services";
 
 const Profile = () => {
   const { user } = useContext(MainContext);
-  const [username, setUsername] = useState("");
-  const [accountname, setAccountname] = useState("");
+  const [username, setUsername] = useState(user.username);
+  const [fullname, setFullname] = useState(user.name);
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [sex, setSex] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [dob, setDob] = useState("");
   const [address, setAddress] = useState("");
-
+  const [isEdit, setIsEdit] = useState("");
+  const updateDataUser = async () => {
+    const res = await updateDataUserAPI({
+      name: fullname,
+      phone: phone,
+      sex: sex,
+      dob: dob,
+      address: address,
+    });
+    setIsEdit(false);
+  };
   return (
     <div id="profile">
       <div className="head">
@@ -18,13 +31,14 @@ const Profile = () => {
       </div>
       <div
         style={{
+          position: "relative",
           display: "grid",
           gridTemplateColumns: "1.5fr 1fr",
           width: "100%",
           gap: "10px",
         }}
       >
-        <div className="left-body">
+        <div className={isEdit ? "left-body isEdit" : "left-body"}>
           <table>
             <tr>
               <th></th>
@@ -33,19 +47,60 @@ const Profile = () => {
             <tr>
               <td>Tên đăng nhập</td>
               <td>
-                <p>{user.username}</p>
+                <p
+                  style={{
+                    cursor: "not-allowed",
+                    backgroundColor: "aliceblue",
+                  }}
+                >
+                  {user.username}
+                </p>
               </td>
             </tr>
             <tr>
               <td>Họ và tên</td>
               <td>
-                <p>Họ tên</p>
+                <input
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
               </td>
             </tr>
             <tr>
               <td>Mật khẩu</td>
               <td>
-                <p>123456</p>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <input
+                    style={{
+                      cursor: "not-allowed",
+                      backgroundColor: "aliceblue",
+                    }}
+                    disabled
+                    type="password"
+                    value="12345678"
+                  ></input>
+                  <HiPencil
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                    }}
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Số điện thoại</td>
+              <td>
+                <input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
               </td>
             </tr>
             <tr>
@@ -61,7 +116,11 @@ const Profile = () => {
             <tr>
               <td>Ngày sinh</td>
               <td>
-                <input type="date" value={selectedDate} />
+                <input
+                  type="date"
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
+                />
               </td>
             </tr>
             <tr>
@@ -78,7 +137,14 @@ const Profile = () => {
           </table>
         </div>
         <div className="right-body">
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
             <div
               className="container-avatar"
               style={{
@@ -86,7 +152,13 @@ const Profile = () => {
               }}
             ></div>
             <div>
-              <div>Chọn ảnh</div>
+              <button
+                style={{
+                  padding: "10px 15px",
+                }}
+              >
+                Chọn ảnh
+              </button>
             </div>
             <div className="text">Dung lượng file tối đa 1MB</div>
             <div className="text">Định dạng: .JPEG, .PNG</div>
@@ -94,15 +166,35 @@ const Profile = () => {
 
           <div
             style={{
+              zIndex: "50",
               width: "100%",
               display: "flex",
               justifyContent: "space-between",
             }}
           >
-            <button>Chỉnh sửa thông tin</button>
-            <button>Lưu thông tin</button>
+            <button
+              onClick={() => {
+                setIsEdit(true);
+              }}
+            >
+              Chỉnh sửa thông tin
+            </button>
+            <button onClick={updateDataUser}>Lưu thông tin</button>
           </div>
         </div>
+        <div
+          style={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            zIndex: !isEdit ? "10" : "-10",
+            backgroundColor: "transparent",
+            opacity: "30%",
+            cursor: "not-allowed",
+          }}
+        ></div>
       </div>
     </div>
   );

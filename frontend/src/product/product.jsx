@@ -57,7 +57,7 @@ const Product = (props) => {
           className="text_price"
           style={{
             display: "flex",
-            flexDirection: type === "mini" ? "column" : "row",
+            flexDirection: "row",
             alignItems: "center",
             gap: "10px",
           }}

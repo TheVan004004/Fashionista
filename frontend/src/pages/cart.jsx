@@ -13,8 +13,9 @@ export default function Cart() {
     getCart();
   }, []);
   const getCart = async () => {
-    // const res = getCartAPI(user.id);
+    const res = await getCartAPI(user.id);
     // setListProductInCart(res);
+    console.log(res);
   };
   return (
     <div id="cart">
