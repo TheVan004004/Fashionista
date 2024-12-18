@@ -7,7 +7,7 @@ const apiOrder = async (req, res) => {
         return res.status(400).json(result);
     }
     try {
-        const result = await orderServices.order(req.user.id, req.body);
+        const result = await orderServices.order(req.user.id, req.body.listItems);
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);

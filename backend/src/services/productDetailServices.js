@@ -1,4 +1,4 @@
-import { db, sql_command } from '../config/database.js';
+import { db } from '../config/database.js';
 import env from "dotenv";
 import productServices from './productServices.js';
 import resData from '../helpers/jsonFormat.js';

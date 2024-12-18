@@ -4,6 +4,20 @@ import resData from "../helpers/jsonFormat.js";
 const addCartItem = async (userId, cartItemData) => {
     const product_details_id = cartItemData.product_details_id;
     const quantity = parseInt(cartItemData.quantity);
+
+    // check quantity whether quantity > quantity of product_details
+    const compare = await db.query(
+        `SELECT product_details.quantity
+         FROM product_details
+         WHERE id = $1 `,
+        [product_details_id]
+    );
+    if (quantity > compare.rows[0].quantity) {
+        const result = resData('Limited quantity', 0, '');
+        return result;
+    }
+
+    //order
     const resultCart = await db.query(
         `SELECT id FROM cart WHERE user_id=$1;`,
         [userId]
