@@ -18,7 +18,7 @@ const apiAddCartItem = async (req, res) => {
 }
 const apiGetAllCartItems = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 0, '');
+        const result = resData('Please login', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -34,7 +34,7 @@ const apiGetAllCartItems = async (req, res) => {
 //Change color, size, quantity of item
 const apiUpdateCartItem = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 0, '');
+        const result = resData('Please login', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -49,7 +49,7 @@ const apiUpdateCartItem = async (req, res) => {
 }
 const apiDeleteCartItem = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 0, '');
+        const result = resData('Please login', 1, '');
         return res.status(400).json(result);
     }
     try {
