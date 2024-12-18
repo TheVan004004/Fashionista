@@ -1,6 +1,5 @@
 import express from "express";
 import { configEngine } from "./config/config.js";
-import { db } from "./config/database.js";
 import { router } from "./routes/api.js";
 import env from "dotenv";
 import { passport } from "./config/passportConfig.js";
@@ -13,9 +12,6 @@ const hostname = process.env.HOST_NAME;
 
 //config template engine
 configEngine(app);
-
-//connect database
-db.connect();
 
 //define Passport middleware
 app.use(passport.initialize());

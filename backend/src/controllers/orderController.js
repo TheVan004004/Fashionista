@@ -1,67 +1,54 @@
 import { db } from '../config/database.js';
-const addOrder = async (req, res) => {
-    const userId = req.params.user_id;
-    const productDetailId = req.query.productDetail_id;
-    const quantity_cartItem = req.query.quantity_cartItem;
-
+const apiOrder = async (req, res) => {
     try {
-        const resultOrder = await db.query(
-            `SELECT id FROM orders WHERE user_id=$1;`,
+        const userId = parseInt(req.params.user_id);
+
+        //order
+        const cartItems = await db.query(
+            `SELECT product_details_id,price as price_product, cart_items.quantity as quantity
+             FROM cart_items
+             JOIN cart ON cart.id= cart_items.cart_id
+             JOIN product_details ON product_details.id=cart_items.product_details_id
+             WHERE user_id=$1`,
             [userId]
-        )
-        const orderId = resultOrder.rows[0].id;
+        );
+        let total = 0; //total of a order
+        cartItems.rows.forEach((item) => { total += item.quantity * item.price_product });
         const date = new Date();
-        const { rows } = await db.query(
-            `INSERT INTO order-details(order_id,product_id,quantity,date)
+        const newOrder = await db.query(
+            `INSERT INTO orders(user_id,status, total, created_at)
              VALUES ($1,$2,$3,$4)
              RETURNING *;`,
-            [orderId, productDetailId, quantity_cartItem, date]
-        );
-        res.json(rows); // rows: Items detail
+            [userId, 0, total, date]
+        )
+        const orderId = newOrder.rows[0].id;
+        cartItems.rows.forEach(async (item) => {
+            const productDetailId = item.product_details_id;
+            const quantity_cartItem = item.quantity;
+            await db.query(
+                `INSERT INTO order_details(order_id,product_details_id,price,quantity)
+                 VALUES ($1,$2,$3,$4);`,
+                [orderId, productDetailId, item.quantity * item.price_product, quantity_cartItem]
+            );
+
+            //update buyTurn and quantity of product
+            const updateResult = await db.query(
+                `UPDATE product_details
+                 SET quantity = quantity - $1, buyturn = buyturn + $1
+                 WHERE id = $2 AND "quantity" >= $1;`,
+                [quantity_cartItem, productDetailId]
+            )
+            if (updateResult.rowCount === 0) {
+                throw new Error(`Product with ID ${productId} is out of stock or insufficient quantity.`);
+            }
+
+        });
+
+        res.json(newOrder.rows[0]); // rows: Items detail
     } catch (error) {
         console.log(`Error getting: ${error}`);
         res.status(500).json({ message: "Sever error" });
     }
 }
-const apiOrder = async (req, res) => {
-    try {
-        const userId = req.params.id; // Lấy userId từ URL parameter
 
-        // Cập nhật bảng Order_Details và Product_Details
-        const query = `
-        SELECT od.product_id, od.quantity
-        FROM order_details od
-        JOIN orders o ON od.order_id = o.id
-        WHERE o.user_id = $1;
-        `;
-        const result = await db.query(query, [userId]);
-
-        const products = result.rows.map(row => ({
-            product_id: row.product_id,
-            quantity: row.quantity
-        }));
-
-        const updateProductQuery = `
-            UPDATE "product_details"
-            SET "quantity" = "quantity" - $1, "buyturn" = "buyturn" + $1
-            WHERE "product_id" = $2 AND "quantity" >= $1;
-        `;
-
-        for (const product of products) {
-            const { productId, quantity, price } = product;
-
-            // Cập nhật số lượng và buyturn trong bảng Product_Details
-            const updateResult = await db.query(updateProductQuery, [quantity, productId]);
-            if (updateResult.rowCount === 0) {
-                throw new Error(`Product ID ${productId} is out of stock or insufficient quantity.`);
-            }
-
-        }
-    } catch (error) {
-        console.error(`Error: ${error.message}`);
-        await db.query('ROLLBACK');
-        res.status(500).json({ message: "Server error", error: error.message });
-    }
-};
-
-export { addOrder, apiOrder };
+export { apiOrder };

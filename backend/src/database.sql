@@ -1,4 +1,4 @@
--- Copy and paste this into PostgreSQL to Create table (from line 2 to line 88)--
+-- Copy and paste this into PostgreSQL to Create table (from line 2 to line 110)--
 CREATE TABLE "categories" (
   "id" serial PRIMARY KEY,
   "name" text,
@@ -61,13 +61,13 @@ CREATE TABLE "orders" (
   "status" int,
   "note" text,
   "total" int,
-  "created_at" datetime,
+  "created_at" date
 );
 
-CREATE TABLE "oder_details" (
+CREATE TABLE "order_details" (
   "id" serial PRIMARY KEY,
   "order_id" int,
-  "product_id" int,
+  "product_details_id" int,
   "price" int,
   "quantity" int,
   "created_at" datetime,
@@ -87,7 +87,29 @@ ALTER TABLE "order_details" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("i
 
 ALTER TABLE "product_details" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
-ALTER TABLE "order_details" ADD FOREIGN KEY ("product_id") REFERENCES "product_details" ("id");
+ALTER TABLE "order_details" ADD FOREIGN KEY ("product_details_id") REFERENCES "product_details" ("id");
+
+
+--Add cart, cart_items table
+CREATE TABLE "cart" (
+  "id" serial PRIMARY KEY,
+  "user_id" int,
+  "created_at" date,
+  "updated_at" date
+);
+
+CREATE TABLE "cart_items" (
+  "id" serial PRIMARY KEY,
+  "cart_id" int,
+  "product_details_id" int,
+  "quantity" int
+);
+
+ALTER TABLE "cart" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "cart_items" ADD FOREIGN KEY ("cart_id") REFERENCES "cart" ("id");
+
+ALTER TABLE "cart_items" ADD FOREIGN KEY ("product_details_id") REFERENCES "product_details" ("id");
 
 
 ----
@@ -131,6 +153,19 @@ JOIN categories ON products.category_id=categories.id
 JOIN color ON product_details.color_id=color.id
 JOIN size ON product_details.size_id=size.id
 WHERE product_id=$1 AND hex_code=$2 AND size.name=$3; 
+
+----
+--sql_command[5]
+--get all items in a specific cart
+SELECT cart_items.id as item_id, cart_id,product_id, product_details.id as product_details_id,cart_items.quantity as quantity_cartItem ,products.name, product_details.image, size.name as size_name, color.name as color_name, hex_code, price, sale, brands.name as brand_name, categories.name as category_name, buyturn, product_details.quantity
+FROM cart_items
+JOIN product_details ON product_details.id=cart_items.product_details_id
+JOIN products ON products.id=product_details.product_id
+JOIN brands ON products.brand_id=brands.id
+JOIN categories ON products.category_id=categories.id
+JOIN color ON product_details.color_id=color.id
+JOIN size ON product_details.size_id=size.id
+WHERE cart_id=$1;
 
 ----
 -- Remove Vietnamese Tones
