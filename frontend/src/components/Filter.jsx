@@ -122,7 +122,7 @@ const Filter = () => {
           </div>
         </div>
 
-        <div className="filter-section">
+        {/* <div className="filter-section">
           <h4>Kích cỡ</h4>
           <div className="filter-size">
             <Size sizeName="M" />
@@ -130,7 +130,7 @@ const Filter = () => {
             <Size sizeName="XL" />
             <Size sizeName="2XL" />
           </div>
-        </div>
+        </div> */}
         <div className="filter-section">
           <h4>Màu sắc</h4>
           <div className="filter-color">

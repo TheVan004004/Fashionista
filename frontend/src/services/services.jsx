@@ -51,7 +51,16 @@ const viewDetailProductAPI = ({ product_id, size, color }) => {
   };
   return axios.get(`${url}api/product/${product_id}`, data);
 };
-
+const updateDataUserAPI = ({ phone, name, sex, dob, address }) => {
+  const data = {
+    phone: phone,
+    name: name,
+    sex: sex,
+    dob: dob,
+    address: address,
+  };
+  return axios.post(`${url}api/user/acccount/profile`, data);
+};
 const getCartAPI = (user_id) => {
   const data = {
     params: {
@@ -60,6 +69,17 @@ const getCartAPI = (user_id) => {
   };
   return axios.get(`${url}api/cart/${user_id}`, data);
 };
+
+const addToCartAPI = ({ productDetail_id, quantity, user_id }) => {
+  const data = {
+    params: {
+      productDetail_id: productDetail_id,
+      quantity: quantity,
+    },
+  };
+  return axios.get(`${url}api/cart/${user_id}`, data);
+};
+
 export {
   searchAPI,
   getAllProductsAPI,
@@ -70,4 +90,6 @@ export {
   loginAPI,
   viewDetailProductAPI,
   getCartAPI,
+  updateDataUserAPI,
+  addToCartAPI,
 };

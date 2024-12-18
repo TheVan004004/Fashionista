@@ -1,7 +1,13 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { MainContext } from "../context/main.context";
 const DropdownMenu = ({ isOpenMenu, setIsOpenMenu }) => {
+  const { setUser } = useContext(MainContext);
   const navigate = useNavigate();
-  const logout = async () => {};
+  const logout = async () => {
+    setUser("");
+    navigate("/");
+  };
   return (
     <div
       id="menu-user"

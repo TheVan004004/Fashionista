@@ -15,11 +15,15 @@ export const ContextWrapper = (props) => {
   const [maxPrice, setMaxPrice] = useState("");
   const [listResult, setListResult] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
-  const [productDetail, setProductDetail] = useState({});
+  const [productDetail, setProductDetail] = useState(
+    JSON.parse(localStorage.getItem("product_detail") || "") || ""
+  );
   const [sort, setSort] = useState("most_buyturn");
   const [listPopular, setListPopular] = useState([]);
   const [listBestSaler, setListBestSaler] = useState([]);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user") || "") || ""
+  );
   const [isSearch, setIsSearching] = useState(false);
   console.log(user);
   useEffect(() => {
@@ -30,6 +34,12 @@ export const ContextWrapper = (props) => {
     console.log(inputSearch, colorFilter, size, minPrice, maxPrice);
     search();
   }, [colorFilter, minPrice, maxPrice, sort]);
+  useEffect(() => {
+    localStorage.setItem("product_detail", JSON.stringify(productDetail));
+  }, [productDetail]);
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
   const getProductPopular = async () => {
     const res = await getMostPopularAPI();
     const data = await res.data;

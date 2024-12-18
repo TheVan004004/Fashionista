@@ -1,32 +1,44 @@
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../context/main.context";
 import { useNavigate } from "react-router-dom";
-import { viewDetailProductAPI } from "../services/services";
+import { addToCartAPI, viewDetailProductAPI } from "../services/services";
+import { toast } from "react-toastify";
 const ProductDetail = () => {
   const navigate = useNavigate();
-  const { productDetail, setProductDetail } = useContext(MainContext);
+  const { user, productDetail, setProductDetail } = useContext(MainContext);
   const [image, setImage] = useState("");
   const [colorPicked, setColorPicked] = useState("");
   const [sizePicked, setSizePicked] = useState("");
   const [quantity, setQuantity] = useState(1);
   const sizes = ["M", "L", "XL"];
   useEffect(() => {
-    if (!productDetail?.id) navigate("/");
-
-    console.log(productDetail);
     window.scrollTo({ top: 0 });
   }, []);
   useEffect(() => {
     getProduct();
   }, [colorPicked, sizePicked]);
   const getProduct = async () => {
-    const res = await viewDetailProductAPI({
-      product_id: productDetail.id,
-      size: sizePicked,
-      color: colorPicked,
-    });
-    setColorPicked(res.data.hex_code);
-    setImage(res.data.image);
+    try {
+      if (!productDetail.id) return;
+      const res = await viewDetailProductAPI({
+        product_id: productDetail.id,
+        size: sizePicked,
+        color: colorPicked.hex_code,
+      });
+      setImage(res.data.image);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const addToCart = async () => {
+    try {
+      const res = await addToCartAPI({
+        productDetail_id: productDetail.id,
+        quantity: quantity,
+        user_id: user.id,
+      });
+      toast.success("Thêm vào giỏ hàng thành công");
+    } catch (e) {}
   };
   return (
     <>
@@ -101,7 +113,7 @@ const ProductDetail = () => {
                 }}
               >
                 <div style={{ fontSize: "16px", fontWeight: "600" }}>
-                  Màu sắc: {colorPicked}
+                  Màu sắc: {colorPicked.name}
                 </div>
                 <div className="color_options" style={{ gap: "20px" }}>
                   {productDetail.color &&
@@ -115,11 +127,11 @@ const ProductDetail = () => {
                             backgroundColor: color.hex_code,
                             cursor: "pointer",
                             boxShadow:
-                              colorPicked === color.hex_code
+                              colorPicked.hex_code === color.hex_code
                                 ? "0 0 0 4px white, 0 0 0 5px  var(--text-color)"
                                 : "none",
                           }}
-                          onClick={() => setColorPicked(color.hex_code)}
+                          onClick={() => setColorPicked(color)}
                         ></div>
                       );
                     })}
@@ -174,7 +186,13 @@ const ProductDetail = () => {
                   <p>{quantity}</p>
                   <div onClick={() => setQuantity(quantity + 1)}>+</div>
                 </div>
-                <div className="submit">
+                <div
+                  className="submit"
+                  onClick={() => {
+                    if (sizePicked === "") return;
+                    addToCart();
+                  }}
+                >
                   {sizePicked === "" ? "Chọn kích thước" : "Thêm vào giỏ hàng"}
                 </div>
               </div>

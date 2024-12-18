@@ -55,9 +55,8 @@ const Search = () => {
             <div className="header-search">
               <h2>Kết quả tìm kiếm:</h2>
               <div className="sort-dropdown">
-                <label htmlFor="sort">Sắp xếp theo:</label>
+                <div style={{ textWrap: "nowrap" }}>Sắp xếp theo:</div>
                 <select
-                  id="sort"
                   value={sortInput}
                   onChange={(e) => {
                     handleSort(e.target.value);
