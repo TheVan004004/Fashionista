@@ -1,5 +1,11 @@
 import { db } from "../config/database.js";
 import resData from "../helpers/jsonFormat.js";
+import env from "dotenv";
+
+
+env.config();
+const port = process.env.PORT;
+const hostname = process.env.HOST_NAME;
 
 const addCartItem = async (userId, cartItemData) => {
     const product_details_id = cartItemData.product_details_id;
@@ -60,7 +66,7 @@ const getAllCartItems = async (userId) => {
         [userId]
     )
     const cartId = resultCart.rows[0].id;
-    const { rows } = await db.query(
+    let { rows } = await db.query(
         `SELECT cart_items.id as item_id, cart_id,product_id, product_details.id as product_details_id,cart_items.quantity as quantity_item ,products.name, product_details.image, size.name as size_name, color.name as color_name, hex_code, price, sale, categories.name as category_name, buyturn, product_details.quantity
          FROM cart_items
          JOIN product_details ON product_details.id=cart_items.product_details_id
@@ -71,7 +77,8 @@ const getAllCartItems = async (userId) => {
          WHERE cart_id=$1;`,
         [cartId]
     );
-    const result = resData('Get all items of cart successfully', 0, rows[0]);
+    rows = rows.map((item) => { return { ...item, image: `http://${hostname}:${port}/public/images/${item.image}.png` } });
+    const result = resData('Get all items of cart successfully', 0, rows);
     return result;
 }
 
@@ -104,7 +111,7 @@ const updateCartItem = async (itemId, updateData) => {
 
     const color = updateData.color || colorCurr;
     const size = updateData.size || sizeCurr;
-    const quantity = updateData.quantity || quantityCurr;
+    const quantity = parseInt(updateData.quantity) || quantityCurr;
     const searchProductDetail = await db.query(
         `SELECT product_details.id,products.name, product_id, product_details.image, size.name as size_name, color.name as color_name, hex_code, price, sale, categories.name as category_name, buyturn, quantity
          FROM product_details

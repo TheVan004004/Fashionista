@@ -8,7 +8,7 @@ const apiAddCartItem = async (req, res) => {
     }
     try {
         const userId = req.user.id;
-        const result = await cartSerVices.addCartItem(userId, req.query);
+        const result = await cartSerVices.addCartItem(userId, req.body);
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
@@ -39,7 +39,7 @@ const apiUpdateCartItem = async (req, res) => {
     }
     try {
         const itemId = req.params.item_id;
-        const result = await cartSerVices.updateCartItem(itemId, req.query);
+        const result = await cartSerVices.updateCartItem(itemId, req.body);
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);

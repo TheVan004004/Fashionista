@@ -23,5 +23,21 @@ const apiGetAllColors = async (req, res) => {
     }
 }
 
-const productController = { apiFilteredProducts, apiGetAllColors };
+const apiGetAllCategories = async (req, res) => {
+    try {
+        const result = await productServices.getAllCategories();
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
+const productController =
+{
+    apiFilteredProducts,
+    apiGetAllColors,
+    apiGetAllCategories,
+};
 export default productController;

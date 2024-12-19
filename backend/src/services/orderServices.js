@@ -21,7 +21,7 @@ const order = async (user_id, listItems) => {
         `INSERT INTO orders(user_id,status, total, created_at)
          VALUES ($1,$2,$3,$4)
          RETURNING *;`,
-        [userId, 'Pending', total, date]
+        [userId, 'pending', total, date]
     )
     const orderId = newOrder.rows[0].id;
     for (const item of selectedItems) {
@@ -50,5 +50,25 @@ const order = async (user_id, listItems) => {
     const result = resData('Order successfully', 0, newOrder.rows[0]);
     return result;
 }
-const orderServices = { order };
+
+const updateStatusOrder = async (orderId) => {
+    const resultStatus = await db.query(
+        `SELECT status
+         FROM orders
+         where id= $1`,
+        [orderId]
+    )
+    if (resultStatus.rows[0].status == 'pending') {
+        const { rows } = await db.query(
+            `UPDATE orders
+         SET status = $1
+         WHERE id=$2
+         RETURNING *;`,
+            ['completed', orderId]
+        )
+        const result = resData('Update successfully', 0, rows[0]);
+        return result;
+    }
+}
+const orderServices = { order, updateStatusOrder };
 export default orderServices;
