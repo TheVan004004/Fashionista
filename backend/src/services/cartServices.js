@@ -69,9 +69,8 @@ const getAllCartItems = async (userId) => {
   const resultCart = await db.query(`SELECT id FROM cart WHERE user_id=$1;`, [
     userId,
   ]);
-  console.log("check", resultCart);
-  const cartId = resultCart.rows[0].id; // ae check
-  const { rows } = await db.query(
+  const cartId = resultCart.rows[0].id;
+  let { rows } = await db.query(
     `SELECT cart_items.id as item_id, cart_id,product_id, product_details.id as product_details_id,cart_items.quantity as quantity_item ,products.name, product_details.image, size.name as size_name, color.name as color_name, hex_code, price, sale, categories.name as category_name, buyturn, product_details.quantity
          FROM cart_items
          JOIN product_details ON product_details.id=cart_items.product_details_id
