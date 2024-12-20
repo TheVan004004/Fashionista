@@ -216,6 +216,7 @@
   align-items: center;
   gap: 3vw;
 }
+
 #popular .select button {
   background-color: aliceblue;
   padding: 1vw;
@@ -223,6 +224,11 @@
   min-width: 100px;
   font-weight: 600;
 }
+
+#popular .select .active_button {
+  background-color: var(--blur-color);
+}
+
 #popular .select button:hover {
   background-color: var(--accent-color);
   color: var(--background-color);

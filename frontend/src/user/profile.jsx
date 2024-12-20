@@ -5,16 +5,16 @@ import { updateDataUserAPI } from "../services/user.api";
 
 const Profile = () => {
   const { user } = useContext(MainContext);
-  const [fullname, setFullname] = useState(user.name);
+  const [fullname, setFullname] = useState(user.fullname);
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [sex, setSex] = useState("");
-  const [dob, setDob] = useState("");
-  const [address, setAddress] = useState("");
-  const [isEdit, setIsEdit] = useState("");
+  const [phone, setPhone] = useState(user.phone);
+  const [sex, setSex] = useState(user.sex);
+  const [dob, setDob] = useState(user?.dob?.slice(0, 10));
+  const [address, setAddress] = useState(user.address);
+  const [isEdit, setIsEdit] = useState(false);
   const updateDataUser = async () => {
-    const res = await updateDataUserAPI({
-      name: fullname,
+    await updateDataUserAPI({
+      fullName: fullname,
       phone: phone,
       sex: sex,
       dob: dob,
@@ -105,10 +105,13 @@ const Profile = () => {
             <tr>
               <td>Giới tính</td>
               <td>
-                <select value={sex} onChange={(e) => setSex(e.target.value)}>
+                <select
+                  value={sex && "Unset"}
+                  onChange={(e) => setSex(e.target.value)}
+                >
                   <option value="male">Nam</option>
                   <option value="female">Nữ</option>
-                  <option value="order">Khác</option>
+                  <option value="other">Khác</option>
                 </select>
               </td>
             </tr>

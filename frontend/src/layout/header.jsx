@@ -16,7 +16,6 @@ const Header = () => {
   const [isSearch, setIsSearch] = useState(false);
   const [boxUser, setBoxUser] = useState("");
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-  console.log(isOpenMenu);
   const { inputSearch, setInputSearch, search, user, setIsSearching } =
     useContext(MainContext);
   return (
@@ -39,7 +38,6 @@ const Header = () => {
                 value={inputSearch}
                 onChange={(e) => {
                   setInputSearch(e.target.value);
-                  // setIsSearching(false)
                 }}
               />
             </div>

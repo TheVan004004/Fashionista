@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { getUserProfileAPI } from "../services/user.api";
 import {
+  getAllCategoryrAPI,
   getMostPopularAPI,
   getMostSaleAPI,
   searchAPI,
@@ -9,6 +10,7 @@ import {
 export const MainContext = createContext({});
 
 export const ContextWrapper = (props) => {
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [colorFilter, setColorFilter] = useState("");
   const [size, setSize] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -23,15 +25,26 @@ export const ContextWrapper = (props) => {
   const [listBestSaler, setListBestSaler] = useState([]);
   const [user, setUser] = useState("");
   const [isSearch, setIsSearching] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [pageSearch, setPageSearch] = useState("");
+  const [limitSearch, setLimitSearch] = useState("");
   useEffect(() => {
     getUserProfile();
     getProductPopular();
     getBestSaler();
+    getAllCategory();
   }, []);
   useEffect(() => {
-    console.log(inputSearch, colorFilter, size, minPrice, maxPrice);
     search();
-  }, [colorFilter, minPrice, maxPrice, sort]);
+  }, [
+    colorFilter,
+    minPrice,
+    maxPrice,
+    sort,
+    limitSearch,
+    pageSearch,
+    categoryFilter,
+  ]);
   useEffect(() => {
     localStorage.setItem("product_detail", JSON.stringify(productDetail));
   }, [productDetail]);
@@ -42,6 +55,14 @@ export const ContextWrapper = (props) => {
       if (data) setUser(data[0]);
     } catch (e) {
       setUser("");
+      console.log("check", e.response);
+    }
+  };
+  const getAllCategory = async () => {
+    try {
+      const res = await getAllCategoryrAPI();
+      setCategories(res.data.data);
+    } catch (e) {
       console.log("check", e.response);
     }
   };
@@ -56,9 +77,6 @@ export const ContextWrapper = (props) => {
     setListBestSaler(data);
   };
   const search = async () => {
-    if (inputSearch === "") {
-      return;
-    }
     try {
       window.scrollTo({ top: 0 });
       const res = await searchAPI(
@@ -67,7 +85,10 @@ export const ContextWrapper = (props) => {
         size,
         minPrice,
         maxPrice,
-        sort
+        sort,
+        categoryFilter,
+        pageSearch,
+        limitSearch
       );
       if (res && res.data) {
         const data = res.data.data;
@@ -102,6 +123,14 @@ export const ContextWrapper = (props) => {
         setUser,
         isSearch,
         setIsSearching,
+        categories,
+        setCategories,
+        categoryFilter,
+        setCategoryFilter,
+        pageSearch,
+        setPageSearch,
+        limitSearch,
+        setLimitSearch,
       }}
     >
       {props.children}

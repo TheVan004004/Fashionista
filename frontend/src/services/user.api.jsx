@@ -26,10 +26,10 @@ export const logoutAPI = () => {
   return axios.post(`${url}api/logout`);
 };
 
-export const updateDataUserAPI = ({ phone, name, sex, dob, address }) => {
+export const updateDataUserAPI = ({ phone, fullName, sex, dob, address }) => {
   const data = {
     phone: phone,
-    name: name,
+    fullName: fullName,
     sex: sex,
     dob: dob,
     address: address,

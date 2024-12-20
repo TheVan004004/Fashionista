@@ -20,6 +20,7 @@ import ProductManage from "./admin/management/ProductManage";
 import Cart from "./pages/cart";
 import OrderManage from "./admin/management/OrderManage";
 import CustomerManage from "./admin/management/CustomerManage";
+import OrderSuccess from "./pages/order-success";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,6 +43,14 @@ const router = createBrowserRouter([
         element: (
           <Private>
             <Cart />
+          </Private>
+        ),
+      },
+      {
+        path: "/order-success",
+        element: (
+          <Private>
+            <OrderSuccess />
           </Private>
         ),
       },

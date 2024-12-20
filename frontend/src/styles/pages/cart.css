@@ -109,4 +109,5 @@
   text-align: center;
   width: 100%;
   background-color: var(--blur-color);
+  cursor: pointer;
 }

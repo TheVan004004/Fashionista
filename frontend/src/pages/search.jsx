@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import Filter from "../components/Filter";
 import Popular2 from "../components/popular_2";
 import Product from "../product/product";
@@ -13,6 +13,7 @@ const Search = () => {
     setSort,
     listPopular,
     inputSearch,
+    setInputSearch,
     isSearch,
     setIsSearching,
   } = useContext(MainContext);
@@ -20,11 +21,17 @@ const Search = () => {
   const [sortInput, setSortInput] = useState("");
   const [limit, setLimit] = useState(16);
   useEffect(() => {
+    setIsSearching(false);
     window.scrollTo({ top: 0 });
+    return () => {
+      setInputSearch("");
+      setIsSearching(false);
+    };
   }, []);
   useEffect(() => {
     getProduct();
   }, [limit]);
+
   const getProduct = async () => {
     const res = await getProductsAPI({ page: 1, limit: limit });
     const data = res.data.data;

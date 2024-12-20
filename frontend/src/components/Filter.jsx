@@ -3,7 +3,12 @@ import "../styles/pages/filter.css";
 import { MainContext } from "../context/main.context";
 import Color from "./Color";
 import Size from "./Size";
-import { HiAdjustments, HiOutlineXCircle } from "react-icons/hi";
+import {
+  HiAdjustments,
+  HiChevronDown,
+  HiChevronUp,
+  HiOutlineXCircle,
+} from "react-icons/hi";
 import { getAllColorAPI } from "../services/product.api";
 const Filter = () => {
   const {
@@ -12,19 +17,29 @@ const Filter = () => {
     minPrice,
     maxPrice,
     colorFilter,
-    setColorFiler,
+    setColorFilter,
     setMinPrice,
     setMaxPrice,
+    categories,
+    categoryFilter,
+    setCategoryFilter,
   } = useContext(MainContext);
   const [openFilter, setOpenFilter] = useState(true);
   const [listColor, setListColor] = useState([]);
   useEffect(() => {
     getColor();
   }, []);
+  const [isViewMoreCategory, setIsViewMoreCategory] = useState(false);
   const getColor = async () => {
     const res = await getAllColorAPI();
     const data = await res.data.data;
     setListColor(data);
+  };
+  const removeFilter = async () => {
+    setColorFilter("");
+    setMinPrice("");
+    setMaxPrice("");
+    setCategoryFilter("");
   };
   return (
     <>
@@ -56,15 +71,47 @@ const Filter = () => {
           }}
           onClick={() => setOpenFilter(false)}
         />
+        <button
+          style={{
+            padding: "10px",
+            width: "100px",
+            backgroundColor: "var(--blur-color)",
+          }}
+          onClick={removeFilter}
+        >
+          Bỏ lọc
+        </button>
         <div className="filter-section">
-          <h4>Nhóm sản phẩm</h4>
+          <h4>Loại sản phẩm</h4>
           <div className="filter-group">
-            <label>
-              <input type="checkbox" name="category" /> Quần áo nam
-            </label>
-            <label>
-              <input type="checkbox" name="category" /> Quần áo nữ
-            </label>
+            {categories
+              .slice(0, isViewMoreCategory ? categories.length : 5)
+              .map((category, index) => {
+                return (
+                  <label>
+                    <input
+                      checked={category.name === categoryFilter}
+                      type="radio"
+                      name="category"
+                      onClick={() => setCategoryFilter(category.name)}
+                    />{" "}
+                    {category.name}
+                  </label>
+                );
+              })}
+          </div>
+          <div
+            style={{
+              width: "100%",
+              backgroundColor: "var(--blur-color)",
+              padding: "5px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={() => setIsViewMoreCategory((prev) => !prev)}
+          >
+            {isViewMoreCategory ? <HiChevronUp /> : <HiChevronDown />}
           </div>
         </div>
         <div className="filter-section">

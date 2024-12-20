@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import empty from "../access/empty.png";
+import { orderAPI } from "../services/order.api";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 export default function Payment({ listOrder, setListOrder }) {
+  const navigate = useNavigate();
   const [sum, setSum] = useState(0);
   useEffect(() => {
     let sumCurr = 0;
@@ -9,6 +13,13 @@ export default function Payment({ listOrder, setListOrder }) {
     }
     setSum(sumCurr);
   }, [listOrder]);
+  const order = async () => {
+    if (listOrder.length > 0) {
+      await orderAPI(listOrder.map((i) => i.item_id));
+      toast.success("Đặt hàng thành công");
+      navigate("/order-success");
+    }
+  };
   return (
     <div className="payment">
       <h2>Chi Tiết Đơn hàng</h2>
@@ -53,7 +64,9 @@ export default function Payment({ listOrder, setListOrder }) {
           </p>
         </div>
       )}
-      <div className="order">Mua hàng</div>
+      <div className="order" onClick={order}>
+        Mua hàng
+      </div>
     </div>
   );
 }

@@ -77,13 +77,13 @@ tr {
   border-bottom: 1px solid var(--blur-color);
 }
 
-tr:last-child,
-tr:first-child {
+tr:last-child {
   border: none;
 }
-/* tr:nth-child(even) {
-  background-color: white;
-} */
+
+tr:hover {
+  background-color: aliceblue;
+}
 
 th {
   background-color: var(--accent-color);
