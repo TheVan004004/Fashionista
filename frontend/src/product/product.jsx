@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { MainContext } from "../context/main.context";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import { viewDetailProductAPI } from "../services/services";
 
 const Product = (props) => {
   const { product, type } = props;
@@ -37,7 +36,7 @@ const Product = (props) => {
         />
         {product.sale > 0 && (
           <div className="sale">
-            <div>sale: {product.sale * 100}%</div>
+            <div>sale: {product.sale}%</div>
           </div>
         )}
         {isHover && (
@@ -71,7 +70,7 @@ const Product = (props) => {
                   color: "var(--sale-color)",
                 }}
               >
-                {(product.price * (1 - product.sale) * 1000).toLocaleString(
+                {((product.price * (100 - product.sale)) / 100).toLocaleString(
                   "vi-VN"
                 )}
                 đ
@@ -79,12 +78,12 @@ const Product = (props) => {
               <del
                 style={{ fontSize: "12px", fontWeight: "600", color: "gray" }}
               >
-                {(product.price * 1000).toLocaleString("vi-VN")}đ
+                {product.price.toLocaleString("vi-VN")}đ
               </del>
             </>
           ) : (
             <div style={{ fontSize: "14px" }}>
-              {(product.price * 1000).toLocaleString("vi-VN")}đ
+              {product.price.toLocaleString("vi-VN")}đ
             </div>
           )}
         </div>

@@ -1,0 +1,22 @@
+#return-header-page {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 1000px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: var(--blur-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  font-size: 36px;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: ease-in-out 500ms;
+}
+
+#return-header-page:hover {
+  font-size: 42px;
+}

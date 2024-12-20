@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainContext } from "../context/main.context";
+import { logoutAPI } from "../services/user.api";
 const DropdownMenu = ({ isOpenMenu, setIsOpenMenu }) => {
   const { setUser } = useContext(MainContext);
   const navigate = useNavigate();
   const logout = async () => {
+    logoutAPI();
     setUser("");
     navigate("/");
   };

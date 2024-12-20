@@ -4,12 +4,12 @@ import Popular2 from "../components/popular_2";
 import Product from "../product/product";
 import "../styles/pages/search.css";
 import { MainContext } from "../context/main.context";
-import { getAllProductsAPI } from "../services/services";
 import empty from "../access/empty.png";
+import { getProductsAPI } from "../services/product.api";
 const Search = () => {
   const {
-    listResult,
-    setListResult,
+    listResultSearch,
+    setListResultSearch,
     setSort,
     listPopular,
     inputSearch,
@@ -17,16 +17,19 @@ const Search = () => {
     setIsSearching,
   } = useContext(MainContext);
   const [listInit, setListInit] = useState([]);
+  const [sortInput, setSortInput] = useState("");
+  const [limit, setLimit] = useState(16);
   useEffect(() => {
-    getAllProduct();
     window.scrollTo({ top: 0 });
   }, []);
-  const getAllProduct = async () => {
-    const res = await getAllProductsAPI();
-    const data = await res.data;
+  useEffect(() => {
+    getProduct();
+  }, [limit]);
+  const getProduct = async () => {
+    const res = await getProductsAPI({ page: 1, limit: limit });
+    const data = res.data.data;
     setListInit(data);
   };
-  const [sortInput, setSortInput] = useState("");
   const handleSort = (value) => {
     setSortInput(value);
     switch (value) {
@@ -69,9 +72,9 @@ const Search = () => {
                 </select>
               </div>
             </div>
-            {listResult.length > 0 ? (
+            {listResultSearch.length > 0 ? (
               <div className="product-list">
-                {listResult.map((product, index) => {
+                {listResultSearch.map((product, index) => {
                   return (
                     <Product
                       product={product}
@@ -101,7 +104,12 @@ const Search = () => {
                 );
               })}
             </div>
-            <button className="view-more">Xem thêm</button>
+            <button
+              className="view-more"
+              onClick={() => setLimit((prev) => prev + 16)}
+            >
+              Xem thêm
+            </button>
           </>
         )}
       </div>

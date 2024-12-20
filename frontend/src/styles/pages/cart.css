@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: left;
   gap: 20px;
-  width: 30vw;
+  width: 40vw;
   border-left: 1px solid var(--text-color);
   top: 50px;
   right: 0px;
@@ -20,7 +20,7 @@
   overflow-x: hidden;
 }
 
-#cart .list-product {
+#cart .container-list-product {
   padding: 40px;
   flex-grow: 1;
   display: flex;
@@ -28,37 +28,71 @@
   gap: 25px;
 }
 
+#cart .list-product {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
 #cart .product {
+  flex-shrink: 0;
+  position: relative;
+  padding: 10px 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 150px;
   gap: 20px;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  border-radius: 10px;
 }
 #cart .product .container-product {
+  flex-shrink: 0;
   flex-grow: 1;
   display: flex;
   gap: 10px;
 }
 
-#cart table {
-  table-layout: auto;
-  border-collapse: collapse;
+#cart .product button {
+  background-color: var(--sale-color);
+  width: 28px;
+  height: 28px;
+  border-radius: 1000px;
+  overflow: hidden;
+  color: white;
+  font-size: 18px;
+  transition: ease-in-out 300ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-#cart td,
-#cart th {
-  border: 1px solid var(--text-color);
+
+#cart .product button:hover {
+  width: 42px;
+  height: 42px;
+  font-size: 24px;
+}
+
+#cart table {
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+#cart td {
   width: auto;
   text-align: left;
   padding: 10px;
 }
-#cart tr:nth-child(odd) {
-  background-color: rgb(236, 236, 236);
+#cart tr {
+  border: none;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
-#cart tr:nth-child(even) {
-  background-color: transparent;
+#cart tr:last-child {
+  background-color: var(--blur-color);
+  padding: 20px;
+  height: 50px;
+  font-size: large;
+  font-weight: 600;
 }
 
 #cart th {

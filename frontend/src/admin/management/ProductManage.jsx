@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getAllProductsAPI } from "../../services/services";
 import { HiOutlineTrash, HiPencilAlt } from "react-icons/hi";
+import { getProductsAPI } from "../../services/product.api";
 export default function ProductManage() {
   const [listProducts, setListProducts] = useState([]);
   const [listProductsCache, setListProductsCache] = useState([]);
@@ -10,29 +10,12 @@ export default function ProductManage() {
     getAllProduct();
   }, []);
   const getAllProduct = async () => {
-    const res = await getAllProductsAPI();
-    console.log(res.data);
-    setListProducts(res.data);
-    setListProductsCache(res.data);
+    const res = await getProductsAPI();
+    const data = res.data.data;
+    setListProducts(data);
+    setListProductsCache(data);
   };
-  const toogleStateProductInCache = (index) => {
-    setListProductsCache((prev) => {
-      const newList = [...prev];
-      if (newList[index]?.status === "delete") {
-        newList[index] = {
-          ...prev[index],
-          status: undefined,
-        };
-        return newList;
-      }
 
-      newList[index] = {
-        ...prev[index],
-        status: "delete",
-      };
-      return newList;
-    });
-  };
   const handleSave = async () => {
     setIsSaving(true);
     let isChange = false;
@@ -108,12 +91,11 @@ export default function ProductManage() {
         <thead>
           <tr>
             <th>Tên sản phẩm</th>
-            <th>Loại</th>
-            <th>Giá (VNĐ)</th>
-            <th>Giảm giá</th>
-            <th>Tổng lượt mua</th>
-            <th>Tồn kho</th>
-            <th style={{ width: "60px" }}></th>
+            <th style={{ width: "120px" }}>Loại</th>
+            <th style={{ width: "120px" }}>Giá (VNĐ)</th>
+            <th style={{ width: "100px" }}>Giảm giá</th>
+            <th style={{ width: "140px" }}>Tổng lượt mua</th>
+            <th style={{ width: "120px" }}></th>
           </tr>
         </thead>
         <tbody>
@@ -134,10 +116,11 @@ export default function ProductManage() {
                     }
                   ></input>
                 </td>
-                <td style={{ width: "100px" }}>{product.category_name}</td>
-                <td style={{ width: "100px" }}>
+                <td>{product.category_name}</td>
+                <td style={{ textAlign: "center" }}>
                   <input
-                    value={product.price * 1000}
+                    style={{ textAlign: "center" }}
+                    value={product.price}
                     onChange={(e) =>
                       onChangeDataInCache(
                         {
@@ -149,7 +132,7 @@ export default function ProductManage() {
                     }
                   ></input>
                 </td>
-                <td style={{ width: "80px", textAlign: "center" }}>
+                <td style={{ textAlign: "center" }}>
                   <select
                     value={product.sale}
                     onChange={(e) =>
@@ -173,18 +156,9 @@ export default function ProductManage() {
                     <option value={0.9}>90%</option>
                   </select>
                 </td>
-                <td style={{ width: "120px", textAlign: "center" }}>
-                  {product.total_buyturn}
-                </td>
-                <td style={{ width: "120px", textAlign: "center" }}>
-                  {product.quantity}
-                </td>
+                <td style={{ textAlign: "center" }}>{product.total_buyturn}</td>
                 <td className="action">
                   <HiPencilAlt className="icon edit" />
-                  <HiOutlineTrash
-                    className="icon remove"
-                    onClick={() => toogleStateProductInCache(index)}
-                  />
                 </td>
               </tr>
             );

@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { validate, isRequired } from "../validation";
 import { HiOutlineXCircle } from "react-icons/hi";
-import { loginAPI } from "../services/services";
 import { MainContext } from "../context/main.context";
 import { toast } from "react-toastify";
+import { loginAPI } from "../services/user.api";
 const Login = ({ setBoxUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,9 +18,10 @@ const Login = ({ setBoxUser }) => {
     try {
       if (nameError === "" && passwordError === "") {
         const res = await loginAPI(username, password);
-        const data = await res.data.user;
+        const data = res.data.data;
+        console.log(res);
         setUser(data);
-        setBoxUser("");
+        setBoxUser(false);
       }
       toast.success("Đăng nhập thành công");
     } catch (e) {

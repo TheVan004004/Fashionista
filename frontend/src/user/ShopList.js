@@ -1,6 +1,4 @@
-
 const ShopList = () => {
-
   return (
     <>
       <div className="title">
@@ -12,12 +10,14 @@ const ShopList = () => {
       </div>
       <div className="body">
         <div>
-          <img src={`${process.env.PUBLIC_URL}/img/completed-task.png`} alt="My Image" />
+          <img
+            src={`${process.env.PUBLIC_URL}/img/completed-task.png`}
+            alt="My Image"
+          />
         </div>
         <div className="text">Chưa có đơn hàng nào</div>
       </div>
     </>
-
-  )
-}
-export default ShopList
+  );
+};
+export default ShopList;

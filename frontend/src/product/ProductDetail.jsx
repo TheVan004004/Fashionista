@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../context/main.context";
 import { useNavigate } from "react-router-dom";
-import { addToCartAPI, viewDetailProductAPI } from "../services/services";
 import { toast } from "react-toastify";
+import { viewDetailProductAPI } from "../services/product.api";
+import { addToCartAPI } from "../services/cart.api";
 const ProductDetail = () => {
   const navigate = useNavigate();
   const { user, productDetail, setProductDetail } = useContext(MainContext);
+  const [productDetailId, setProductDetailId] = useState("");
   const [image, setImage] = useState("");
   const [colorPicked, setColorPicked] = useState("");
   const [sizePicked, setSizePicked] = useState("");
@@ -14,6 +16,7 @@ const ProductDetail = () => {
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
+  console.log(productDetail);
   useEffect(() => {
     getProduct();
   }, [colorPicked, sizePicked]);
@@ -25,20 +28,24 @@ const ProductDetail = () => {
         size: sizePicked,
         color: colorPicked.hex_code,
       });
-      setImage(res.data.image);
+      const data = res.data.data;
+      setImage(data.image);
+      setProductDetailId(data.id);
     } catch (e) {
       console.log(e);
     }
   };
   const addToCart = async () => {
     try {
-      const res = await addToCartAPI({
-        productDetail_id: productDetail.id,
+      await addToCartAPI({
+        product_details_id: productDetailId,
         quantity: quantity,
         user_id: user.id,
       });
       toast.success("Thêm vào giỏ hàng thành công");
-    } catch (e) {}
+    } catch (e) {
+      toast.error(e.response.data.message);
+    }
   };
   return (
     <>
@@ -70,14 +77,13 @@ const ProductDetail = () => {
                       }}
                     >
                       {(
-                        productDetail.price *
-                        (1 - productDetail.sale) *
-                        1000
+                        (productDetail.price * (100 - productDetail.sale)) /
+                        100
                       ).toLocaleString("vi-VN")}
                       đ
                     </div>
                     <del style={{ fontSize: "16px", color: "gray" }}>
-                      {(productDetail.price * 1000).toLocaleString("vi-VN")}đ
+                      {productDetail.price.toLocaleString("vi-VN")}đ
                     </del>
                     <div
                       style={{
@@ -88,12 +94,12 @@ const ProductDetail = () => {
                         color: "red",
                       }}
                     >
-                      -{productDetail.sale * 100}%
+                      -{productDetail.sale}%
                     </div>
                   </>
                 ) : (
                   <div style={{ fontSize: "14px" }}>
-                    {(productDetail.price * 1000).toLocaleString("vi-VN")}đ
+                    {productDetail.price.toLocaleString("vi-VN")}đ
                   </div>
                 )}
               </div>
@@ -189,11 +195,14 @@ const ProductDetail = () => {
                 <div
                   className="submit"
                   onClick={() => {
-                    if (sizePicked === "") return;
-                    addToCart();
+                    if (sizePicked !== "" && colorPicked !== "") addToCart();
                   }}
                 >
-                  {sizePicked === "" ? "Chọn kích thước" : "Thêm vào giỏ hàng"}
+                  {colorPicked === ""
+                    ? "Chọn màu sắc"
+                    : sizePicked === ""
+                    ? "Chọn kích thước"
+                    : "Thêm vào giỏ hàng"}
                 </div>
               </div>
             </div>

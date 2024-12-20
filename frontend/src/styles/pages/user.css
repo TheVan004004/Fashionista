@@ -54,8 +54,7 @@
 
 #user {
   display: grid;
-  grid-template-columns: 0.5fr 2fr;
-  height: 700px;
+  grid-template-columns: 1fr 4fr;
   border: 1px solid black;
   border-left: none;
   border-right: none;
@@ -115,6 +114,9 @@
 #right-section .left-body {
   display: grid;
   padding: 10px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  border-radius: 20px;
 }
 
 #save {
@@ -173,12 +175,14 @@
 #profile,
 #profile table {
   width: 100%;
+  box-shadow: none;
 }
 
 #profile td,
-#customers th {
+#customers th,
+#profile tr {
   border: none;
-  padding: 15px;
+  padding: 5px 20px;
 }
 
 #profile tr {
@@ -194,9 +198,9 @@
 
 #profile tr td:first-child {
   flex-shrink: 0;
-  width: 150px;
+  width: 200px;
   text-align: right;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
 }
 #profile tr td:last-child {
@@ -224,23 +228,6 @@
   padding: 15px;
   background-color: var(--blur-color);
   transition: ease-in-out 500ms;
-}
-
-#profile .right-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-}
-
-#profile .right-body .container-avatar {
-  width: 200px;
-  height: 200px;
-  border-radius: 1000px;
-  border: 2px black;
-  margin-bottom: 10px;
 }
 
 #profile button {
