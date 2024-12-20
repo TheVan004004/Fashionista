@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/layout/header.css";
 import { useContext, useState } from "react";
-import { searchAPI } from "../services/services";
 import { MainContext } from "../context/main.context";
 import UserBox from "../user/user.box";
 import {
@@ -17,6 +16,7 @@ const Header = () => {
   const [isSearch, setIsSearch] = useState(false);
   const [boxUser, setBoxUser] = useState("");
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  console.log(isOpenMenu);
   const { inputSearch, setInputSearch, search, user, setIsSearching } =
     useContext(MainContext);
   return (
@@ -69,56 +69,39 @@ const Header = () => {
           >
             <HiOutlineHome />
           </div>
-          <div
-            className="icon"
-            onClick={() => {
-              navigate("/cart");
-            }}
-            name="bag-icon"
-          >
-            <HiOutlineShoppingBag />
-          </div>
-          <div className="icon" name="user-icon">
-            {user ? (
-              <>
-                <div
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "gray",
-                    padding: "5px",
-                    borderRadius: "1000px",
-                    textAlign: "center",
-                  }}
+          {user ? (
+            <>
+              <div
+                className="icon"
+                onClick={() => {
+                  navigate("/cart");
+                }}
+                name="bag-icon"
+              >
+                <HiOutlineShoppingBag />
+              </div>
+              <div className="icon" name="user-icon">
+                <HiOutlineMenu
                   onClick={() => {
-                    // navigate("/user")
-                    // setIsSearch(false)
-                    setIsOpenMenu(!isOpenMenu);
+                    setIsOpenMenu((prev) => !prev);
                   }}
-                >
-                  U
-                </div>
+                />
                 <DropdownMenu
                   isOpenMenu={isOpenMenu}
                   setIsOpenMenu={setIsOpenMenu}
                 ></DropdownMenu>
-              </>
-            ) : (
-              <>
-                <HiOutlineUserCircle
-                  onClick={() => {
-                    setBoxUser("isLogin");
-                  }}
-                />
-              </>
-            )}
-          </div>
-          <div className="icon" name="menu-icon">
-            <HiOutlineMenu />
-          </div>
+              </div>
+            </>
+          ) : (
+            <div className="icon" name="user-icon">
+              <HiOutlineUserCircle
+                onClick={() => {
+                  setBoxUser("isLogin");
+                  setIsOpenMenu(false);
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
       <UserBox boxUser={boxUser} setBoxUser={setBoxUser} />

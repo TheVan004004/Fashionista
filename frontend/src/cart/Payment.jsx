@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import empty from "../access/empty.png";
 export default function Payment({ listOrder, setListOrder }) {
+  const [sum, setSum] = useState(0);
+  useEffect(() => {
+    let sumCurr = 0;
+    for (let i = 0; i < listOrder.length; i++) {
+      sumCurr += (listOrder[i].price * (100 - listOrder[i].sale)) / 100;
+    }
+    setSum(sumCurr);
+  }, [listOrder]);
   return (
     <div className="payment">
       <h2>Chi Tiết Đơn hàng</h2>
@@ -18,19 +26,19 @@ export default function Payment({ listOrder, setListOrder }) {
             <tr>
               <td>{product.name}</td>
               <td>
-                {(product.price * (1 - product.sale) * 1000).toLocaleString(
+                {((product.price * (100 - product.sale)) / 100).toLocaleString(
                   "vi-VN"
                 )}
                 đ
               </td>
-              <td>count</td>
+              <td>{product.quantity_item}</td>
             </tr>
           );
         })}
         {listOrder.length !== 0 && (
           <tr>
             <td colspan="3" style={{ textAlign: "right" }}>
-              Sum: $180
+              Tổng: {sum.toLocaleString("vi-VN")}đ
             </td>
           </tr>
         )}

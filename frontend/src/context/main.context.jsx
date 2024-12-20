@@ -1,10 +1,10 @@
 import { createContext, useEffect, useState } from "react";
+import { getUserProfileAPI } from "../services/user.api";
 import {
-  searchAPI,
-  getAllProductsAPI,
   getMostPopularAPI,
   getMostSaleAPI,
-} from "../services/services";
+  searchAPI,
+} from "../services/product.api";
 
 export const MainContext = createContext({});
 
@@ -13,7 +13,7 @@ export const ContextWrapper = (props) => {
   const [size, setSize] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [listResult, setListResult] = useState([]);
+  const [listResultSearch, setListResultSearch] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const [productDetail, setProductDetail] = useState(
     JSON.parse(localStorage.getItem("product_detail") || "") || ""
@@ -21,12 +21,10 @@ export const ContextWrapper = (props) => {
   const [sort, setSort] = useState("most_buyturn");
   const [listPopular, setListPopular] = useState([]);
   const [listBestSaler, setListBestSaler] = useState([]);
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user") || "") || ""
-  );
+  const [user, setUser] = useState("");
   const [isSearch, setIsSearching] = useState(false);
-  console.log(user);
   useEffect(() => {
+    getUserProfile();
     getProductPopular();
     getBestSaler();
   }, []);
@@ -37,17 +35,24 @@ export const ContextWrapper = (props) => {
   useEffect(() => {
     localStorage.setItem("product_detail", JSON.stringify(productDetail));
   }, [productDetail]);
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
+  const getUserProfile = async () => {
+    try {
+      const res = await getUserProfileAPI();
+      const data = res.data.data;
+      if (data) setUser(data[0]);
+    } catch (e) {
+      setUser("");
+      console.log("check", e.response);
+    }
+  };
   const getProductPopular = async () => {
     const res = await getMostPopularAPI();
-    const data = await res.data;
+    const data = await res.data.data;
     setListPopular(data);
   };
   const getBestSaler = async () => {
     const res = await getMostSaleAPI();
-    const data = await res.data;
+    const data = await res.data.data;
     setListBestSaler(data);
   };
   const search = async () => {
@@ -65,8 +70,8 @@ export const ContextWrapper = (props) => {
         sort
       );
       if (res && res.data) {
-        const data = res.data;
-        setListResult(data);
+        const data = res.data.data;
+        setListResultSearch(data);
       }
       setIsSearching(true);
     } catch (e) {}
@@ -84,8 +89,8 @@ export const ContextWrapper = (props) => {
         setMinPrice,
         maxPrice,
         setMaxPrice,
-        listResult,
-        setListResult,
+        listResultSearch,
+        setListResultSearch,
         search,
         inputSearch,
         setInputSearch,

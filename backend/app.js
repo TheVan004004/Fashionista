@@ -8,7 +8,7 @@ const app = express();
 env.config();
 const port = process.env.PORT;
 const hostname = process.env.HOST_NAME;
-
+console.log(port, hostname);
 
 //config template engine
 configEngine(app);
@@ -21,6 +21,5 @@ app.use(passport.session());
 app.use("/", router);
 
 app.listen(port, hostname, () => {
-    console.log(`API is running at http://${hostname}:${port}`);
+  console.log(`API is running at http://${hostname}:${port}`);
 });
-

@@ -1,11 +1,10 @@
 import { useContext, useState } from "react";
 import { MainContext } from "../context/main.context";
 import { HiPencil } from "react-icons/hi";
-import { updateDataUserAPI } from "../services/services";
+import { updateDataUserAPI } from "../services/user.api";
 
 const Profile = () => {
   const { user } = useContext(MainContext);
-  const [username, setUsername] = useState(user.username);
   const [fullname, setFullname] = useState(user.name);
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
@@ -23,6 +22,7 @@ const Profile = () => {
     });
     setIsEdit(false);
   };
+  console.log(user);
   return (
     <div id="profile">
       <div className="head">
@@ -32,8 +32,7 @@ const Profile = () => {
       <div
         style={{
           position: "relative",
-          display: "grid",
-          gridTemplateColumns: "1.5fr 1fr",
+          padding: "10px 8vw",
           width: "100%",
           gap: "10px",
         }}
@@ -135,8 +134,27 @@ const Profile = () => {
               </td>
             </tr>
           </table>
+          <div
+            style={{
+              padding: "20px",
+              zIndex: "50",
+              width: "100%",
+              display: "flex",
+              justifyContent: "right",
+              gap: "10px",
+            }}
+          >
+            <button
+              onClick={() => {
+                setIsEdit(true);
+              }}
+            >
+              Chỉnh sửa thông tin
+            </button>
+            <button onClick={updateDataUser}>Lưu thông tin</button>
+          </div>
         </div>
-        <div className="right-body">
+        {/* <div className="right-body">
           <div
             style={{
               display: "flex",
@@ -181,7 +199,7 @@ const Profile = () => {
             </button>
             <button onClick={updateDataUser}>Lưu thông tin</button>
           </div>
-        </div>
+        </div> */}
         <div
           style={{
             position: "absolute",

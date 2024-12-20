@@ -4,7 +4,7 @@ import { MainContext } from "../context/main.context";
 import Color from "./Color";
 import Size from "./Size";
 import { HiAdjustments, HiOutlineXCircle } from "react-icons/hi";
-import { getAllColorAPI } from "../services/services";
+import { getAllColorAPI } from "../services/product.api";
 const Filter = () => {
   const {
     color,
@@ -23,7 +23,7 @@ const Filter = () => {
   }, []);
   const getColor = async () => {
     const res = await getAllColorAPI();
-    const data = await res.data;
+    const data = await res.data.data;
     setListColor(data);
   };
   return (

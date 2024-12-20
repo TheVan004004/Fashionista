@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainContext } from "../context/main.context";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-
 const ProductDiscount = ({ product }) => {
   const { productDetail, setProductDetail } = useContext(MainContext);
   const navigate = useNavigate();
@@ -33,13 +32,16 @@ const ProductDiscount = ({ product }) => {
       </div>
       <div className="text">
         <p style={{ fontSize: "16px", fontWeight: "600", color: "red" }}>
-          {(product.price * (1 - product.sale) * 1000).toLocaleString("vi-VN")}đ
+          {((product.price * (100 - product.sale)) / 100).toLocaleString(
+            "vi-VN"
+          )}
+          đ
         </p>
         <del style={{ fontSize: "12px", fontWeight: "600", color: "gray" }}>
-          {(product.price * 1000).toLocaleString("vi-VN")}đ
+          {product.price.toLocaleString("vi-VN")}đ
         </del>
       </div>
-      <div className="sale">-{product.sale * 100}%</div>
+      <div className="sale">-{product.sale}%</div>
     </div>
   );
 };

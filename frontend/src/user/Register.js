@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { validate, isRequired, isConfirmed, minChar } from "../validation";
-import { signUpAPI } from "../services/services";
 import { HiOutlineXCircle } from "react-icons/hi";
 import { MainContext } from "../context/main.context";
 import { toast } from "react-toastify";
+import { signUpAPI } from "../services/user.api";
 function Register({ setBoxUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ function Register({ setBoxUser }) {
     ) {
       try {
         const res = await signUpAPI(username, password);
-        const data = await res.data.user;
+        const data = await res.data.data;
         setUser(data);
         setBoxUser("");
         toast.success("Đăng ký thành công");

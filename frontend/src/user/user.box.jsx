@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../styles/pages/user.css";
 import Login from "./Login";
 import Register from "./Register";
