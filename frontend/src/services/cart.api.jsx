@@ -24,13 +24,14 @@ export const deleteItemInCartAPI = (item_id) => {
   });
 };
 
-// export const updateItemCartAPI = ({ product_details_id, quantity }) => {
-//   const data = {
-//     product_details_id: product_details_id,
-//     quantity: quantity,
-//   };
+export const updateItemCartAPI = ({ item_id, color, size, quantity }) => {
+  const data = {
+    color: color,
+    size: size,
+    quantity: quantity,
+  };
 
-//   return axios.post(`${url}api/cart/${item_id}`, data, {
-//     withCredentials: true,
-//   });
-// };
+  return axios.patch(`${url}api/cart/${item_id}/updateCartItem`, data, {
+    withCredentials: true,
+  });
+};

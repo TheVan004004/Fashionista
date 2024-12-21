@@ -30,6 +30,7 @@ const Product = (props) => {
             width: "100%",
             height: "100%",
             objectFit: "cover",
+            scale: isHover ? "120%" : "100%",
           }}
           src={product.image}
           alt=""

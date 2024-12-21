@@ -8,6 +8,7 @@ export const searchAPI = (
   minprice,
   maxprice,
   sort,
+  category,
   page,
   limit
 ) => {
@@ -18,6 +19,7 @@ export const searchAPI = (
       size: size,
       price_range: minprice !== "" ? `${minprice}-${maxprice}` : "",
       sort: sort,
+      category_name: category,
       page: page,
       limit: limit,
     },
@@ -41,6 +43,22 @@ export const getProductsAPI = (input) => {
 
 export const getAllColorAPI = () => {
   return axios.get(`${url}api/collection/color`);
+};
+
+export const getAllCategoryrAPI = () => {
+  return axios.get(`${url}api/collection/category`);
+};
+
+export const getProductPopularByCategoryAPI = (category_name) => {
+  const data = {
+    params: {
+      sort: "most_buyturn",
+      category_name: category_name,
+      page: 1,
+      limit: 5,
+    },
+  };
+  return axios.get(`${url}api/collection`, data);
 };
 
 export const getMostPopularAPI = () => {

@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineTrash, HiPencilAlt } from "react-icons/hi";
+import { getAllUserAPI } from "../../services/admin.api";
 export default function CustomerManage() {
-  const listUsers = [1, 2, 3, 4, 5, 6];
+  const [listUsers, setListUsers] = useState([]);
+  useEffect(() => {
+    getUser();
+  }, []);
+  const getUser = async () => {
+    const res = await getAllUserAPI();
+    setListUsers(res.data.data);
+  };
   return (
     <>
       <h2>Khách hàng:</h2>
@@ -17,14 +25,20 @@ export default function CustomerManage() {
           </tr>
         </thead>
         <tbody>
-          {listUsers.map((product, index) => {
+          {listUsers.map((user, index) => {
             return (
               <tr>
-                <td>tên tài khoản</td>
-                <td>Họ tên khách hàng</td>
-                <td>Giới tính</td>
-                <td>Địa chỉ</td>
-                <td>Luợt mua hàng</td>
+                <td>{user.username}</td>
+                <td>{user.fullname || "Không"}</td>
+                <td>
+                  {user.sex === "male"
+                    ? "Nam"
+                    : user.sex === "female"
+                    ? "Nữ"
+                    : "Không"}
+                </td>
+                <td>{user.address || "Không"}</td>
+                <td>{user.buyturn}</td>
                 <td className="action">
                   <HiPencilAlt className="icon edit" />
                   <HiOutlineTrash className="icon remove" />

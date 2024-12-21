@@ -14,9 +14,8 @@ import DropdownMenu from "../components/DropdownMenu";
 const Header = () => {
   const navigate = useNavigate();
   const [isSearch, setIsSearch] = useState(false);
-  const [boxUser, setBoxUser] = useState("");
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
-  console.log(isOpenMenu);
+  const [boxUser, setBoxUser] = useState("isLogin");
+  const [isOpenModalUser, setIsOpenModalUser] = useState(false);
   const { inputSearch, setInputSearch, search, user, setIsSearching } =
     useContext(MainContext);
   return (
@@ -39,7 +38,6 @@ const Header = () => {
                 value={inputSearch}
                 onChange={(e) => {
                   setInputSearch(e.target.value);
-                  // setIsSearching(false)
                 }}
               />
             </div>
@@ -80,31 +78,33 @@ const Header = () => {
               >
                 <HiOutlineShoppingBag />
               </div>
-              <div className="icon" name="user-icon">
-                <HiOutlineMenu
-                  onClick={() => {
-                    setIsOpenMenu((prev) => !prev);
-                  }}
-                />
-                <DropdownMenu
-                  isOpenMenu={isOpenMenu}
-                  setIsOpenMenu={setIsOpenMenu}
-                ></DropdownMenu>
-              </div>
+              <label
+                htmlFor="menu-user-check"
+                className="icon"
+                name="user-icon"
+              >
+                <HiOutlineMenu />
+                <DropdownMenu></DropdownMenu>
+              </label>
             </>
           ) : (
             <div className="icon" name="user-icon">
               <HiOutlineUserCircle
                 onClick={() => {
+                  setIsOpenModalUser(true);
                   setBoxUser("isLogin");
-                  setIsOpenMenu(false);
                 }}
               />
             </div>
           )}
         </div>
       </div>
-      <UserBox boxUser={boxUser} setBoxUser={setBoxUser} />
+      <UserBox
+        boxUser={boxUser}
+        setBoxUser={setBoxUser}
+        isOpenModalUser={isOpenModalUser}
+        setIsOpenModalUser={setIsOpenModalUser}
+      />
     </>
   );
 };

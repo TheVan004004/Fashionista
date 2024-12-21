@@ -4,7 +4,7 @@ import { HiOutlineXCircle } from "react-icons/hi";
 import { MainContext } from "../context/main.context";
 import { toast } from "react-toastify";
 import { signUpAPI } from "../services/user.api";
-function Register({ setBoxUser }) {
+function Register({ boxUser, setBoxUser, setIsOpenModalUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -33,7 +33,7 @@ function Register({ setBoxUser }) {
         const res = await signUpAPI(username, password);
         const data = await res.data.data;
         setUser(data);
-        setBoxUser("");
+        setIsOpenModalUser(false);
         toast.success("Đăng ký thành công");
       } catch (e) {
         toast.error(e.response.data.message);
@@ -41,7 +41,7 @@ function Register({ setBoxUser }) {
     }
   };
   return (
-    <div className="register-container">
+    <>
       <div
         style={{
           display: "flex",
@@ -58,7 +58,7 @@ function Register({ setBoxUser }) {
             alignItems: "center",
             cursor: "pointer",
           }}
-          onClick={() => setBoxUser("")}
+          onClick={() => setIsOpenModalUser(false)}
         />
       </div>
       <div className="container_input">
@@ -97,7 +97,10 @@ function Register({ setBoxUser }) {
         />
         {errorPasswordConfirmMessage && <p>{errorPasswordConfirmMessage}</p>}
       </div>
-      <button onClick={handleSubmit}> Register </button>
+      <button className="btn10" onClick={handleSubmit}>
+        {" "}
+        Register{" "}
+      </button>
       <div
         style={{
           display: "flex",
@@ -111,7 +114,7 @@ function Register({ setBoxUser }) {
           <a onClick={() => setBoxUser("isLogin")}>Đăng nhập</a>
         </p>
       </div>
-    </div>
+    </>
   );
 }
 export default Register;

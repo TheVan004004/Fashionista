@@ -12,7 +12,7 @@
   gap: 20px;
   width: 40vw;
   border-left: 1px solid var(--text-color);
-  top: 50px;
+  top: 60px;
   right: 0px;
   z-index: 50;
   height: calc(100vh - 60px);
@@ -109,4 +109,5 @@
   text-align: center;
   width: 100%;
   background-color: var(--blur-color);
+  cursor: pointer;
 }

@@ -1,47 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { HiOutlineTrash, HiPencilAlt } from "react-icons/hi";
-import { getProductsAPI } from "../../services/product.api";
+import { HiPencilAlt } from "react-icons/hi";
+import { HiOutlineEye } from "react-icons/hi";
+import { getProductsAPI } from "../../../services/product.api";
+import { updateProductAPI } from "../../../services/admin.api";
+import ModalProduct from "./ModalProduct";
 export default function ProductManage() {
   const [listProducts, setListProducts] = useState([]);
   const [listProductsCache, setListProductsCache] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isOpenModalProduct, setIsOpenModalProduct] = useState(false);
+  const [productView, setProductView] = useState("");
   useEffect(() => {
     getAllProduct();
   }, []);
   const getAllProduct = async () => {
-    const res = await getProductsAPI();
+    const res = await getProductsAPI({ limit: 1000, page: 1 });
     const data = res.data.data;
     setListProducts(data);
     setListProductsCache(data);
   };
 
   const handleSave = async () => {
+    console.log("check");
     setIsSaving(true);
     let isChange = false;
     try {
-      //   for (let index = 0; index < listProductsCache.length; index++) {
-      //     if (listProductsCache?.[index]?.status === "delete") {
-      //       await deleteProductAPI(listProductsCache?.[index].id);
-      //       isChange = true;
-      //       continue;
-      //     }
-      //     // if (
-      //     //   listProductsCache?.[index].name !== listProducts?.[index].name ||
-      //     //   listProductsCache?.[index].discount !==
-      //     //     listProducts?.[index].discount ||
-      //     //   listProductsCache?.[index].price !== listProducts?.[index].price
-      //     // ) {
-      //     //   await updateProductAPI({
-      //     //     product_id: listProductsCache?.[index].id,
-      //     //     name: listProductsCache?.[index].name,
-      //     //     price: listProductsCache?.[index].price,
-      //     //     discount: listProductsCache?.[index].discount,
-      //     //   });
-      //     //   isChange = true;
-      //     // }
-      //   }
-      //   if (isChange) getProducts();
+      for (let index = 0; index < listProductsCache.length; index++) {
+        if (
+          listProductsCache?.[index].name !== listProducts?.[index].name ||
+          listProductsCache?.[index].sale !== listProducts?.[index].sale ||
+          listProductsCache?.[index].price !== listProducts?.[index].price
+        ) {
+          await updateProductAPI({
+            product_id: listProductsCache[index].id,
+            newName: listProductsCache[index].name,
+            newPrice: listProductsCache[index].price,
+            newSale: listProductsCache[index].sale,
+          });
+          isChange = true;
+        }
+      }
+      if (isChange) getAllProduct();
     } catch (e) {
       console.log(e);
     }
@@ -49,7 +49,6 @@ export default function ProductManage() {
     setIsSaving(false);
     setIsEdit(false);
   };
-  console.log(listProductsCache);
   const onChangeDataInCache = (newProduct, index) => {
     setListProductsCache((prev) => {
       const newList = [...prev];
@@ -76,18 +75,26 @@ export default function ProductManage() {
           }}
         >
           <button
-            className={isEdit ? "active" : ""}
+            className={isEdit ? "btn12 active" : "btn12"}
             onClick={() => setIsEdit(true)}
           >
             Chỉnh sửa
           </button>
-          <button onClick={() => setIsEdit(false)}>Lưu thay đổi</button>
+          <button onClick={handleSave} className="btn10">
+            Lưu thay đổi
+          </button>
         </div>
 
         <button>Thêm sản phẩm mới</button>
       </div>
 
-      <table style={{ marginTop: "10px", position: "relative" }}>
+      <table
+        style={{
+          marginTop: "10px",
+          position: "relative",
+          boxShadow: !isEdit && "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
+        }}
+      >
         <thead>
           <tr>
             <th>Tên sản phẩm</th>
@@ -95,13 +102,16 @@ export default function ProductManage() {
             <th style={{ width: "120px" }}>Giá (VNĐ)</th>
             <th style={{ width: "100px" }}>Giảm giá</th>
             <th style={{ width: "140px" }}>Tổng lượt mua</th>
-            <th style={{ width: "120px" }}></th>
+            <th style={{ width: "60px" }}></th>
           </tr>
         </thead>
         <tbody>
           {listProductsCache?.map((product, index) => {
             return (
-              <tr className={product?.status === "delete" ? "pre_delete" : ""}>
+              <tr
+                className={product?.status === "delete" ? "pre_delete" : ""}
+                key={product.id}
+              >
                 <td>
                   <input
                     value={product.name}
@@ -145,39 +155,50 @@ export default function ProductManage() {
                       )
                     }
                   >
-                    <option value={0.1}>10%</option>
-                    <option value={0.2}>20%</option>
-                    <option value={0.3}>30%</option>
-                    <option value={0.4}>40%</option>
-                    <option value={0.5}>50%</option>
-                    <option value={0.6}>60%</option>
-                    <option value={0.7}>70%</option>
-                    <option value={0.8}>80%</option>
-                    <option value={0.9}>90%</option>
+                    <option value={10}>10%</option>
+                    <option value={20}>20%</option>
+                    <option value={30}>30%</option>
+                    <option value={40}>40%</option>
+                    <option value={50}>50%</option>
+                    <option value={60}>60%</option>
+                    <option value={70}>70%</option>
+                    <option value={80}>80%</option>
+                    <option value={90}>90%</option>
                   </select>
                 </td>
                 <td style={{ textAlign: "center" }}>{product.total_buyturn}</td>
-                <td className="action">
-                  <HiPencilAlt className="icon edit" />
+                <td className="action" style={{ backgroundColor: "aliceblue" }}>
+                  <HiOutlineEye
+                    className="icon edit"
+                    onClick={() => {
+                      setIsOpenModalProduct(true);
+                      setProductView(product);
+                    }}
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
         <div
+          className="glass_effect"
           style={{
+            borderRadius: "10px",
             position: "absolute",
             top: "0",
             left: "0",
             width: "100%",
             height: "100%",
             zIndex: !isEdit ? "10" : "-10",
-            backgroundColor: "white",
-            opacity: "20%",
             cursor: "not-allowed",
           }}
         ></div>
       </table>
+      <ModalProduct
+        productView={productView}
+        isOpenModalProduct={isOpenModalProduct}
+        setIsOpenModalProduct={setIsOpenModalProduct}
+      />
     </>
   );
 }

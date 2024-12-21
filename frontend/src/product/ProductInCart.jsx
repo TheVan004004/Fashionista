@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineX } from "react-icons/hi";
-import { deleteItemInCartAPI } from "../services/cart.api";
+import { deleteItemInCartAPI, updateItemCartAPI } from "../services/cart.api";
 import { toast } from "react-toastify";
 import { getProductByNameAPI } from "../services/product.api";
 
@@ -13,8 +13,8 @@ export default function ({
   const [isEdit, setIsEdit] = useState(false);
   const [colors, setColors] = useState([]);
   const sizes = ["M", "L", "XL", "XXL"];
-  const [colorChange, setColorChange] = useState();
-  const [sizeChange, setSizeChange] = useState();
+  const [colorChange, setColorChange] = useState(product.color_name);
+  const [sizeChange, setSizeChange] = useState(product.size_name);
   const deleteItemInCart = async () => {
     try {
       await deleteItemInCartAPI(product.item_id);
@@ -36,9 +36,13 @@ export default function ({
     setColors(data[0].color);
   };
   const updateProductInCart = async () => {
-    const res = await getProductByNameAPI(product.name);
-    const data = res.data.data;
-    setColors(data[0].color);
+    console.log(product.item_id, product.product_details_id);
+    await updateItemCartAPI({
+      item_id: product.item_id,
+      color: colorChange,
+      size: colorChange,
+      quantity: product.quantity_item,
+    });
   };
   return (
     <div className="product">

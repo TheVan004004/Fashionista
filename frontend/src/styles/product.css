@@ -10,6 +10,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
 .product .mini_img {
   height: 100%;
@@ -36,7 +37,10 @@
   padding-left: 10px;
   left: 0;
   bottom: 0;
-  background-color: var(--hot-color);
+  background: linear-gradient(-45deg, #ee7752, #e73c3c, #eb4e00, #ec9954);
+  background-size: 400% 400%;
+  /* background-color: var(--hot-color); */
+  animation: gradient 5s ease infinite;
   width: 100px;
   height: 30px;
   border-top-right-radius: 30px;
@@ -82,7 +86,7 @@
   flex-direction: row;
   gap: 15px;
 }
-.size_options div {
+.size_options button {
   width: 40px;
   height: 40px;
   display: flex;
@@ -94,7 +98,7 @@
   border: 1px solid black;
   cursor: pointer;
 }
-.size_options div.active {
+.size_options button.active {
   color: white;
   background-color: black;
   border: 1px solid black;
@@ -181,7 +185,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 1000px;
-  padding: 5px 10px;
+  padding: 10px 10px;
 }
 
 .quantity .submit {
@@ -331,6 +335,36 @@
 }
 #text-object .price {
   padding-top: 5px;
+}
+
+.modal-product-container {
+  position: fixed;
+  left: 50%;
+  top: -50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  padding: 25px 30px;
+  border: 1px solid #000000;
+  background-color: #fff;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  z-index: -1;
+  opacity: 0;
+  transition: all 500ms;
+}
+
+.modal-product-container.active {
+  top: 50%;
+  z-index: 110;
+  opacity: 1;
+  transition: all 500ms;
+}
+
+.modal-product-container input {
+  height: 100%;
+  padding: 5px 10px !important;
 }
 
 @media only screen and (max-width: 1080px) {

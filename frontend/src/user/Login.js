@@ -4,7 +4,7 @@ import { HiOutlineXCircle } from "react-icons/hi";
 import { MainContext } from "../context/main.context";
 import { toast } from "react-toastify";
 import { loginAPI } from "../services/user.api";
-const Login = ({ setBoxUser }) => {
+const Login = ({ boxUser, setBoxUser, setIsOpenModalUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorNameMessage, setErrorNameMessage] = useState("");
@@ -21,7 +21,7 @@ const Login = ({ setBoxUser }) => {
         const data = res.data.data;
         console.log(res);
         setUser(data);
-        setBoxUser(false);
+        setIsOpenModalUser(false);
       }
       toast.success("Đăng nhập thành công");
     } catch (e) {
@@ -31,7 +31,7 @@ const Login = ({ setBoxUser }) => {
   };
 
   return (
-    <div className="login-container">
+    <>
       <div
         style={{
           display: "flex",
@@ -48,11 +48,12 @@ const Login = ({ setBoxUser }) => {
             alignItems: "center",
             cursor: "pointer",
           }}
-          onClick={() => setBoxUser("")}
+          onClick={() => setIsOpenModalUser(false)}
         />
       </div>
       <div className="container_input">
         <input
+          className="pulse"
           type="text"
           placeholder="Tên người dùng"
           value={username}
@@ -65,6 +66,7 @@ const Login = ({ setBoxUser }) => {
       </div>
       <div className="container_input">
         <input
+          className="pulse"
           type="password"
           placeholder="Mật khẩu"
           value={password}
@@ -76,7 +78,9 @@ const Login = ({ setBoxUser }) => {
         {errorPasswordMessage && <p>{errorPasswordMessage}</p>}
       </div>
 
-      <button onClick={handleSubmit}>Login</button>
+      <button className="btn10" onClick={handleSubmit}>
+        Login
+      </button>
       <div
         style={{
           display: "flex",
@@ -89,7 +93,7 @@ const Login = ({ setBoxUser }) => {
           <a onClick={() => setBoxUser("isRegister")}>Đăng ký</a>
         </p>
       </div>
-    </div>
+    </>
   );
 };
 
