@@ -181,8 +181,8 @@ const getInfoBuyTurnUser = async () => {
 
 }
 
-const getProductsByMonth = async (month) => {
-    // products is completed by month
+// a month
+const getProductsByAMonth = async (month) => {
     const { rows } = await db.query(
         `SELECT SUM(quantity) AS total_products_in_month
          FROM orders
@@ -191,11 +191,9 @@ const getProductsByMonth = async (month) => {
         [month]
     );
     const data = { ...rows[0], month: month };
-    const result = resData(`Get total sold products successfully`, 0, data);
-    return result;
+    return data;
 }
-
-const getTotalSalesByMonth = async (month) => {
+const getTotalSalesByAMonth = async (month) => {
     const { rows } = await db.query(
         `SELECT SUM(total)AS total_sales_in_month
          FROM orders
@@ -203,8 +201,70 @@ const getTotalSalesByMonth = async (month) => {
         [month]
     );
     const data = { ...rows[0], month: month };
-    const result = resData(`Get total sales successfully`, 0, data);
+    return data;
+}
+const getBuyTurnByAMonthOfProduct = async (month, productId) => {
+    const { rows } = await db.query(
+        `SELECT  SUM(order_details.quantity) AS total_buyturn
+         FROM orders
+         JOIN order_details ON order_details.order_id = orders.id
+         JOIN product_details ON product_details.id = order_details.product_details_id
+         WHERE EXTRACT(MONTH FROM created_at) = $1
+         AND product_details.product_id = $2
+         GROUP BY product_details.product_id;`,
+        [month, productId]
+    );
+    const data = { ...rows[0], month: month };
+    return data;
+}
+
+
+// a year (12 months)
+const getProductsByMonth = async () => {
+    let data = [];
+    for (let i = 1; i <= 12; i++) {
+        let dataAMonth = await getProductsByAMonth(i);
+        if (!dataAMonth.total_products_in_month) {
+            dataAMonth.total_products_in_month = 0;
+        }
+        data.push(dataAMonth);
+    }
+    const result = resData('Get total sold products by month successfully', 0, data);
     return result;
+}
+
+const getTotalSalesByMonth = async () => {
+    let data = [];
+    for (let i = 1; i <= 12; i++) {
+        let dataAMonth = await getTotalSalesByAMonth(i);
+        if (!dataAMonth.total_sales_in_month) {
+            dataAMonth.total_sales_in_month = 0;
+        }
+        data.push(dataAMonth);
+    }
+    const result = resData('Get total sales by month successfully', 0, data);
+    return result;
+}
+
+const getBuyTurnByMonthOfProduct = async (productId) => {
+    let data = [];
+    for (let i = 1; i <= 12; i++) {
+        let dataAMonth = await getBuyTurnByAMonthOfProduct(i, productId);
+        if (!dataAMonth.total_buyturn) {
+            dataAMonth.total_buyturn = 0;
+        }
+        data.push(dataAMonth);
+    }
+    const result = resData('Get buy turn by month successfully', 0, data);
+    return result;
+}
+
+const sortOrders = async () => {
+
+}
+
+const sortUsers = async () => {
+
 }
 
 const adminServices = {
@@ -214,5 +274,8 @@ const adminServices = {
     getInfoBuyTurnUser,
     getProductsByMonth,
     getTotalSalesByMonth,
+    getBuyTurnByMonthOfProduct,
+    sortOrders,
+    sortUsers,
 }
 export default adminServices;

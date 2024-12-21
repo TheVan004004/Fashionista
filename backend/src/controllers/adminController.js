@@ -56,8 +56,7 @@ const apiGetInfoBuyTurnUser = async (req, res) => {
 
 const apiGetProductsByMonth = async (req, res) => {
     try {
-        const month = parseInt(req.params.month);
-        const result = await adminServices.getProductsByMonth(month);
+        const result = await adminServices.getProductsByMonth();
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
@@ -68,8 +67,41 @@ const apiGetProductsByMonth = async (req, res) => {
 
 const apiGetTotalSalesByMonth = async (req, res) => {
     try {
-        const month = parseInt(req.params.month);
-        const result = await adminServices.getTotalSalesByMonth(month);
+        const result = await adminServices.getTotalSalesByMonth();
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
+const apiGetBuyTurnByMonthOfProduct = async (req, res) => {
+    try {
+        const productId = req.params.product_id;
+        const result = await adminServices.getBuyTurnByMonthOfProduct(productId);
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
+const apiSortOrders = async (req, res) => {
+    try {
+        const result = await adminServices.sortOrders();
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
+const apiSortUsers = async (req, res) => {
+    try {
+        const result = await adminServices.sortUsers();
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
@@ -85,5 +117,8 @@ const adminController = {
     apiGetInfoBuyTurnUser,
     apiGetProductsByMonth,
     apiGetTotalSalesByMonth,
+    apiGetBuyTurnByMonthOfProduct,
+    apiSortOrders,
+    apiSortUsers,
 }
 export default adminController;

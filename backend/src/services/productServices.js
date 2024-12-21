@@ -88,7 +88,7 @@ const filterProducts = async (filterData) => {
     }
 
     allProducts = pagination(allProducts, parseInt(filterData.page), parseInt(filterData.limit));
-    const result = resData('Get products successfully', 0, allProducts);
+    const result = resData('Get products successfully', 0, allProducts.newItems);
     return result;
 }
 

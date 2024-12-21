@@ -105,7 +105,7 @@ const deleteCartItem = async (itemId) => {
 const updateCartItem = async (itemId, updateData) => {
   //search current color, size, quantity
   const resultProductDetailId = await db.query(
-    `SELECT product_id,cart_id,size.name as size_name, color.hex_code, cart_items.quantity
+    `SELECT product_id,cart_id,product_details_id,size.name as size_name, color.hex_code, cart_items.quantity
          FROM cart_items
          JOIN product_details ON product_details.id= cart_items.product_details_id
          JOIN size ON size.id=product_details.size_id
@@ -139,8 +139,9 @@ const updateCartItem = async (itemId, updateData) => {
     `SELECT product_details_id,quantity
          FROM cart_items
          WHERE product_details_id=$1 
-         AND cart_id=$2`,
-    [product_details_id, cartId]
+         AND cart_id=$2
+         AND product_details_id!=$3`,
+    [product_details_id, cartId, resultProductDetailId.rows[0].product_details_id]
   );
   if (getProductDetail.rows.length > 0) {
     const { rows } = await db.query(

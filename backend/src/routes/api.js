@@ -44,7 +44,11 @@ router.post("/api/admin/addNewProductDetail", uploadImage, adminController.apiAd
 router.patch("/api/admin/updateProduct/:product_id", adminController.apiUpdateProduct);
 router.patch("/api/admin/updateQuantityProductDetail/:product_details_id", adminController.apiUpdateQuantityProductDetail);
 router.get("/api/admin/getInfoBuyTurnUser", adminController.apiGetInfoBuyTurnUser);
-router.get("/api/admin/getProductsByMonth/:month", adminController.apiGetProductsByMonth);
-router.get("/api/admin/getTotalSalesByMonth/:month", adminController.apiGetTotalSalesByMonth);
+router.get("/api/admin/getProductsByMonth", adminController.apiGetProductsByMonth);
+router.get("/api/admin/getTotalSalesByMonth", adminController.apiGetTotalSalesByMonth);
+router.get("/api/admin/getBuyTurnByMonthOfProduct/:product_id", adminController.apiGetBuyTurnByMonthOfProduct);
+router.get("/api/admin/sortOrders", adminController.apiSortOrders);
+router.get("/api/admin/sortUsers", adminController.apiSortUsers);
+
 
 export { router }
