@@ -99,3 +99,55 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
+
+.manage-product-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+  height: 50px;
+  transition: all 500ms ease-in-out;
+}
+.manage-product-filter div {
+  font-weight: 600;
+}
+.manage-product-filter.active {
+  overflow: hidden;
+  height: 100px;
+}
+.filter-normal {
+  display: grid;
+  grid-template-columns: 2fr 1fr 0.5fr 0.5fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-extend {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.5fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.search-manage {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: aliceblue;
+}
+
+.search-manage ipnut:focus {
+  color: white;
+}
+
+.select-manage {
+  display: flex;
+  background-color: aliceblue;
+  padding: 10px 15px;
+  border-radius: 1000px;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}

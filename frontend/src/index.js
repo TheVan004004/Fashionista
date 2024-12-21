@@ -21,6 +21,7 @@ import OrderManage from "./admin/management/OrderManage";
 import CustomerManage from "./admin/management/CustomerManage";
 import OrderSuccess from "./pages/order-success";
 import ProductManage from "./admin/management/product/ProductManage";
+import Overview from "./admin/Overview";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -82,7 +83,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <></>,
+            element: <Overview />,
           },
           {
             path: "/admin/manage-product",

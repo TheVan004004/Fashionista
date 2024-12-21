@@ -25,6 +25,7 @@ export default function Cart() {
         listOrder={listOrder}
         listResultSearch={listResultSearch}
         setListOrder={setListOrder}
+        getCart={getCart}
       />
       {listProductInCart.length > 0 && (
         <Payment

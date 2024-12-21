@@ -27,6 +27,7 @@ export default function Payment({ listOrder, setListOrder }) {
         <thead>
           <tr>
             <th>Tên sản phẩm</th>
+            <th>Loại</th>
             <th>Giá (VNĐ)</th>
             <th>Số lượng</th>
           </tr>
@@ -34,8 +35,11 @@ export default function Payment({ listOrder, setListOrder }) {
         <tbody></tbody>
         {listOrder.map((product, index) => {
           return (
-            <tr>
+            <tr key={"order" + product.item_id}>
               <td>{product.name}</td>
+              <td>
+                {product.color_name}, {product.size_name}
+              </td>
               <td>
                 {((product.price * (100 - product.sale)) / 100).toLocaleString(
                   "vi-VN"
@@ -48,14 +52,14 @@ export default function Payment({ listOrder, setListOrder }) {
         })}
         {listOrder.length !== 0 && (
           <tr>
-            <td colspan="3" style={{ textAlign: "right" }}>
+            <td colSpan="4" style={{ textAlign: "right" }}>
               Tổng: {sum.toLocaleString("vi-VN")}đ
             </td>
           </tr>
         )}
       </table>
       {listOrder.length === 0 && (
-        <div style={{ width: "70%", alignSelf: "center" }}>
+        <div style={{ width: "50%", alignSelf: "center" }}>
           <img style={{ width: "100%" }} src={empty}></img>
           <p
             style={{ fontSize: "16px", fontWeight: "600", textAlign: "center" }}
@@ -64,7 +68,7 @@ export default function Payment({ listOrder, setListOrder }) {
           </p>
         </div>
       )}
-      <div className="order" onClick={order}>
+      <div className="order btn12" onClick={order}>
         Mua hàng
       </div>
     </div>

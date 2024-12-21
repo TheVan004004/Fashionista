@@ -1,24 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { HiPencilAlt } from "react-icons/hi";
+import React, { useContext, useEffect, useState } from "react";
+import { HiOutlineSearch, HiPencilAlt } from "react-icons/hi";
 import { HiOutlineEye } from "react-icons/hi";
-import { getProductsAPI } from "../../../services/product.api";
+import {
+  getAllColorAPI,
+  getProductsAPI,
+  searchAPI,
+} from "../../../services/product.api";
 import { updateProductAPI } from "../../../services/admin.api";
 import ModalProduct from "./ModalProduct";
+import { MainContext } from "../../../context/main.context";
 export default function ProductManage() {
+  const { categories } = useContext(MainContext);
   const [listProducts, setListProducts] = useState([]);
   const [listProductsCache, setListProductsCache] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isOpenModalProduct, setIsOpenModalProduct] = useState(false);
   const [productView, setProductView] = useState("");
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [inputSearch, setInputSearch] = useState("");
+  const [colorFilter, setColorFilter] = useState("");
+  const [sortBy, setSortBy] = useState("most_buyturn");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000000);
+  const [limitSearch, setLimitSearch] = useState(10);
+  const [pageSearch, setPageSearch] = useState(1);
+  const [listColor, setListColor] = useState([]);
   useEffect(() => {
-    getAllProduct();
+    getProduct();
+  }, [
+    inputSearch,
+    colorFilter,
+    sortBy,
+    categoryFilter,
+    minPrice,
+    maxPrice,
+    pageSearch,
+    limitSearch,
+  ]);
+  useEffect(() => {
+    getColor();
   }, []);
-  const getAllProduct = async () => {
-    const res = await getProductsAPI({ limit: 1000, page: 1 });
-    const data = res.data.data;
-    setListProducts(data);
-    setListProductsCache(data);
+  const getProduct = async () => {
+    try {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      const res = await searchAPI(
+        inputSearch,
+        colorFilter,
+        "",
+        minPrice,
+        maxPrice,
+        sortBy,
+        categoryFilter,
+        pageSearch,
+        limitSearch
+      );
+      if (res && res.data) {
+        const data = res.data.data;
+        setListProducts(data);
+        setListProductsCache(data);
+      }
+    } catch (e) {}
+  };
+  const getColor = async () => {
+    const res = await getAllColorAPI();
+    const data = await res.data.data;
+    setListColor(data);
   };
 
   const handleSave = async () => {
@@ -41,7 +89,7 @@ export default function ProductManage() {
           isChange = true;
         }
       }
-      if (isChange) getAllProduct();
+      if (isChange) getProduct();
     } catch (e) {
       console.log(e);
     }
@@ -61,6 +109,107 @@ export default function ProductManage() {
   return (
     <>
       <h2>Product:</h2>
+      <div
+        className={
+          isOpenFilter
+            ? "manage-product-filter active"
+            : "manage-product-filter"
+        }
+      >
+        <div className="filter-normal">
+          <div className="search-manage btn10">
+            <input
+              value={inputSearch}
+              placeholder="Tìm kiếm sản phẩm"
+              onChange={(e) => setInputSearch(e.target.value)}
+            ></input>
+            <HiOutlineSearch style={{ fontSize: "20px", color: "black" }} />
+          </div>
+          <div className="select-manage">
+            <div style={{ textWrap: "nowrap" }}>Sắp xếp theo:</div>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value={"most_buyturn"}>Bán chạy</option>
+              <option value={"price_asc"}>Thấp đến cao</option>
+              <option value={"price_desc"}>Cao đến thấp</option>
+              <option value={"sale_desc"}>Sale</option>
+            </select>
+          </div>
+          <button
+            className="btn10"
+            style={{
+              borderRadius: "1000px",
+              backgroundColor: "aliceblue",
+              color: "black",
+            }}
+            onClick={() => setIsOpenFilter((prev) => !prev)}
+          >
+            Bộ lọc
+          </button>
+          <div className="select-manage">
+            <div style={{ textWrap: "nowrap" }}>Giới hạn:</div>
+            <select
+              value={limitSearch}
+              onChange={(e) => setLimitSearch(e.target.value)}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={null}>Không</option>
+            </select>
+          </div>
+        </div>
+        <div className="filter-extend">
+          <div className="select-manage">
+            <div style={{ textWrap: "nowrap" }}>Loại Sản phẩm:</div>
+            <select
+              value={categoryFilter}
+              defaultValue={"Chọn loại sản phẩm"}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              {categories.map((category, index) => {
+                return (
+                  <option key={index + category.name} value={category.name}>
+                    {category.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="select-manage">
+            <div style={{ textWrap: "nowrap" }}>Màu sắc:</div>
+            <select
+              value={colorFilter}
+              defaultValue={"Chọn màu sắc"}
+              onChange={(e) => setColorFilter(e.target.value)}
+            >
+              {listColor.map((color, index) => {
+                return (
+                  <option key={index + color.hex_code} value={color.hex_code}>
+                    {color.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="select-manage">
+            <div style={{ textWrap: "nowrap" }}>Khoảng giá từ:</div>
+            <select value={5}>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={null}>Không</option>
+            </select>
+            <div style={{ textWrap: "nowrap" }}>đến:</div>
+            <select value={5}>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={null}>Không</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <div
         style={{
           display: "flex",
@@ -179,6 +328,28 @@ export default function ProductManage() {
               </tr>
             );
           })}
+          <tr>
+            <td
+              colSpan="6"
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "right",
+                gap: "20px",
+              }}
+            >
+              <button
+                onClick={() =>
+                  setPageSearch((prev) => (prev === 1 ? 1 : prev - 1))
+                }
+              >
+                Trái
+              </button>
+              <button onClick={() => setPageSearch((prev) => prev + 1)}>
+                Phải
+              </button>
+            </td>
+          </tr>
         </tbody>
         <div
           className="glass_effect"
