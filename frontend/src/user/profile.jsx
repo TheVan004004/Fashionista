@@ -57,15 +57,6 @@ const Profile = () => {
               </td>
             </tr>
             <tr>
-              <td>Họ và tên</td>
-              <td>
-                <input
-                  value={fullname}
-                  onChange={(e) => setFullname(e.target.value)}
-                />
-              </td>
-            </tr>
-            <tr>
               <td>Mật khẩu</td>
               <td>
                 <div
@@ -93,6 +84,16 @@ const Profile = () => {
                 </div>
               </td>
             </tr>
+            <tr>
+              <td>Họ và tên</td>
+              <td>
+                <input
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
+              </td>
+            </tr>
+
             <tr>
               <td>Số điện thoại</td>
               <td>
@@ -148,13 +149,16 @@ const Profile = () => {
             }}
           >
             <button
+              className="btn12"
               onClick={() => {
                 setIsEdit(true);
               }}
             >
               Chỉnh sửa thông tin
             </button>
-            <button onClick={updateDataUser}>Lưu thông tin</button>
+            <button className="btn10" onClick={updateDataUser}>
+              Lưu thông tin
+            </button>
           </div>
         </div>
         {/* <div className="right-body">

@@ -112,7 +112,7 @@ const Search = () => {
               })}
             </div>
             <button
-              className="view-more"
+              className="view-more btn12"
               onClick={() => setLimit((prev) => prev + 16)}
             >
               Xem thêm

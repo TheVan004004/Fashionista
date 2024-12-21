@@ -38,8 +38,13 @@ const Popular = () => {
                 key={category.name}
                 onClick={() => setCategoryName(category.name)}
                 className={
-                  category.name === categoryName ? "active_button" : ""
+                  category.name === categoryName
+                    ? "btn10 active_button"
+                    : "btn10"
                 }
+                style={{
+                  color: "var(--accent-color)",
+                }}
               >
                 {category.name}
               </button>
@@ -56,7 +61,7 @@ const Popular = () => {
             );
           })}
         </div>
-        <button className="view-more" onClick={searchMore}>
+        <button className="view-more btn12" onClick={searchMore}>
           Tìm kiếm thêm
         </button>
       </div>

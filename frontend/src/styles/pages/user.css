@@ -4,7 +4,7 @@
   position: fixed;
   left: 50%;
   top: 50%;
-  translate: -50% -50%;
+  transform: translate(-50%, -500%);
   margin: 0 auto;
   padding: 20px 30px;
   border: 1px solid #000000;
@@ -14,32 +14,35 @@
   flex-direction: column;
   gap: 20px;
   z-index: 101;
+  transition: all 500ms ease-in-out;
 }
 
+.login-container.active,
+.register-container.active {
+  transform: translate(-50%, -50%);
+}
 .login-container input,
 .register-container input {
   display: block;
   width: 400px;
-  padding: 10px 15px;
+  padding: 15px;
+  border: 1px solid #000000;
+  border-radius: 10px;
+}
+
+.login-container input:focus,
+.register-container input:focus {
+  display: block;
+  width: 400px;
+  padding: 15px;
   border: 1px solid #000000;
   border-radius: 10px;
 }
 
 .login-container button,
 .register-container button {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--blur-color);
-  color: #fff;
-  border: none;
+  padding: 15px;
   border-radius: 10px;
-  cursor: pointer;
-}
-
-.login-container button:hover,
-.register-container button:hover {
-  background-color: var(--accent-color);
-  opacity: 1;
 }
 
 .container_input {
@@ -149,29 +152,6 @@
   padding-bottom: 20px;
 }
 
-#menu-user {
-  position: absolute;
-  top: 35px;
-  right: 0px;
-  width: 150px;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  border-radius: 10px;
-  transition: height 300ms;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-#menu-user button {
-  padding: 10px;
-}
-#menu-user button:hover {
-  background-color: var(--blur-color);
-}
-
 #profile,
 #profile table {
   width: 100%;
@@ -231,17 +211,8 @@
 }
 
 #profile button {
-  cursor: pointer;
   border-radius: 20px;
   padding: 15px 20px;
-  background-color: var(--blur-color);
   font-size: 16px;
   font-weight: 600;
-  transition: ease-in-out 300ms;
-}
-
-#profile button:hover {
-  scale: 110%;
-  background-color: var(--accent-color);
-  color: white;
 }

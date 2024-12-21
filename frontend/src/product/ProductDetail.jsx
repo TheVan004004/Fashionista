@@ -119,13 +119,13 @@ const ProductDetail = () => {
                 }}
               >
                 <div style={{ fontSize: "16px", fontWeight: "600" }}>
-                  Màu sắc: {colorPicked.name}
+                  Màu sắc: {colorPicked.color_name}
                 </div>
                 <div className="color_options" style={{ gap: "20px" }}>
                   {productDetail.color &&
                     productDetail.color.map((color, index) => {
                       return (
-                        <div
+                        <button
                           style={{
                             width: "40px",
                             height: "40px",
@@ -138,7 +138,7 @@ const ProductDetail = () => {
                                 : "none",
                           }}
                           onClick={() => setColorPicked(color)}
-                        ></div>
+                        ></button>
                       );
                     })}
                 </div>
@@ -169,13 +169,13 @@ const ProductDetail = () => {
                 <div className="size_options">
                   {sizes.map((size, index) => {
                     return (
-                      <div
+                      <button
                         className={size === sizePicked && "active"}
                         key={size + index}
                         onClick={() => setSizePicked(size)}
                       >
                         {size}
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
@@ -192,8 +192,8 @@ const ProductDetail = () => {
                   <p>{quantity}</p>
                   <div onClick={() => setQuantity(quantity + 1)}>+</div>
                 </div>
-                <div
-                  className="submit"
+                <button
+                  className="submit btn10"
                   onClick={() => {
                     if (sizePicked !== "" && colorPicked !== "") addToCart();
                   }}
@@ -203,7 +203,7 @@ const ProductDetail = () => {
                     : sizePicked === ""
                     ? "Chọn kích thước"
                     : "Thêm vào giỏ hàng"}
-                </div>
+                </button>
               </div>
             </div>
 

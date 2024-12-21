@@ -23,7 +23,9 @@ export const loginAPI = (username, password) => {
 };
 
 export const logoutAPI = () => {
-  return axios.post(`${url}api/logout`);
+  return axios.post(`${url}api/logout`, {
+    withCredentials: true,
+  });
 };
 
 export const updateDataUserAPI = ({ phone, fullName, sex, dob, address }) => {

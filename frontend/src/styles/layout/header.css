@@ -24,6 +24,7 @@
 
 #menu-left .icon {
   cursor: pointer;
+  position: relative;
 }
 
 #menu-left .icon svg {

@@ -71,18 +71,26 @@ export default function ProductManage() {
           }}
         >
           <button
-            className={isEdit ? "active" : ""}
+            className={isEdit ? "btn12 active" : "btn12"}
             onClick={() => setIsEdit(true)}
           >
             Chỉnh sửa
           </button>
-          <button onClick={handleSave}>Lưu thay đổi</button>
+          <button onClick={handleSave} className="btn10">
+            Lưu thay đổi
+          </button>
         </div>
 
         <button>Thêm sản phẩm mới</button>
       </div>
 
-      <table style={{ marginTop: "10px", position: "relative" }}>
+      <table
+        style={{
+          marginTop: "10px",
+          position: "relative",
+          boxShadow: !isEdit && "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
+        }}
+      >
         <thead>
           <tr>
             <th>Tên sản phẩm</th>
@@ -160,6 +168,7 @@ export default function ProductManage() {
           })}
         </tbody>
         <div
+          className="glass_effect"
           style={{
             position: "absolute",
             top: "0",
@@ -167,8 +176,6 @@ export default function ProductManage() {
             width: "100%",
             height: "100%",
             zIndex: !isEdit ? "10" : "-10",
-            backgroundColor: "white",
-            opacity: "20%",
             cursor: "not-allowed",
           }}
         ></div>

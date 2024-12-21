@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainContext } from "../context/main.context";
 import { logoutAPI } from "../services/user.api";
-const DropdownMenu = ({ isOpenMenu, setIsOpenMenu }) => {
+const DropdownMenu = () => {
   const { setUser } = useContext(MainContext);
   const navigate = useNavigate();
   const logout = async () => {
@@ -11,37 +11,35 @@ const DropdownMenu = ({ isOpenMenu, setIsOpenMenu }) => {
     navigate("/");
   };
   return (
-    <div
-      id="menu-user"
-      style={{
-        height: isOpenMenu ? "120px" : "0px",
-      }}
-    >
-      <button
+    <div htmlFor="menu-user-check" id="menu-user">
+      <input type="checkbox" id="menu-user-check" defaultChecked />
+      <a
+        className="btn2"
         onClick={() => {
           navigate("/admin");
-          setIsOpenMenu(false);
         }}
       >
         Quản lý sản phẩm
-      </button>
-      <button
+      </a>
+      <a
+        className="btn2"
         onClick={() => {
           navigate("/user");
-          setIsOpenMenu(false);
         }}
       >
         Tài khoản của tôi
-      </button>
-      <button
+      </a>
+      <a
+        className="btn2"
         onClick={() => {
           navigate("/user/shopping");
-          setIsOpenMenu(false);
         }}
       >
         Đơn hàng
-      </button>
-      <button onClick={logout}>Đăng xuất </button>
+      </a>
+      <a className="btn2" onClick={logout}>
+        Đăng xuất{" "}
+      </a>
     </div>
   );
 };

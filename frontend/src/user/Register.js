@@ -4,7 +4,7 @@ import { HiOutlineXCircle } from "react-icons/hi";
 import { MainContext } from "../context/main.context";
 import { toast } from "react-toastify";
 import { signUpAPI } from "../services/user.api";
-function Register({ setBoxUser }) {
+function Register({ boxUser, setBoxUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -41,7 +41,9 @@ function Register({ setBoxUser }) {
     }
   };
   return (
-    <div className="register-container">
+    <div
+      className={boxUser ? "register-container active" : "register-container"}
+    >
       <div
         style={{
           display: "flex",
@@ -97,7 +99,10 @@ function Register({ setBoxUser }) {
         />
         {errorPasswordConfirmMessage && <p>{errorPasswordConfirmMessage}</p>}
       </div>
-      <button onClick={handleSubmit}> Register </button>
+      <button className="btn10" onClick={handleSubmit}>
+        {" "}
+        Register{" "}
+      </button>
       <div
         style={{
           display: "flex",
