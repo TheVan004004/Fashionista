@@ -53,12 +53,13 @@ const order = async (user_id, listItems) => {
 
 const updateStatusOrder = async (orderId) => {
     const resultStatus = await db.query(
-        `SELECT status
-         FROM orders
+        `SELECT o.status, u.role
+         FROM orders o
+         JOIN users u ON o.user_id = u.id
          where id= $1`,
         [orderId]
     )
-    if (resultStatus.rows[0] == 'pending') {
+    if (resultStatus.rows[0].status == 'processing' && resultStatus.rows[0].role == 'user') {
         const { rows } = await db.query(
             `UPDATE orders
         SET status = $1
@@ -69,6 +70,7 @@ const updateStatusOrder = async (orderId) => {
         const result = resData('Update successfully', 0, rows[0]);
         return result;
     }
+
 }
 const orderServices = { order, updateStatusOrder };
 export default orderServices;
