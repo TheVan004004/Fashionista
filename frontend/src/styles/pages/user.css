@@ -1,28 +1,34 @@
-/* src/components/Login.css */
-.login-container,
-.register-container {
+.modal-user-container {
   position: fixed;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -500%);
+  top: -50%;
+  transform: translate(-50%, -50%);
   margin: 0 auto;
-  padding: 20px 30px;
+  padding: 25px 30px;
   border: 1px solid #000000;
   background-color: #fff;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  z-index: 101;
-  transition: all 500ms ease-in-out;
+  gap: 25px;
+  z-index: 110;
+  opacity: 0;
+  transition: all 500ms;
 }
 
-.login-container.active,
-.register-container.active {
-  transform: translate(-50%, -50%);
+.modal-user-container.active {
+  opacity: 1;
+  top: 50%;
+  transition: all 500ms;
 }
-.login-container input,
-.register-container input {
+.modal-user-container input {
+  display: block;
+  width: 400px;
+  padding: 15px;
+  border: 1px solid #000000;
+  border-radius: 10px;
+}
+.modal-user-container input:focus {
   display: block;
   width: 400px;
   padding: 15px;
@@ -30,17 +36,7 @@
   border-radius: 10px;
 }
 
-.login-container input:focus,
-.register-container input:focus {
-  display: block;
-  width: 400px;
-  padding: 15px;
-  border: 1px solid #000000;
-  border-radius: 10px;
-}
-
-.login-container button,
-.register-container button {
+.modal-user-container button {
   padding: 15px;
   border-radius: 10px;
 }

@@ -45,7 +45,7 @@ select {
   width: 150px;
   border-right: 1px solid var(--text-color);
   position: sticky;
-  top: 50px;
+  top: 60px;
   z-index: 50;
   height: calc(100vh - 60px);
   overflow-y: auto;
@@ -90,7 +90,7 @@ select {
 }
 
 #admin .action .icon:hover {
-  scale: 110%;
+  scale: 120%;
 }
 
 #admin .action .icon.remove:hover {

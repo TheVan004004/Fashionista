@@ -97,7 +97,6 @@
   margin-bottom: 2vw;
   background: linear-gradient(-45deg, #ee7752, #e73c3c, #eb4e00, #ec9954);
   background-size: 400% 400%;
-  /* background-color: var(--hot-color); */
   animation: gradient 10s ease infinite;
   z-index: 1;
   /* height: 500px; */

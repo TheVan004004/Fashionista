@@ -14,7 +14,8 @@ import DropdownMenu from "../components/DropdownMenu";
 const Header = () => {
   const navigate = useNavigate();
   const [isSearch, setIsSearch] = useState(false);
-  const [boxUser, setBoxUser] = useState("");
+  const [boxUser, setBoxUser] = useState("isLogin");
+  const [isOpenModalUser, setIsOpenModalUser] = useState(false);
   const { inputSearch, setInputSearch, search, user, setIsSearching } =
     useContext(MainContext);
   return (
@@ -90,6 +91,7 @@ const Header = () => {
             <div className="icon" name="user-icon">
               <HiOutlineUserCircle
                 onClick={() => {
+                  setIsOpenModalUser(true);
                   setBoxUser("isLogin");
                 }}
               />
@@ -97,7 +99,12 @@ const Header = () => {
           )}
         </div>
       </div>
-      <UserBox boxUser={boxUser} setBoxUser={setBoxUser} />
+      <UserBox
+        boxUser={boxUser}
+        setBoxUser={setBoxUser}
+        isOpenModalUser={isOpenModalUser}
+        setIsOpenModalUser={setIsOpenModalUser}
+      />
     </>
   );
 };

@@ -337,6 +337,36 @@
   padding-top: 5px;
 }
 
+.modal-product-container {
+  position: fixed;
+  left: 50%;
+  top: -50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  padding: 25px 30px;
+  border: 1px solid #000000;
+  background-color: #fff;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  z-index: -1;
+  opacity: 0;
+  transition: all 500ms;
+}
+
+.modal-product-container.active {
+  top: 50%;
+  z-index: 110;
+  opacity: 1;
+  transition: all 500ms;
+}
+
+.modal-product-container input {
+  height: 100%;
+  padding: 5px 10px !important;
+}
+
 @media only screen and (max-width: 1080px) {
   #product {
     grid-template-columns: 1fr;

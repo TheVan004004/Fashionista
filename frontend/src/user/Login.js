@@ -4,7 +4,7 @@ import { HiOutlineXCircle } from "react-icons/hi";
 import { MainContext } from "../context/main.context";
 import { toast } from "react-toastify";
 import { loginAPI } from "../services/user.api";
-const Login = ({ boxUser, setBoxUser }) => {
+const Login = ({ boxUser, setBoxUser, setIsOpenModalUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorNameMessage, setErrorNameMessage] = useState("");
@@ -21,7 +21,7 @@ const Login = ({ boxUser, setBoxUser }) => {
         const data = res.data.data;
         console.log(res);
         setUser(data);
-        setBoxUser(false);
+        setIsOpenModalUser(false);
       }
       toast.success("Đăng nhập thành công");
     } catch (e) {
@@ -31,7 +31,7 @@ const Login = ({ boxUser, setBoxUser }) => {
   };
 
   return (
-    <div className={boxUser ? "login-container active" : "login-container"}>
+    <>
       <div
         style={{
           display: "flex",
@@ -48,7 +48,7 @@ const Login = ({ boxUser, setBoxUser }) => {
             alignItems: "center",
             cursor: "pointer",
           }}
-          onClick={() => setBoxUser("")}
+          onClick={() => setIsOpenModalUser(false)}
         />
       </div>
       <div className="container_input">
@@ -93,7 +93,7 @@ const Login = ({ boxUser, setBoxUser }) => {
           <a onClick={() => setBoxUser("isRegister")}>Đăng ký</a>
         </p>
       </div>
-    </div>
+    </>
   );
 };
 

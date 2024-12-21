@@ -11,6 +11,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--accent-color);
+  border-radius: 0 !important;
 }
 
 #menu-left {
@@ -53,8 +54,9 @@
   align-items: center;
   height: 35px;
   border-radius: 1000px;
-  /* transition: 1000ms ease-in-out; */
+  transition: all 300ms ease-in-out;
 }
+
 #menu-left .icon .box-search input {
   padding-left: 20px;
   width: 100%;
@@ -67,8 +69,8 @@
   display: none;
 }
 #menu-left .icon .box-search.hidden {
-  width: 70px;
-  background: none;
+  width: 50px;
+  opacity: 0;
 }
 #menu-left .icon .box-search.show {
   width: 50vw;

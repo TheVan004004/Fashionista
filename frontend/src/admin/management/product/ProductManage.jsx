@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { HiOutlineTrash, HiPencilAlt } from "react-icons/hi";
-import { getProductsAPI } from "../../services/product.api";
-import { updateProductAPI } from "../../services/admin.api";
+import { HiPencilAlt } from "react-icons/hi";
+import { HiOutlineEye } from "react-icons/hi";
+import { getProductsAPI } from "../../../services/product.api";
+import { updateProductAPI } from "../../../services/admin.api";
+import ModalProduct from "./ModalProduct";
 export default function ProductManage() {
   const [listProducts, setListProducts] = useState([]);
   const [listProductsCache, setListProductsCache] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isOpenModalProduct, setIsOpenModalProduct] = useState(false);
+  const [productView, setProductView] = useState("");
   useEffect(() => {
     getAllProduct();
   }, []);
@@ -98,13 +102,16 @@ export default function ProductManage() {
             <th style={{ width: "120px" }}>Giá (VNĐ)</th>
             <th style={{ width: "100px" }}>Giảm giá</th>
             <th style={{ width: "140px" }}>Tổng lượt mua</th>
-            <th style={{ width: "120px" }}></th>
+            <th style={{ width: "60px" }}></th>
           </tr>
         </thead>
         <tbody>
           {listProductsCache?.map((product, index) => {
             return (
-              <tr className={product?.status === "delete" ? "pre_delete" : ""}>
+              <tr
+                className={product?.status === "delete" ? "pre_delete" : ""}
+                key={product.id}
+              >
                 <td>
                   <input
                     value={product.name}
@@ -160,8 +167,14 @@ export default function ProductManage() {
                   </select>
                 </td>
                 <td style={{ textAlign: "center" }}>{product.total_buyturn}</td>
-                <td className="action">
-                  <HiPencilAlt className="icon edit" />
+                <td className="action" style={{ backgroundColor: "aliceblue" }}>
+                  <HiOutlineEye
+                    className="icon edit"
+                    onClick={() => {
+                      setIsOpenModalProduct(true);
+                      setProductView(product);
+                    }}
+                  />
                 </td>
               </tr>
             );
@@ -170,6 +183,7 @@ export default function ProductManage() {
         <div
           className="glass_effect"
           style={{
+            borderRadius: "10px",
             position: "absolute",
             top: "0",
             left: "0",
@@ -180,6 +194,11 @@ export default function ProductManage() {
           }}
         ></div>
       </table>
+      <ModalProduct
+        productView={productView}
+        isOpenModalProduct={isOpenModalProduct}
+        setIsOpenModalProduct={setIsOpenModalProduct}
+      />
     </>
   );
 }
