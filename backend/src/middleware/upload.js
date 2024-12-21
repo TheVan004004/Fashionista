@@ -2,7 +2,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './public/uploads');
+        cb(null, './src/public/images');
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
@@ -10,6 +10,6 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage });
-const uploadAvatar = upload.single('avatar');
+const uploadImage = upload.single('image');
 
-export { uploadAvatar }
+export default uploadImage;

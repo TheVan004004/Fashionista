@@ -1,25 +1,47 @@
-const DropdownMenu = ({ isOpenMenu }) => {
-    return (
-        <div style={{
-            position: "absolute",
-            top: "35px",
-            right: "0px",
-            width: isOpenMenu ? "100px" : "0px",
-            height: isOpenMenu ? "100px" : "0px",
-            backgroundColor: "var(--background-color)",
-            color: "black",
-            borderRadius: "10px",
-            overflow: "hidden",
-            transition: "height 300ms, width 300ms",
-            display: "flex",
-            flexDirection: "column",
-            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        }}>
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { MainContext } from "../context/main.context";
+import { logoutAPI } from "../services/user.api";
+const DropdownMenu = () => {
+  const { setUser } = useContext(MainContext);
+  const navigate = useNavigate();
+  const logout = async () => {
+    logoutAPI();
+    setUser("");
+    navigate("/");
+  };
+  return (
+    <div htmlFor="menu-user-check" id="menu-user">
+      <input type="checkbox" id="menu-user-check" defaultChecked />
+      <a
+        className="btn2"
+        onClick={() => {
+          navigate("/admin");
+        }}
+      >
+        Quản lý sản phẩm
+      </a>
+      <a
+        className="btn2"
+        onClick={() => {
+          navigate("/user");
+        }}
+      >
+        Tài khoản của tôi
+      </a>
+      <a
+        className="btn2"
+        onClick={() => {
+          navigate("/user/shopping");
+        }}
+      >
+        Đơn hàng
+      </a>
+      <a className="btn2" onClick={logout}>
+        Đăng xuất{" "}
+      </a>
+    </div>
+  );
+};
 
-            <div>Log Out </div>
-
-        </div>
-    )
-}
-
-export default DropdownMenu
+export default DropdownMenu;

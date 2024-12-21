@@ -1,0 +1,41 @@
+#menu-user {
+  position: absolute;
+  top: 35px;
+  right: 0px;
+  width: 220px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  transition: height 300ms;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+#menu-user > input {
+  display: none;
+}
+
+#menu-user a {
+  overflow: hidden;
+  transition: all 500ms;
+}
+
+#menu-user a:first-child::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #fff;
+  margin: -10px 0 0 30px;
+}
+
+#menu-user > input:checked ~ a {
+  padding: 0;
+  height: 0px;
+  overflow: hidden;
+}

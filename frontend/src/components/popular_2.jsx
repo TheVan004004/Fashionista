@@ -11,7 +11,7 @@ const Popular_2 = () => {
                 <div className="body">
                     {listPopular.map((product, index) => {
                         if (index < 5) return (
-                            <Product product={product} key={product.id * product.price} type={"mini"} />
+                            <Product product={product} key={"popular_" + product.id * product.price} type={"mini"} />
                         )
                         else return (<></>)
                     })

@@ -1,38 +1,106 @@
 :root {
   --background-color: white;
   --text-color: black;
-  --accent-color: #02457A;
-  --blur-color: #97CADB;
-  --sale-color: rgb(196, 50, 50) ;
-  --hot-color:rgb(255, 128, 50);
+  --accent-color: #004883;
+  --blur-color: #97cadb;
+  --sale-color: rgb(196, 50, 50);
+  --hot-color: rgb(255, 128, 50);
 }
+
+/* :root {
+  --background-color: #280000;
+  --text-color: white;
+  --accent-color: #02457a;
+  --blur-color: #97cadb;
+  --sale-color: rgb(196, 50, 50);
+  --hot-color: rgb(255, 128, 50);
+} */
 body {
+  background-color: var(--background-color);
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 a {
+  text-decoration: none;
   color: var(--blur-color);
   cursor: pointer;
 }
-a:hover{
+a:hover {
   color: var(--accent-color);
 }
-button {
+button,
+input,
+select {
+  outline: none;
   background: none;
-  border:none;
+  border: none;
+  transition: ease-in-out 500ms;
+}
+input[type="checkbox"] {
+  -ms-transform: scale(1.2); /* IE */
+  -moz-transform: scale(1.2); /* FF */
+  -webkit-transform: scale(1.2); /* Safari and Chrome */
+  -o-transform: scale(1.2); /* Opera */
+  transform: scale(1.2);
+  padding: 15px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+table {
+  border-radius: 10px;
+  table-layout: auto;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  padding: 10px;
+  transition: all 1000ms;
+}
+td,
+th {
+  width: auto;
+  text-align: left;
+  padding: 15px 10px;
+}
+th:last-child {
+  border: none;
+}
+tr {
+  border-bottom: 1px solid var(--blur-color);
+}
+
+tr:last-child {
+  border: none;
+}
+
+tr:hover {
+  background-color: aliceblue;
+}
+
+th {
+  background-color: var(--accent-color);
+  color: var(--background-color);
+}
+
+img {
+  transition: all 1s;
 }

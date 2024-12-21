@@ -1,7 +1,8 @@
 import { db } from '../config/database.js';
 import resData from '../helpers/jsonFormat.js';
-import env from "dotenv";
 import pagination from '../helpers/paginate.js';
+import env from "dotenv";
+
 
 env.config();
 const port = process.env.PORT;
@@ -9,7 +10,7 @@ const hostname = process.env.HOST_NAME;
 
 const getAllProducts = async () => {
     const { rows } = await db.query(
-        `SELECT products.id,products.name, products.image,price, sale, categories.name AS category_name, SUM(buyturn) AS total_buyturn
+        `SELECT products.id,products.name, products.image,price, sale, categories.name AS category_name, SUM(buyturn) AS total_buyturn, SUM(quantity) AS total_quantity
          FROM products
          JOIN categories ON categories.id=products.category_id
          JOIN product_details ON product_details.product_id=products.id
@@ -106,5 +107,12 @@ const getAllCategories = async () => {
     const result = resData('Get all categories', 0, rows);
     return result;
 }
-const productServices = { getAllProducts, filterProducts, getAllColors, getAllCategories }
+
+const productServices =
+{
+    getAllProducts,
+    filterProducts,
+    getAllColors,
+    getAllCategories,
+}
 export default productServices;

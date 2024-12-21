@@ -1,98 +1,228 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MainContext } from "../context/main.context";
+import { HiPencil } from "react-icons/hi";
+import { updateDataUserAPI } from "../services/user.api";
 
 const Profile = () => {
-    const [username, setUsername] = useState('');
-    const [accountname, setAccountname] = useState('');
-    const [password, setPassword] = useState('');
-    const [sex, setSex] = useState('');
-    const [selectedDate, setSelectedDate] = useState('');
-    const [address, setAddress] = useState('');
-
-
-    const handleDateChange = (event) => {
-        setSelectedDate(event.target.value);
-    };
-
-
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("Accountname:", accountname,
-            "Username: ", username,
-            "Password: ", password,
-            "Sex: ", sex
-        )
-    }
-    return (
-        <>
-            <div className="head">
-                <h1>Hồ sơ của tôi</h1>
-                <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
-            </div>
-            <div className="body2">
-                <div className="form">
-                    <div className="tool-tip">
-                        <label>Tên đăng nhập</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={accountname}
-                            onChange={(e) => setAccountname(e.target.value)}
-                        />
-                    </div>
-                    <div className="tool-tip">
-                        <label>Họ và tên</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
-                    <div className="tool-tip">
-                        <label>Mật khẩu</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <div id="sex">
-                        <label>Giới tính</label>
-                        <select value={sex} onChange={(e) => setSex(e.target.value)}>
-                            <option value="/"></option>
-                            <option value="Nam">Nam</option>
-                            <option value="Nu">Nữ</option>
-                            <option value="Khac">Khác</option>
-                        </select>
-                    </div>
-                    <div id="dob">
-                        <label>Ngày sinh</label>
-                        <input type="date" value={selectedDate} onChange={handleDateChange} />
-                    </div>
-                    <div className="tool-tip">
-                        <label>Địa chỉ</label>
-                        <input
-                            type="text"
-                            name="address"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                        />
-                    </div>
-                    <button id="save" type="submit">LƯU</button>
+  const { user } = useContext(MainContext);
+  const [fullname, setFullname] = useState(user.fullname);
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState(user.phone);
+  const [sex, setSex] = useState(user.sex);
+  const [dob, setDob] = useState(user?.dob?.slice(0, 10));
+  const [address, setAddress] = useState(user.address);
+  const [isEdit, setIsEdit] = useState(false);
+  const updateDataUser = async () => {
+    await updateDataUserAPI({
+      fullName: fullname,
+      phone: phone,
+      sex: sex,
+      dob: dob,
+      address: address,
+    });
+    setIsEdit(false);
+  };
+  console.log(user);
+  return (
+    <div id="profile">
+      <div className="head">
+        <h1>Hồ sơ của tôi</h1>
+        <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+      </div>
+      <div
+        style={{
+          position: "relative",
+          padding: "10px 8vw",
+          width: "100%",
+          gap: "10px",
+        }}
+      >
+        <div className={isEdit ? "left-body isEdit" : "left-body"}>
+          <table>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+            <tr>
+              <td>Tên đăng nhập</td>
+              <td>
+                <p
+                  style={{
+                    cursor: "not-allowed",
+                    backgroundColor: "aliceblue",
+                  }}
+                >
+                  {user.username}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>Mật khẩu</td>
+              <td>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <input
+                    style={{
+                      cursor: "not-allowed",
+                      backgroundColor: "aliceblue",
+                    }}
+                    disabled
+                    type="password"
+                    value="12345678"
+                  ></input>
+                  <HiPencil
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                    }}
+                  />
                 </div>
-                <div id="pick-img">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="undefined"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z" /></svg>
-                    <div>
-                        <button>Chọn ảnh</button>
-                    </div>
-                    <div className="text">Dung lượng file tối đa 1MB</div>
-                    <div className="text">Định dạng: .JPEG, .PNG</div>
-                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Họ và tên</td>
+              <td>
+                <input
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td>Số điện thoại</td>
+              <td>
+                <input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Giới tính</td>
+              <td>
+                <select
+                  value={sex && "Unset"}
+                  onChange={(e) => setSex(e.target.value)}
+                >
+                  <option value="male">Nam</option>
+                  <option value="female">Nữ</option>
+                  <option value="other">Khác</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Ngày sinh</td>
+              <td>
+                <input
+                  type="date"
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Địa chỉ</td>
+              <td>
+                <input
+                  type="text"
+                  name="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </td>
+            </tr>
+          </table>
+          <div
+            style={{
+              padding: "20px",
+              zIndex: "50",
+              width: "100%",
+              display: "flex",
+              justifyContent: "right",
+              gap: "10px",
+            }}
+          >
+            <button
+              className="btn12"
+              onClick={() => {
+                setIsEdit(true);
+              }}
+            >
+              Chỉnh sửa thông tin
+            </button>
+            <button className="btn10" onClick={updateDataUser}>
+              Lưu thông tin
+            </button>
+          </div>
+        </div>
+        {/* <div className="right-body">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <div
+              className="container-avatar"
+              style={{
+                borderStyle: "dashed",
+              }}
+            ></div>
+            <div>
+              <button
+                style={{
+                  padding: "10px 15px",
+                }}
+              >
+                Chọn ảnh
+              </button>
             </div>
-        </>
-    )
-}
+            <div className="text">Dung lượng file tối đa 1MB</div>
+            <div className="text">Định dạng: .JPEG, .PNG</div>
+          </div>
+
+          <div
+            style={{
+              zIndex: "50",
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <button
+              onClick={() => {
+                setIsEdit(true);
+              }}
+            >
+              Chỉnh sửa thông tin
+            </button>
+            <button onClick={updateDataUser}>Lưu thông tin</button>
+          </div>
+        </div> */}
+        <div
+          style={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            zIndex: !isEdit ? "10" : "-10",
+            backgroundColor: "transparent",
+            opacity: "30%",
+            cursor: "not-allowed",
+          }}
+        ></div>
+      </div>
+    </div>
+  );
+};
 
 export default Profile;

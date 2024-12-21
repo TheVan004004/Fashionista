@@ -23,7 +23,7 @@ const apiGetAllColors = async (req, res) => {
     }
 }
 
-const apiGetCategories = async (req, res) => {
+const apiGetAllCategories = async (req, res) => {
     try {
         const result = await productServices.getAllCategories();
         res.json(result);
@@ -34,5 +34,10 @@ const apiGetCategories = async (req, res) => {
     }
 }
 
-const productController = { apiFilteredProducts, apiGetAllColors, apiGetCategories };
+const productController =
+{
+    apiFilteredProducts,
+    apiGetAllColors,
+    apiGetAllCategories,
+};
 export default productController;
