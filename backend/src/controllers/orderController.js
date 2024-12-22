@@ -24,26 +24,14 @@ const apiUpdateOrder = async (req, res) => {
     try {
         const orderId = req.params.order_id;
         const result = await orderServices.updateStatusOrder(orderId);
-<<<<<<< HEAD
-        res.json(result)
-=======
         res.json(result);
->>>>>>> 96a02a4c59436e7cf11164fa5479170e08830cc1
     }
     catch (error) {
         console.log(`>>> Error getting: ${error}`);
         const result = resData('Server error', 1, '');
         res.status(500).json(result);
     }
-<<<<<<< HEAD
-
-
-}
-const orderController = { apiOrder, apiUpdateOrder };
-export default orderController;
-=======
 }
 
 const orderController = { apiOrder, apiUpdateOrder };
 export default orderController;
->>>>>>> 96a02a4c59436e7cf11164fa5479170e08830cc1
