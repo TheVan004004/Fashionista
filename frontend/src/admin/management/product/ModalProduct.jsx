@@ -2,27 +2,51 @@ import React, { useEffect, useState } from "react";
 import AddProduct from "./AddProduct";
 import { HiChevronLeft, HiChevronRight, HiOutlineX } from "react-icons/hi";
 import ViewProduct from "./ViewProduct";
+import { viewDetailProductAPI } from "../../../services/product.api";
 
 export default function ModalProduct({
   isOpenModalProduct,
   setIsOpenModalProduct,
   productView,
 }) {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getAllProductDetail();
+  }, [productView]);
   const getAllProductDetail = async () => {
-    // productView.color.forEach(() => {});
+    let listProductDetailCurr = [];
+    if (productView.length === 0) {
+      setListProductDetail(["add"]);
+      return;
+    }
+    try {
+      const promises = productView?.color?.map((color) =>
+        viewDetailProductAPI({
+          product_id: productView.id,
+          color: color.hex_code,
+          size: "L",
+        })
+      );
+      const results = await Promise.all(promises);
+      listProductDetailCurr = results.map((res) => res.data.data);
+      listProductDetailCurr = [...listProductDetailCurr, "add"];
+      console.log(listProductDetailCurr);
+      // Cập nhật state
+      setListProductDetail(listProductDetailCurr);
+    } catch (error) {
+      console.error("Failed to fetch product details:", error);
+    }
   };
   const [currentIndex, setCurrentIndex] = useState(0);
-  const listProduct = [...(productView.color || []), {}];
+  const [listProductDetail, setListProductDetail] = useState([]);
   const toNext = () => {
     setCurrentIndex((index) => {
-      if (index === listProduct.length - 1) return 0;
+      if (index === listProductDetail.length - 1) return 0;
       else return index + 1;
     });
   };
   const toPrev = () => {
     setCurrentIndex((index) => {
-      if (index === 0) return listProduct.length - 1;
+      if (index === 0) return listProductDetail.length - 1;
       else return index - 1;
     });
   };
@@ -60,7 +84,11 @@ export default function ModalProduct({
             justifyContent: "center",
             alignContent: "center",
           }}
-          onClick={() => setIsOpenModalProduct(false)}
+          onClick={() => {
+            setIsOpenModalProduct(false);
+            setCurrentIndex(0);
+            setListProductDetail([]);
+          }}
         />
         <div
           className={
@@ -69,7 +97,7 @@ export default function ModalProduct({
               : "modal-product-container"
           }
         >
-          <div style={{ display: "flex", gap: "15px" }}>
+          {/* <div style={{ display: "flex", gap: "15px" }}>
             <div style={{ display: "flex", gap: "10x", alignItems: "center" }}>
               <div
                 style={{
@@ -117,26 +145,45 @@ export default function ModalProduct({
               </select>
             </div>
             <button className="btn10">Lưu thay đổi</button>
-          </div>
+          </div> */}
           <div style={{ display: "flex", alignItems: "center" }}>
-            <HiChevronLeft onClick={toPrev} style={{ fontSize: "24px" }} />
-            <div className="list-color">
-              {listProduct?.map((color, index) => {
-                return (
-                  <button
-                    style={{
-                      backgroundColor: color.hex_code,
-                      boxShadow: "none",
-                      // colorPicked.hex_code === color.hex_code
-                      //   ? "0 0 0 4px white, 0 0 0 5px  var(--text-color)"
-                      //   : "none",
-                    }}
-                    // onClick={() => setColorPicked(color)}
-                  ></button>
-                );
-              })}
-            </div>
-            <HiChevronRight onClick={toNext} style={{ fontSize: "24px" }} />
+            {listProductDetail.length > 1 && (
+              <>
+                <HiChevronLeft onClick={toPrev} style={{ fontSize: "24px" }} />
+
+                <div className="list-color">
+                  {listProductDetail.map((product, index) => {
+                    if (index === listProductDetail.length - 1)
+                      return (
+                        <button
+                          style={{
+                            backgroundColor: "transparent !important",
+                            boxShadow: "none",
+                            border: "2px dashed black",
+                            // colorPicked.hex_code === color.hex_code
+                            //   ? "0 0 0 4px white, 0 0 0 5px  var(--text-color)"
+                            //   : "none",
+                          }}
+                          // onClick={() => setColorPicked(color)}
+                        ></button>
+                      );
+                    return (
+                      <button
+                        style={{
+                          backgroundColor: product.hex_code,
+                          boxShadow: "none",
+                          // colorPicked.hex_code === color.hex_code
+                          //   ? "0 0 0 4px white, 0 0 0 5px  var(--text-color)"
+                          //   : "none",
+                        }}
+                        // onClick={() => setColorPicked(color)}
+                      ></button>
+                    );
+                  })}
+                </div>
+                <HiChevronRight onClick={toNext} style={{ fontSize: "24px" }} />
+              </>
+            )}
           </div>
           <div id="container_slide_product">
             <div
@@ -145,13 +192,13 @@ export default function ModalProduct({
                 translate: `-${100 * currentIndex}%`,
               }}
             >
-              {listProduct?.map((banner, index) => {
+              {listProductDetail.map((product, index) => {
                 return (
                   <div className="container-card" key={`banner_${index}`}>
-                    {index === listProduct.length - 1 ? (
+                    {index === listProductDetail.length - 1 ? (
                       <AddProduct />
                     ) : (
-                      <ViewProduct />
+                      <ViewProduct product={product} />
                     )}
                   </div>
                 );

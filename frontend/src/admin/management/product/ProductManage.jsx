@@ -70,7 +70,6 @@ export default function ProductManage() {
   };
 
   const handleSave = async () => {
-    console.log("check");
     setIsSaving(true);
     let isChange = false;
     try {
@@ -234,7 +233,14 @@ export default function ProductManage() {
           </button>
         </div>
 
-        <button>Thêm sản phẩm mới</button>
+        <button
+          onClick={() => {
+            setIsOpenModalProduct(true);
+            setProductView([]);
+          }}
+        >
+          Thêm sản phẩm mới
+        </button>
       </div>
 
       <table
@@ -316,7 +322,14 @@ export default function ProductManage() {
                   </select>
                 </td>
                 <td style={{ textAlign: "center" }}>{product.total_buyturn}</td>
-                <td className="action" style={{ backgroundColor: "aliceblue" }}>
+                <td
+                  className="action"
+                  style={{
+                    position: "relative",
+                    backgroundColor: "aliceblue",
+                    zIndex: "20",
+                  }}
+                >
                   <HiOutlineEye
                     className="icon edit"
                     onClick={() => {
@@ -328,28 +341,6 @@ export default function ProductManage() {
               </tr>
             );
           })}
-          <tr>
-            <td
-              colSpan="6"
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "right",
-                gap: "20px",
-              }}
-            >
-              <button
-                onClick={() =>
-                  setPageSearch((prev) => (prev === 1 ? 1 : prev - 1))
-                }
-              >
-                Trái
-              </button>
-              <button onClick={() => setPageSearch((prev) => prev + 1)}>
-                Phải
-              </button>
-            </td>
-          </tr>
         </tbody>
         <div
           className="glass_effect"
@@ -365,6 +356,23 @@ export default function ProductManage() {
           }}
         ></div>
       </table>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          display: "flex",
+          justifyContent: "right",
+          gap: "20px",
+          zIndex: "20",
+        }}
+      >
+        <button
+          onClick={() => setPageSearch((prev) => (prev === 1 ? 1 : prev - 1))}
+        >
+          Trái
+        </button>
+        <button onClick={() => setPageSearch((prev) => prev + 1)}>Phải</button>
+      </div>
       <ModalProduct
         productView={productView}
         isOpenModalProduct={isOpenModalProduct}
