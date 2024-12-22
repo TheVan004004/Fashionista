@@ -86,9 +86,16 @@ const filterProducts = async (filterData) => {
     if (filterData.sort == "sale_desc") {
         allProducts.sort((a, b) => b.sale - a.sale) // sort sale desc
     }
+    if (filterData.sort == "least_buyturn") {
+        allProducts.sort((a, b) => a.total_buyturn - b.total_buyturn)
+    }
 
     allProducts = pagination(allProducts, parseInt(filterData.page), parseInt(filterData.limit));
-    const result = resData('Get products successfully', 0, allProducts.newItems);
+    const data = {
+        products: allProducts.newItems,
+        pageInfo: allProducts.pageInfo
+    }
+    const result = resData('Get products successfully', 0, data);
     return result;
 }
 

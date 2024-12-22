@@ -45,7 +45,8 @@ const apiUpdateQuantityProductDetail = async (req, res) => {
 
 const apiGetInfoBuyTurnUser = async (req, res) => {
     try {
-        const result = await adminServices.getInfoBuyTurnUser();
+        const { sort, page, limit } = req.query;
+        const result = await adminServices.getInfoBuyTurnUser(sort, page, limit);
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
@@ -88,20 +89,10 @@ const apiGetBuyTurnByMonthOfProduct = async (req, res) => {
     }
 }
 
-const apiSortOrders = async (req, res) => {
+const apiGetInfoProduct = async (req, res) => {
     try {
-        const result = await adminServices.sortOrders();
-        res.json(result);
-    } catch (error) {
-        console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
-        res.status(500).json(result);
-    }
-}
-
-const apiSortUsers = async (req, res) => {
-    try {
-        const result = await adminServices.sortUsers();
+        const productId = req.params.product_id;
+        const result = await adminServices.getInfoProduct(productId);
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
@@ -118,7 +109,6 @@ const adminController = {
     apiGetProductsByMonth,
     apiGetTotalSalesByMonth,
     apiGetBuyTurnByMonthOfProduct,
-    apiSortOrders,
-    apiSortUsers,
+    apiGetInfoProduct,
 }
 export default adminController;

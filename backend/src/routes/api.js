@@ -47,8 +47,7 @@ router.get("/api/admin/getInfoBuyTurnUser", adminController.apiGetInfoBuyTurnUse
 router.get("/api/admin/getProductsByMonth", adminController.apiGetProductsByMonth);
 router.get("/api/admin/getTotalSalesByMonth", adminController.apiGetTotalSalesByMonth);
 router.get("/api/admin/getBuyTurnByMonthOfProduct/:product_id", adminController.apiGetBuyTurnByMonthOfProduct);
-router.get("/api/admin/sortOrders", adminController.apiSortOrders);
-router.get("/api/admin/sortUsers", adminController.apiSortUsers);
+router.get("/api/admin/getInfoProduct/:product_id", adminController.apiGetInfoProduct);
 
 
 export { router }

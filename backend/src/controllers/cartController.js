@@ -23,7 +23,8 @@ const apiGetAllCartItems = async (req, res) => {
   }
   try {
     const userId = req.user.id;
-    const result = await cartSerVices.getAllCartItems(userId);
+    const pageInfo = req.query;
+    const result = await cartSerVices.getAllCartItems(userId, pageInfo);
     res.json(result);
   } catch (error) {
     console.log(`>>> Error getting: ${error}`);

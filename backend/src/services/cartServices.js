@@ -1,6 +1,7 @@
 import { db } from "../config/database.js";
 import resData from "../helpers/jsonFormat.js";
 import env from "dotenv";
+import pagination from "../helpers/paginate.js";
 
 env.config();
 const port = process.env.PORT;
@@ -65,7 +66,7 @@ const addCartItem = async (userId, cartItemData) => {
   return result;
 };
 
-const getAllCartItems = async (userId) => {
+const getAllCartItems = async (userId, pageInfo) => {
   const resultCart = await db.query(`SELECT id FROM cart WHERE user_id=$1;`, [
     userId,
   ]);
@@ -87,7 +88,12 @@ const getAllCartItems = async (userId) => {
       image: `http://${hostname}:${port}/public/images/${item.image}.png`,
     };
   });
-  const result = resData("Get all items of cart successfully", 0, rows);
+  rows = pagination(rows, parseInt(pageInfo.page), parseInt(pageInfo.limit));
+  const data = {
+    cartItems: rows.newItems,
+    pageInfo: rows.pageInfo
+  }
+  const result = resData("Get all items of cart successfully", 0, data);
   return result;
 };
 

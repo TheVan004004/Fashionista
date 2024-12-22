@@ -1,6 +1,13 @@
 import { db } from "../config/database.js";
 import resData from "../helpers/jsonFormat.js";
+import pagination from "../helpers/paginate.js";
 import productServices from "./productServices.js";
+import env from "dotenv";
+
+
+env.config();
+const port = process.env.PORT;
+const hostname = process.env.HOST_NAME;
 
 const checkExistedProduct = async (name) => {
     const getAllProducts = await productServices.filterProducts({});
@@ -165,9 +172,9 @@ const updateQuantityProductDetail = async (productDetailId, newQuantity) => {
     return result;
 }
 
-const getInfoBuyTurnUser = async () => {
+const getInfoBuyTurnUser = async (sort, page, limit) => {
     // sum of quantity in order_details table
-    const { rows } = await db.query(
+    let { rows } = await db.query(
         `SELECT users.id, username, fullname, role, phone , address, dob, sex, COALESCE(SUM(quantity), 0) as buyturn
          FROM users
          LEFT JOIN orders ON orders.user_id = users.id
@@ -175,8 +182,19 @@ const getInfoBuyTurnUser = async () => {
          GROUP BY users.id, username, fullname, role, phone , address, dob, sex
          ORDER BY users.id ASC; `
     );
-
-    const result = resData(`Get user buy turn information successfully`, 0, rows);
+    //sort
+    if (sort == 'asc') {
+        rows.sort((a, b) => a.buyturn - b.buyturn);
+    }
+    if (sort == 'desc') {
+        rows.sort((a, b) => b.buyturn - a.buyturn);
+    }
+    rows = pagination(rows, parseInt(page), parseInt(limit));
+    const data = {
+        infoUserBuyTurn: rows.newItems,
+        pageInfo: rows.pageInfo
+    }
+    const result = resData(`Get user buy turn information successfully`, 0, data);
     return result;
 
 }
@@ -214,6 +232,21 @@ const getBuyTurnByAMonthOfProduct = async (month, productId) => {
          GROUP BY product_details.product_id;`,
         [month, productId]
     );
+    const data = { ...rows[0], month: month };
+    return data;
+}
+const getBuyTurnByAMonthOfProductColor = async (month, product_id, color_id) => {
+    const { rows } = await db.query(
+        `SELECT SUM(order_details.quantity) AS total_buyturn
+         FROM orders
+         JOIN order_details ON order_details.order_id = orders.id
+         JOIN product_details ON product_details.id = order_details.product_details_id
+         WHERE EXTRACT(MONTH FROM created_at) = $1
+         AND product_details.product_id = $2
+         AND color_id=$3
+         GROUP BY color_id;`,
+        [month, product_id, color_id]
+    )
     const data = { ...rows[0], month: month };
     return data;
 }
@@ -259,13 +292,54 @@ const getBuyTurnByMonthOfProduct = async (productId) => {
     return result;
 }
 
-const sortOrders = async () => {
+const getInfoProduct = async (productId) => {
+    // search product
+    const getProduct = await db.query(
+        `SELECT products.id,products.name, products.image,price, sale, categories.name AS category_name, SUM(buyturn) AS total_buyturn, SUM(quantity) AS total_quantity
+         FROM products
+         JOIN categories ON categories.id=products.category_id
+         JOIN product_details ON product_details.product_id=products.id
+         WHERE products.id = $1
+         GROUP BY products.id,products.name, products.image,price, sale, categories.name`,
+        [productId]
+    );
+    const searchedProduct = getProduct.rows[0];
+    const colorData = await db.query(
+        `SELECT DISTINCT ON (color_id) color_id, color.name as color_name,hex_code
+         FROM products
+         JOIN product_details ON product_details.product_id=products.id
+         JOIN color ON color.id=product_details.color_id
+         WHERE product_details.product_id= $1;`,
+        [productId]
+    );
+    let data = { ...searchedProduct, image: `http://${hostname}:${port}/public/images/${searchedProduct.image}.png`, color: colorData.rows };
+
+    //search product_details belongs this product
+    let listProductsInfoByColor = [];
+    for (let color of colorData.rows) {
+        let itemOfList = {
+            color_id: color.color_id,
+            color_name: color.color_name,
+            productInfoByColor: []
+        }
+        for (let i = 1; i <= 12; i++) {
+            let dataAMonth = await getBuyTurnByAMonthOfProductColor(i, productId, color.color_id);
+            if (!dataAMonth.total_buyturn) {
+                dataAMonth.total_buyturn = 0;
+            }
+            itemOfList.productInfoByColor.push(dataAMonth);
+        }
+        listProductsInfoByColor.push(itemOfList);
+    }
+
+    data = { ...data, listProductsInfoByColor: listProductsInfoByColor };
+
+
+    const result = resData('Get product info successfully', 0, data);
+    return result;
 
 }
 
-const sortUsers = async () => {
-
-}
 
 const adminServices = {
     addNewProductDetail,
@@ -275,7 +349,6 @@ const adminServices = {
     getProductsByMonth,
     getTotalSalesByMonth,
     getBuyTurnByMonthOfProduct,
-    sortOrders,
-    sortUsers,
+    getInfoProduct,
 }
 export default adminServices;

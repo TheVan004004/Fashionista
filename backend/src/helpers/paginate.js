@@ -14,7 +14,7 @@ const pagination = (item, page, limit) => {
             page: page,
             totalPages: totalPages,
             limit: limit,
-            totalTeachers: totalItems,
+            totalItemsInPage: totalItems,
             prevPage: page > 1 ? page - 1 : null,
             nextPage: page < totalPages ? page + 1 : null
         }
