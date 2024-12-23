@@ -34,14 +34,21 @@ export default function Payment({ listOrder, setListOrder }) {
     <div className="payment">
       <h2>Chi Tiết Đơn hàng</h2>
       {listOrder.length > 0 && (
-        <table>
+        <table
+          style={{
+            width: "100%",
+            tableLayout: "fixed",
+            borderCollapse: "collapse",
+          }}
+        >
           <thead>
             <tr>
               <th
                 style={{
-                  width: "200px",
+                  width: "150px",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
+                  overflow: "hidden",
                 }}
               >
                 Tên sản phẩm
@@ -51,6 +58,7 @@ export default function Payment({ listOrder, setListOrder }) {
                   width: "60px",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
+                  overflow: "hidden",
                 }}
               >
                 Loại
@@ -60,40 +68,52 @@ export default function Payment({ listOrder, setListOrder }) {
                   width: "60px",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
+                  overflow: "hidden",
                 }}
               >
                 Đơn giá
               </th>
               <th
                 style={{
-                  width: "100px",
+                  width: "80px",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
+                  overflow: "hidden",
                 }}
               >
                 Số lượng
               </th>
-              <th>Giá </th>
+              <th
+                style={{
+                  width: "60px",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                }}
+              >
+                Giá
+              </th>
             </tr>
           </thead>
-          <tbody></tbody>
-          {listOrder.map((product, index) => {
-            return (
-              <tr key={"order" + product.item_id}>
+          <tbody>
+            {listOrder.map((product) => (
+              <tr key={product.item_id}>
                 <td
                   style={{
-                    width: "200px",
+                    width: "150px",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
+                    overflow: "hidden",
                   }}
                 >
                   {product.name}
                 </td>
                 <td
                   style={{
-                    width: "40px",
+                    width: "60px",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
+                    overflow: "hidden",
                   }}
                 >
                   {product.color_name}, {product.size_name}
@@ -108,20 +128,15 @@ export default function Payment({ listOrder, setListOrder }) {
                 <td
                   style={{
                     width: "100px",
+                    textAlign: "center",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
-                    textAlign: "center",
+                    overflow: "hidden",
                   }}
                 >
                   {product.quantity_item}
                 </td>
-                <td
-                  style={{
-                    width: "100px",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <td>
                   {(
                     ((product.price * (100 - product.sale)) / 100) *
                     product.quantity_item
@@ -129,15 +144,15 @@ export default function Payment({ listOrder, setListOrder }) {
                   đ
                 </td>
               </tr>
-            );
-          })}
-          {listOrder.length !== 0 && (
-            <tr>
-              <td colSpan="5" style={{ textAlign: "right" }}>
-                Tổng: {sum.toLocaleString("vi-VN")}đ
-              </td>
-            </tr>
-          )}
+            ))}
+            {listOrder.length !== 0 && (
+              <tr>
+                <td colSpan="5" style={{ textAlign: "right" }}>
+                  Tổng: {sum.toLocaleString("vi-VN")}đ
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       )}
 

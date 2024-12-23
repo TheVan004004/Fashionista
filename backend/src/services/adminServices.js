@@ -379,7 +379,7 @@ const getAllOrders = async (status, page, limit) => {
 			JOIN users ON users.id = orders.user_id
             ORDER BY orders.id ASC;`
     );
-    rows = pagination(rows, page, limit);
+    rows = pagination(rows, parseInt(page), parseInt(limit));
     const data = {
       orders: rows.newItems,
       pageInfo: rows.pageInfo,
@@ -396,7 +396,7 @@ const getAllOrders = async (status, page, limit) => {
             ORDER BY orders.id ASC;`,
     [status]
   );
-  rows = pagination(rows, page, limit);
+  rows = pagination(rows, parseInt(page), parseInt(limit));
   const data = {
     orders: rows.newItems,
     pageInfo: rows.pageInfo,

@@ -19,13 +19,15 @@ const ProductDetail = () => {
   const sizes = ["M", "L", "XL"];
   useEffect(() => {
     window.scrollTo({ top: 0 });
-  }, []);
+    setColorPicked("");
+    setSizePicked("");
+  }, [productDetail]);
   useEffect(() => {
     getProductSimilar();
-  }, [limitViewMore]);
+  }, [limitViewMore, productDetail]);
   useEffect(() => {
     getProduct();
-  }, [colorPicked, sizePicked]);
+  }, [colorPicked, sizePicked, productDetail]);
   const getProductSimilar = async () => {
     try {
       const res = await searchAPI(
