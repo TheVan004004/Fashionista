@@ -3,7 +3,7 @@ import orderServices from "../services/orderServices.js";
 
 const apiOrder = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 0, '');
+        const result = resData('Please login', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -18,7 +18,7 @@ const apiOrder = async (req, res) => {
 
 const apiUpdateOrder = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 0, '');
+        const result = resData('Please login', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -35,7 +35,7 @@ const apiUpdateOrder = async (req, res) => {
 
 const apiGetOrders = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 0, '');
+        const result = resData('Please login', 1, '');
         return res.status(400).json(result);
     }
     try {

@@ -81,7 +81,12 @@ const getOrders = async (userId, status, page, limit) => {
              ORDER BY order_id ASC;`,
             [userId]
         );
-        rows = pagination(rows, page, limit)
+        rows = rows.map((item) => {
+            const created_at = item.created_at;
+            const created_at_vn = new Date(created_at).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
+            return { ...item, created_at: created_at_vn }
+        });
+        rows = pagination(rows, parseInt(page), parseInt(limit))
         const data = {
             orders: rows.newItems,
             pageInfo: rows.pageInfo
@@ -98,7 +103,12 @@ const getOrders = async (userId, status, page, limit) => {
          ORDER BY order_id ASC;`,
         [userId, status]
     );
-    rows = pagination(rows, page, limit);
+    rows = rows.map((item) => {
+        const created_at = item.created_at;
+        const created_at_vn = new Date(created_at).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
+        return { ...item, created_at: created_at_vn }
+    })
+    rows = pagination(rows, parseInt(page), parseInt(limit));
     const data = {
         orders: rows.newItems,
         pageInfo: rows.pageInfo

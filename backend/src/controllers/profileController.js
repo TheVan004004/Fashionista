@@ -3,7 +3,7 @@ import profileServices from '../services/profileServices..js';
 
 const apiGetProfile = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 0, '');
+        const result = resData('Please login', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -18,7 +18,7 @@ const apiGetProfile = async (req, res) => {
 
 const apiPostProfile = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 0, '');
+        const result = resData('Please login', 1, '');
         return res.status(400).json(result);
     }
     try {

@@ -3,7 +3,7 @@ import cartSerVices from "../services/cartServices.js";
 
 const apiAddCartItem = async (req, res) => {
   if (!req.user) {
-    const result = resData("Please login", 0, "");
+    const result = resData("Please login", 1, "");
     return res.status(400).json(result);
   }
   try {

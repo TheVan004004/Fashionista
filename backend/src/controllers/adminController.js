@@ -125,6 +125,18 @@ const apiUpdateOrderAdmin = async (req, res) => {
     }
 }
 
+const apiDeleteProductDetail = async (req, res) => {
+    try {
+        const { product_id, color_id } = req.query;
+        const result = await adminServices.deleteProductDetail(product_id, color_id);
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
 const adminController = {
     apiAddNewProductDetail,
     apiUpdateProduct,

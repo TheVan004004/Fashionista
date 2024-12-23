@@ -2,10 +2,13 @@ import { db } from "../config/database.js";
 import resData from "../helpers/jsonFormat.js";
 
 const getProfile = async (userId) => {
-    const { rows } = await db.query(
+    let { rows } = await db.query(
         `SELECT * FROM users WHERE id = $1`,
         [userId]
     );
+    const dob = rows[0].dob;
+    const dobVN = new Date(dob).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
+    rows[0] = { ...rows[0], dob: dobVN };
     const result = resData('Get profile successfully', 0, rows);
     return result;
 }

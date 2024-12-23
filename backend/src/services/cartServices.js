@@ -19,7 +19,7 @@ const addCartItem = async (userId, cartItemData) => {
     [product_details_id]
   );
   if (quantity > compare.rows[0].quantity) {
-    const result = resData("Limited quantity", 0, "");
+    const result = resData("Limited quantity", 1, "");
     return result;
   }
 
@@ -77,7 +77,8 @@ const getAllCartItems = async (userId, pageInfo) => {
          JOIN categories ON products.category_id=categories.id
          JOIN color ON product_details.color_id=color.id
          JOIN size ON product_details.size_id=size.id
-         WHERE cart_id=$1;`,
+         WHERE cart_id=$1
+         ORDER BY item_id DESC;`,
     [cartId]
   );
   rows = rows.map((item) => {

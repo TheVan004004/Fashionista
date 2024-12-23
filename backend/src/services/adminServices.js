@@ -10,15 +10,15 @@ const port = process.env.PORT;
 const hostname = process.env.HOST_NAME;
 
 const checkExistedProduct = async (name) => {
-    const getAllProducts = await productServices.filterProducts({});
+    const getAllProducts = await productServices.filterProducts({ page: 1, limit: 1000 });
     const allProducts = getAllProducts.data.products;
     let foundProduct = allProducts.find((product) => product.name == name);
     return foundProduct ? foundProduct.id : -1;
 }
-const checkExistedColor = async (hex_code) => {
+const checkExistedColor = async (name) => {
     const getAllColors = await productServices.getAllColors();
     const allColors = getAllColors.data;
-    let foundColor = allColors.find((color) => color.hex_code == hex_code);
+    let foundColor = allColors.find((color) => color.name == name);
     return foundColor ? foundColor.id : -1;
 }
 const checkExistedCategory = async (name) => {
@@ -27,24 +27,27 @@ const checkExistedCategory = async (name) => {
     let foundCategory = allCategories.find((category) => category.name == name);
     return foundCategory ? foundCategory.id : -1;
 }
-const checkExistedSize = async (name) => {
-    const getAllSize = await db.query(
-        `SELECT *
-         FROM size;`
-    );
-    const allSize = getAllSize.rows;
-    let foundSize = allSize.find((size) => size.name == name);
-    return foundSize ? foundSize.id : -1;
-}
 
 const addNewProductDetail = async (productDetailData) => {
-    let { name, image, category_name, size_name, color_name, hex_code, quantity, price, sale } = productDetailData;
+    let {
+        name,
+        image,
+        category_name,
+        color_name,
+        hex_code,
+        quantity_sizeM,
+        quantity_sizeL,
+        quantity_sizeXL,
+        quantity_size2XL,
+        cost,
+        price,
+        sale
+    } = productDetailData;
 
     //check exist
     let foundProductId = await checkExistedProduct(name);
-    let foundColorId = await checkExistedColor(hex_code);
+    let foundColorId = await checkExistedColor(color_name);
     let foundCategoryId = await checkExistedCategory(category_name);
-    let foundSizeId = await checkExistedSize(size_name);
 
     // new product
     if (foundProductId == -1) {
@@ -77,21 +80,20 @@ const addNewProductDetail = async (productDetailData) => {
         );
         foundProductId = insertProduct.rows[0].id;
         const insertProductDetail = await db.query(
-            `INSERT INTO product_details (product_id,image, size_id,color_id,buyturn, quantity, price, sale)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+            `INSERT INTO product_details (product_id,image, size_id,color_id,buyturn, quantity,cost, price, sale)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9),
+                    ($10,$11,$12,$13,$14,$15,$16,$17,$18),
+                    ($19,$20,$21,$22,$23,$24,$25,$26,$27),
+                    ($28,$29,$30,$31,$32,$33,$34,$35,$36)
              RETURNING *;`,
             [
-                foundProductId,
-                image,
-                foundSizeId,
-                foundColorId,
-                0,
-                quantity,
-                price,
-                sale
+                foundProductId, image, 1, foundColorId, 0, quantity_sizeM, cost, price, sale,
+                foundProductId, image, 2, foundColorId, 0, quantity_sizeL, cost, price, sale,
+                foundProductId, image, 3, foundColorId, 0, quantity_sizeXL, cost, price, sale,
+                foundProductId, image, 4, foundColorId, 0, quantity_size2XL, cost, price, sale,
             ]
         );
-        const result = resData('Add new product successfully', 0, insertProductDetail.rows[0]);
+        const result = resData('Add new product successfully', 0, insertProductDetail.rows);
         return result;
     }
     // product exists but has new productDetail ('newColor' come with 'newImage')
@@ -104,33 +106,72 @@ const addNewProductDetail = async (productDetailData) => {
                 [color_name, hex_code]
             );
             foundColorId = addNewColor.rows[0].id;
-        }
-        // get price and sale of product
-        const getQuantitySaleCCurr = await db.query(
-            `SELECT price, sale
+            // get price and sale of product
+            const getQuantitySaleCCurr = await db.query(
+                `SELECT price, sale, cost
              FROM product_details
              WHERE product_id = $1`,
+                [foundProductId]
+            );
+            cost = getQuantitySaleCCurr.rows[0].cost;
+            price = getQuantitySaleCCurr.rows[0].price;
+            sale = getQuantitySaleCCurr.rows[0].sale;
+
+            const insertProductDetail = await db.query(
+                `INSERT INTO product_details (product_id,image, size_id,color_id,buyturn, quantity,cost, price, sale)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9),
+                        ($10,$11,$12,$13,$14,$15,$16,$17,$18),
+                        ($19,$20,$21,$22,$23,$24,$25,$26,$27),
+                        ($28,$29,$30,$31,$32,$33,$34,$35,$36)
+                 RETURNING *;`,
+                [
+                    foundProductId, image, 1, foundColorId, 0, quantity_sizeM, cost, price, sale,
+                    foundProductId, image, 2, foundColorId, 0, quantity_sizeL, cost, price, sale,
+                    foundProductId, image, 3, foundColorId, 0, quantity_sizeXL, cost, price, sale,
+                    foundProductId, image, 4, foundColorId, 0, quantity_size2XL, cost, price, sale,
+                ]
+            );
+            const result = resData('Add new product successfully', 0, insertProductDetail.rows);
+            return result;
+        }
+
+        const listColor = await db.query(
+            `SELECT DISTINCT color.id
+             FROM products
+             JOIN product_details ON product_details.product_id = products.id
+             JOIN color ON color.id = product_details.color_id
+             WHERE products.id = $1;`,
             [foundProductId]
         );
-        price = getQuantitySaleCCurr.rows[0].price;
-        sale = getQuantitySaleCCurr.rows[0].sale;
+        if (!listColor.rows.find((color) => color.id == foundColorId)) {
+            const getQuantitySaleCCurr = await db.query(
+                `SELECT price, sale, cost
+             FROM product_details
+             WHERE product_id = $1`,
+                [foundProductId]
+            );
+            cost = getQuantitySaleCCurr.rows[0].cost;
+            price = getQuantitySaleCCurr.rows[0].price;
+            sale = getQuantitySaleCCurr.rows[0].sale;
 
-        const insertProductDetail = await db.query(
-            `INSERT INTO product_details (product_id,image, size_id,color_id,buyturn, quantity, price, sale)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-             RETURNING *;`,
-            [
-                foundProductId,
-                image,
-                foundSizeId,
-                foundColorId,
-                0,
-                quantity,
-                price,
-                sale
-            ]
-        );
-        const result = resData('Add new product successfully', 0, insertProductDetail.rows[0]);
+            const insertProductDetail = await db.query(
+                `INSERT INTO product_details (product_id,image, size_id,color_id,buyturn, quantity,cost, price, sale)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9),
+                        ($10,$11,$12,$13,$14,$15,$16,$17,$18),
+                        ($19,$20,$21,$22,$23,$24,$25,$26,$27),
+                        ($28,$29,$30,$31,$32,$33,$34,$35,$36)
+                 RETURNING *;`,
+                [
+                    foundProductId, image, 1, foundColorId, 0, quantity_sizeM, cost, price, sale,
+                    foundProductId, image, 2, foundColorId, 0, quantity_sizeL, cost, price, sale,
+                    foundProductId, image, 3, foundColorId, 0, quantity_sizeXL, cost, price, sale,
+                    foundProductId, image, 4, foundColorId, 0, quantity_size2XL, cost, price, sale,
+                ]
+            );
+            const result = resData('Add new product successfully', 0, insertProductDetail.rows);
+            return result;
+        }
+        const result = resData('Product existed. Try adding new product again', 1, '');
         return result;
     }
 }
@@ -153,7 +194,7 @@ const updateProduct = async (productId, updateData) => { //updateData {newName, 
          WHERE product_id =$3;`,
         [newPrice, newSale, productId]
     );
-    const getAllProducts = await productServices.filterProducts({});
+    const getAllProducts = await productServices.filterProducts({ page: 1, limit: 1000 });
     const allProducts = getAllProducts.data.products;
     let updatedProduct = allProducts.find((product) => product.id == productId);
     const result = resData('Updated product successfully', 0, updatedProduct);
@@ -295,12 +336,12 @@ const getBuyTurnByMonthOfProduct = async (productId) => {
 const getInfoProduct = async (productId) => {
     // search product
     const getProduct = await db.query(
-        `SELECT products.id,products.name, products.image,price, sale, categories.name AS category_name, SUM(buyturn) AS total_buyturn, SUM(quantity) AS total_quantity
+        `SELECT products.id,products.name, products.image,cost,price, sale, categories.name AS category_name, SUM(buyturn) AS total_buyturn, SUM(quantity) AS total_quantity
          FROM products
          JOIN categories ON categories.id=products.category_id
          JOIN product_details ON product_details.product_id=products.id
          WHERE products.id = $1
-         GROUP BY products.id,products.name, products.image,price, sale, categories.name`,
+         GROUP BY products.id,products.name, products.image,cost,price, sale, categories.name`,
         [productId]
     );
     const searchedProduct = getProduct.rows[0];
@@ -348,7 +389,12 @@ const getAllOrders = async (status, page, limit) => {
 			JOIN users ON users.id = orders.user_id
             ORDER BY orders.id ASC;`
         );
-        rows = pagination(rows, page, limit)
+        rows = rows.map((item) => {
+            const created_at = item.created_at;
+            const created_at_vn = new Date(created_at).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
+            return { ...item, created_at: created_at_vn }
+        })
+        rows = pagination(rows, parseInt(page), parseInt(limit))
         const data = {
             orders: rows.newItems,
             pageInfo: rows.pageInfo
@@ -365,7 +411,12 @@ const getAllOrders = async (status, page, limit) => {
             ORDER BY orders.id ASC;`,
         [status]
     );
-    rows = pagination(rows, page, limit)
+    rows = rows.map((item) => {
+        const created_at = item.created_at;
+        const created_at_vn = new Date(created_at).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
+        return { ...item, created_at: created_at_vn }
+    })
+    rows = pagination(rows, parseInt(page), parseInt(limit))
     const data = {
         orders: rows.newItems,
         pageInfo: rows.pageInfo
