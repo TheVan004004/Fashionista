@@ -21,7 +21,7 @@ const ProductDetail = () => {
   const [listPopularSimilar, setListPopularSimilar] = useState([]);
   const [limitViewMore, setLimitViewMore] = useState(5);
   const [pageViewMore, setPageViewMore] = useState(1);
-  const sizes = ["M", "L", "XL"];
+  const sizes = ["M", "L", "XL", "2XL"];
   useEffect(() => {
     window.scrollTo({ top: 0 });
     setColorPicked("");

@@ -12,12 +12,14 @@ export default function ViewProduct({ product }) {
   const [dataChart, setDataChart] = useState([]);
   const getChartBuyturn = async () => {
     const res = await getChartBuyturnProductAPI(product.id);
+    console.log(res.data.data);
     const data = res.data.data.map(
       (d) => d.total_buyturn + Math.floor(Math.random() * 10001)
     );
     setDataChart(data);
   };
-  const sizes = ["L", "M", "XL"];
+  const getAllProductDetailBySize = async () => {};
+  const sizes = ["L", "M", "XL", "2XL"];
   return (
     <div id="add-product">
       <div className="left">

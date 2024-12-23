@@ -76,36 +76,46 @@ const Filter = () => {
             padding: "10px",
             width: "100px",
             backgroundColor: "var(--blur-color)",
+            flexShrink: "0",
+            borderRadius: "0",
           }}
           onClick={removeFilter}
+          className="btn10"
         >
           Bỏ lọc
         </button>
         <div className="filter-section">
           <h4>Loại sản phẩm</h4>
-          <div className="filter-group">
-            {categories
-              .slice(0, isViewMoreCategory ? categories.length : 5)
-              .map((category, index) => {
-                return (
-                  <label>
-                    <input
-                      checked={category.name === categoryFilter}
-                      type="radio"
-                      name="category"
-                      onClick={() =>
-                        setCategoryFilter((prev) => {
-                          console.log(prev);
-                          return prev !== "" && prev === categoryFilter
-                            ? ""
-                            : category.name;
-                        })
-                      }
-                    />{" "}
-                    {category.name}
-                  </label>
-                );
-              })}
+          <div
+            className="filter-group"
+            style={{
+              height: isViewMoreCategory
+                ? `${categories.length * 28 + 10}px`
+                : "110px",
+              overflow: "hidden",
+              transition: "all 500ms ease-in-out",
+            }}
+          >
+            {categories.map((category, index) => {
+              return (
+                <label>
+                  <input
+                    checked={category.name === categoryFilter}
+                    type="radio"
+                    name="category"
+                    onClick={() =>
+                      setCategoryFilter((prev) => {
+                        console.log(prev);
+                        return prev !== "" && prev === categoryFilter
+                          ? ""
+                          : category.name;
+                      })
+                    }
+                  />{" "}
+                  {category.name}
+                </label>
+              );
+            })}
           </div>
           <div
             style={{
@@ -115,7 +125,9 @@ const Filter = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              borderRadius: "0",
             }}
+            className="btn10"
             onClick={() => setIsViewMoreCategory((prev) => !prev)}
           >
             {isViewMoreCategory ? <HiChevronUp /> : <HiChevronDown />}

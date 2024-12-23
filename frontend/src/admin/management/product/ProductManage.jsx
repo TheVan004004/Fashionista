@@ -480,6 +480,8 @@ export default function ProductManage() {
         )}
       </div>
       <ModalProduct
+        getColor={getColor}
+        setProductView={setProductView}
         getProduct={getProduct}
         productView={productView}
         isOpenModalProduct={isOpenModalProduct}

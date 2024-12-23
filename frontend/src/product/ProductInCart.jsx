@@ -13,7 +13,7 @@ export default function ({
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const [colors, setColors] = useState([]);
-  const sizes = ["M", "L", "XL"];
+  const sizes = ["M", "L", "XL", "2XL"];
   const [colorChange, setColorChange] = useState(product.hex_code);
   const [sizeChange, setSizeChange] = useState(product.size_name);
   const deleteItemInCart = async () => {

@@ -13,7 +13,7 @@
 #add-product .right {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 15px;
 }
 #add-product .left a {
   height: 400px;

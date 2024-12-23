@@ -18,6 +18,8 @@ export default function ModalProduct({
   setIsOpenModalProduct,
   productView,
   getProduct,
+  setProductView,
+  getColor,
 }) {
   useEffect(() => {
     getAllProductDetail();
@@ -287,7 +289,12 @@ export default function ModalProduct({
                   return (
                     <div className="container-card" key={`banner_${index}`}>
                       {index === listProductDetail.length - 1 ? (
-                        <AddProduct />
+                        <AddProduct
+                          listProductDetail={listProductDetail}
+                          getProduct={getProduct}
+                          productView={productView}
+                          setProductView={setProductView}
+                        />
                       ) : (
                         <ViewProduct product={product} />
                       )}
