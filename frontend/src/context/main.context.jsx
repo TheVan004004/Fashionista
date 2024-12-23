@@ -18,7 +18,7 @@ export const ContextWrapper = (props) => {
   const [listResultSearch, setListResultSearch] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const [productDetail, setProductDetail] = useState(
-    JSON.parse(localStorage.getItem("product_detail") || "") || ""
+    JSON.parse(localStorage.getItem("product_detail") | "") || ""
   );
   const [sort, setSort] = useState("most_buyturn");
   const [listPopular, setListPopular] = useState([]);

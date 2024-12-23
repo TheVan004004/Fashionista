@@ -374,6 +374,7 @@ export default function ProductManage() {
         <button onClick={() => setPageSearch((prev) => prev + 1)}>Phải</button>
       </div>
       <ModalProduct
+        getProduct={getProduct}
         productView={productView}
         isOpenModalProduct={isOpenModalProduct}
         setIsOpenModalProduct={setIsOpenModalProduct}

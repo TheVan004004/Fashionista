@@ -35,12 +35,12 @@ export default function AddProduct() {
     }
   };
   const addNewProuduct = () => {
-    quantity_sizes.forEach(async (size) => {
+    quantity_sizes.forEach(async (size, index) => {
       const formData = new FormData();
       formData.append("name", name);
-      formData.append("image", image);
-      formData.append("price", price);
-      formData.append("sale", sale);
+      formData.append("image", index === 0 ? image : "");
+      formData.append("price", index === 0 ? price : "");
+      formData.append("sale", index === 0 ? sale : "");
       formData.append("category_name", category);
       formData.append("quantity", size.quantity);
       formData.append("color_name", listColor[color].name);
