@@ -46,7 +46,12 @@ const ProductDiscount = ({ product }) => {
           {product.price.toLocaleString("vi-VN")}đ
         </del>
       </div>
-      <div className="sale">-{product.sale}%</div>
+      <div
+        className="sale btn12"
+        style={{ backgroundColor: "var(--sale-color) !important" }}
+      >
+        -{product.sale}%
+      </div>
     </div>
   );
 };

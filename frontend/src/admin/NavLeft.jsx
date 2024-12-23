@@ -27,7 +27,10 @@ export default function Navleft() {
   ];
   const showSidebar = () => setSidebar(!sidebar);
   return (
-    <div className={sidebar ? "container-nav active" : "container-nav"}>
+    <div
+      className={sidebar ? "container-nav active" : "container-nav"}
+      style={{ flexShrink: "0" }}
+    >
       <ul className="nav-menu-items">
         {SidebarData.map((item, index) => {
           return (

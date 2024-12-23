@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { HiOutlineSearch, HiPencilAlt } from "react-icons/hi";
+import {
+  HiChevronLeft,
+  HiChevronRight,
+  HiDotsHorizontal,
+  HiOutlineSearch,
+  HiPencilAlt,
+} from "react-icons/hi";
 import { HiOutlineEye } from "react-icons/hi";
 import {
   getAllColorAPI,
@@ -26,6 +32,9 @@ export default function ProductManage() {
   const [maxPrice, setMaxPrice] = useState(1000000);
   const [limitSearch, setLimitSearch] = useState(10);
   const [pageSearch, setPageSearch] = useState(1);
+  const [prevPage, setPrevPage] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
+  const [totalPage, setTotalPage] = useState(null);
   const [listColor, setListColor] = useState([]);
   useEffect(() => {
     getProduct();
@@ -57,11 +66,17 @@ export default function ProductManage() {
         limitSearch
       );
       if (res && res.data) {
-        const data = res.data.data.products;
-        setListProducts(data);
-        setListProductsCache(data);
+        const data = res.data.data;
+        console.log(data.products);
+        setTotalPage(data.pageInfo.totalPages);
+        setPrevPage(data.pageInfo.prevPage);
+        setNextPage(data.pageInfo.nextPage);
+        setListProducts(data.products);
+        setListProductsCache(data.products);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
   const getColor = async () => {
     const res = await getAllColorAPI();
@@ -148,7 +163,10 @@ export default function ProductManage() {
             <div style={{ textWrap: "nowrap" }}>Giới hạn:</div>
             <select
               value={limitSearch}
-              onChange={(e) => setLimitSearch(e.target.value)}
+              onChange={(e) => {
+                setLimitSearch(e.target.value);
+                setPageSearch(1);
+              }}
             >
               <option value={5}>5</option>
               <option value={10}>10</option>
@@ -362,16 +380,91 @@ export default function ProductManage() {
           width: "100%",
           display: "flex",
           justifyContent: "right",
-          gap: "20px",
+          alignItems: "center",
+          gap: "10px",
           zIndex: "20",
+          marginTop: "10px",
         }}
       >
-        <button
-          onClick={() => setPageSearch((prev) => (prev === 1 ? 1 : prev - 1))}
+        {pageSearch !== 1 && (
+          <HiChevronLeft
+            style={{
+              fontSize: "30px",
+            }}
+            onClick={() => setPageSearch((prev) => (prev === 1 ? 1 : prev - 1))}
+          />
+        )}
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "right",
+            alignItems: "center",
+            gap: "20px",
+            zIndex: "20",
+          }}
         >
-          Trái
-        </button>
-        <button onClick={() => setPageSearch((prev) => prev + 1)}>Phải</button>
+          {prevPage && (
+            <div
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "1000px",
+                backgroundColor: "var(--blur-color)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => setPageSearch((prev) => prev - 1)}
+            >
+              {prevPage}
+            </div>
+          )}
+
+          <div
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "1000px",
+              backgroundColor: "var(--accent-color)",
+              color: "white",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            {pageSearch}
+          </div>
+          {nextPage && (
+            <div
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "1000px",
+                backgroundColor: "var(--blur-color)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => setPageSearch((prev) => prev + 1)}
+            >
+              {nextPage}
+            </div>
+          )}
+        </div>
+        {pageSearch < totalPage && (
+          <HiChevronRight
+            style={{
+              fontSize: "30px",
+            }}
+            onClick={() =>
+              setPageSearch((prev) => (prev === totalPage ? prev : prev + 1))
+            }
+          />
+        )}
       </div>
       <ModalProduct
         getProduct={getProduct}

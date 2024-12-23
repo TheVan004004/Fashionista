@@ -8,8 +8,6 @@ import HomePage from "./pages/homepage";
 import Search from "./pages/search";
 import { ContextWrapper } from "./context/main.context";
 import ProductDetail from "./product/ProductDetail";
-import Header from "./layout/header";
-import Footer from "./layout/footer";
 import User from "./user/User";
 import Profile from "./user/profile";
 import ShopList from "./user/ShopList";
@@ -18,10 +16,10 @@ import Private from "./pages/private";
 import Admin from "./admin/admin";
 import Cart from "./pages/cart";
 import OrderManage from "./admin/management/OrderManage";
-import CustomerManage from "./admin/management/CustomerManage";
 import OrderSuccess from "./pages/order-success";
 import ProductManage from "./admin/management/product/ProductManage";
 import Overview from "./admin/Overview";
+import CustomerManage from "./admin/management/user/CustomerManage";
 const router = createBrowserRouter([
   {
     path: "/",

@@ -93,7 +93,14 @@ const Filter = () => {
                       checked={category.name === categoryFilter}
                       type="radio"
                       name="category"
-                      onClick={() => setCategoryFilter(category.name)}
+                      onClick={() =>
+                        setCategoryFilter((prev) => {
+                          console.log(prev);
+                          return prev !== "" && prev === categoryFilter
+                            ? ""
+                            : category.name;
+                        })
+                      }
                     />{" "}
                     {category.name}
                   </label>

@@ -4,11 +4,11 @@ import { HiPencil } from "react-icons/hi";
 import { updateDataUserAPI } from "../services/user.api";
 
 const Profile = () => {
-  const { user } = useContext(MainContext);
+  const { user, getUserProfile } = useContext(MainContext);
   const [fullname, setFullname] = useState(user.fullname);
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState(user.phone);
-  const [sex, setSex] = useState(user.sex);
+  const [sex, setSex] = useState(user.sex ? user.sex : "Nam");
   const [dob, setDob] = useState(user?.dob?.slice(0, 10));
   const [address, setAddress] = useState(user.address);
   const [isEdit, setIsEdit] = useState(false);
@@ -20,9 +20,9 @@ const Profile = () => {
       dob: dob,
       address: address,
     });
+    getUserProfile();
     setIsEdit(false);
   };
-  console.log(user);
   return (
     <div id="profile">
       <div className="head">
@@ -107,12 +107,14 @@ const Profile = () => {
               <td>Giới tính</td>
               <td>
                 <select
-                  value={sex && "Unset"}
-                  onChange={(e) => setSex(e.target.value)}
+                  value={sex}
+                  onChange={(e) => {
+                    setSex(e.target.value);
+                  }}
                 >
-                  <option value="male">Nam</option>
-                  <option value="female">Nữ</option>
-                  <option value="other">Khác</option>
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
+                  <option value="Khác">Khác</option>
                 </select>
               </td>
             </tr>

@@ -4,7 +4,6 @@ import pagination from "../helpers/paginate.js";
 import productServices from "./productServices.js";
 import env from "dotenv";
 
-
 env.config();
 const port = process.env.PORT;
 const hostname = process.env.HOST_NAME;

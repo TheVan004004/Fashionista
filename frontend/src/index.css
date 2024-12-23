@@ -105,3 +105,10 @@ th {
 img {
   transition: all 1s;
 }
+.icon-react {
+  transition: all 500ms ease-in-out;
+  cursor: pointer;
+}
+.icon-react:hover {
+  scale: 120%;
+}
