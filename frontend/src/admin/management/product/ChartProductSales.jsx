@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LineChart from "../../../components/LineChart";
 
-export default function ChartProductBuyTurn({ data }) {
+export default function ChartProductSales({ data }) {
   const [series, setSeries] = useState({});
   const [tooltip, setTooltip] = useState({});
   useEffect(() => {
@@ -18,9 +18,17 @@ export default function ChartProductBuyTurn({ data }) {
         let result = `<div style="min-width:50px; padding:8px 8px 1px 8px; "> `;
         this.points.forEach((element) => {
           result += `<div style="margin-bottom:7px;">
-                                 <div style="font-size:16px; color: ${element.color};font-weight:600; font-family:'Open Sans', sans-serif;">Tháng ${element.x}</div>
-                                <div style="color: ${element.color};font-weight:400; font-family:'Open Sans', sans-serif;">${element.y} lượt mua</div>
-                            </div>`;
+                                   <div style="font-size:16px; color: ${
+                                     element.color
+                                   };font-weight:600; font-family:'Open Sans', sans-serif;">Tháng ${
+            element.x
+          }</div>
+                                  <div style="color: ${
+                                    element.color
+                                  };font-weight:400; font-family:'Open Sans', sans-serif;">${element.y.toLocaleString(
+            "vi-VN"
+          )} VNĐ </div>
+                              </div>`;
         });
         result += "</div>";
         return result;
@@ -45,5 +53,5 @@ export default function ChartProductBuyTurn({ data }) {
     setTooltip(tooltipChart);
   }, [data]);
 
-  return <LineChart series={series} title={"Lượt mua theo tháng"} />;
+  return <LineChart series={series} title={""} tooltip={tooltip} />;
 }

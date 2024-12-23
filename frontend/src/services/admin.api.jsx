@@ -64,3 +64,21 @@ export const getInfoProductAdminAPI = (product_id) => {
     withCredentials: true,
   });
 };
+
+export const getTotalSoldProductsByCategoryAPI = () => {
+  return axios.get(`${url}api/admin/getTotalSoldProductsByCategory`, {
+    withCredentials: true,
+  });
+};
+
+export const getOrderQuantityByStatusAPI = () => {
+  return axios.get(`${url}api/admin/getOrderQuantityByStatus`, {
+    withCredentials: true,
+  });
+};
+
+export const getTotalSalesByMonthAPI = () => {
+  return axios.get(`${url}api/admin/getTotalSalesByMonth`, {
+    withCredentials: true,
+  });
+};

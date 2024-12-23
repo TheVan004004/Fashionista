@@ -9,9 +9,10 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import ViewProduct from "./ViewProduct";
-import { viewDetailProductAPI } from "../../../services/product.api";
-import { updateProductAPI } from "../../../services/admin.api";
-import AddColorProduct from "./AddColorProduct";
+import {
+  getInfoProductAdminAPI,
+  updateProductAPI,
+} from "../../../services/admin.api";
 
 export default function ModalProduct({
   isOpenModalProduct,
@@ -34,6 +35,7 @@ export default function ModalProduct({
   const [priceChange, setPriceChange] = useState(productView.price);
   const [saleChange, setSaleChange] = useState(productView.price);
   const [isEdit, setIsEdit] = useState(false);
+  const [listColor, setListColor] = useState([]);
   const toNext = () => {
     setCurrentIndex((index) => {
       if (index === listProductDetail.length - 1) return 0;
@@ -47,25 +49,15 @@ export default function ModalProduct({
     });
   };
   const getAllProductDetail = async () => {
-    let listProductDetailCurr = [];
     if (productView.length === 0) {
       setListProductDetail(["add"]);
       return;
     }
     try {
-      const promises = productView?.color?.map((color) =>
-        viewDetailProductAPI({
-          product_id: productView.id,
-          color: color.hex_code,
-          size: "L",
-        })
-      );
-      const results = await Promise.all(promises);
-      listProductDetailCurr = results.map((res) => res.data.data);
-      listProductDetailCurr = [...listProductDetailCurr, "add"];
-      console.log(listProductDetailCurr);
-      // Cập nhật state
-      setListProductDetail(listProductDetailCurr);
+      const res = await getInfoProductAdminAPI(productView.id);
+      const data = res.data.data;
+      setListColor([...data.color, "add"]);
+      setListProductDetail([...data.listProductsInfoByColor, "add"]);
     } catch (error) {
       console.error("Failed to fetch product details:", error);
     }
@@ -135,7 +127,7 @@ export default function ModalProduct({
             style={{
               padding: "0px 15px",
               display: "grid",
-              gridTemplateColumns: "2fr 1fr 1fr 0.5fr",
+              gridTemplateColumns: "1.7fr 1fr 1fr 0.5fr",
               alignItems: "center",
               gap: "15px",
               height: listProductDetail.length === 1 ? "0" : "60px",
@@ -179,7 +171,6 @@ export default function ModalProduct({
                 disabled={!isEdit}
               />
             </div>
-
             <div
               style={{
                 display: "flex",
@@ -244,8 +235,8 @@ export default function ModalProduct({
                   />
 
                   <div className="list-color">
-                    {listProductDetail.map((product, index) => {
-                      if (index === listProductDetail.length - 1)
+                    {listColor.map((color, index) => {
+                      if (index === listColor.length - 1)
                         return (
                           <HiOutlinePlusCircle
                             style={{
@@ -260,7 +251,7 @@ export default function ModalProduct({
                       return (
                         <button
                           style={{
-                            backgroundColor: product.hex_code,
+                            backgroundColor: color.hex_code,
                             boxShadow:
                               index === currentIndex
                                 ? "0 0 0 4px white, 0 0 0 5px  var(--text-color)"

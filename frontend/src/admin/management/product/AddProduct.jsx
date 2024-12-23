@@ -7,12 +7,12 @@ import {
 } from "../../../services/product.api";
 import { addNewProductAPI } from "../../../services/admin.api";
 import { HiXCircle } from "react-icons/hi";
+import { toast } from "react-toastify";
 export default function AddProduct({
   setProductView,
   productView,
   getProduct,
   listProductDetail,
-  getColor,
 }) {
   const { categories, getAllCategory } = useContext(MainContext);
   const [name, setName] = useState("");
@@ -41,7 +41,6 @@ export default function AddProduct({
       setPreview("");
       return;
     }
-
     const file = event.target.files[0];
     if (file) {
       setImage(file);
@@ -50,7 +49,7 @@ export default function AddProduct({
   };
   const addNewProuduct = async () => {
     const formData = new FormData();
-    if (listProductDetail.length > 2) {
+    if (listProductDetail.length >= 2) {
       formData.append("name", productView.name);
       formData.append("price", productView.price);
       formData.append("sale", productView.sale);
@@ -81,15 +80,23 @@ export default function AddProduct({
     });
     try {
       const res = await addNewProductAPI(formData);
-      const res1 = await getProductByNameAPI(name);
-      const data = res1.data.data.products;
-      setProductView(data[0]);
+
+      if (!res || !res.data) {
+        console.error("API response is invalid:", res);
+        toast.error("Something went wrong. Please try again.");
+        return;
+      }
+
+      if (res.data.errorCount === 1) {
+        toast.error(res.data.message);
+        return;
+      }
+      setProductView(res?.data?.data);
       getAllCategory();
       getProduct();
-      getColor();
       console.log("Product added successfully:", res);
     } catch (error) {
-      console.error("Hình như có lỗi xảy ra: ", error.response.data.message);
+      console.error("Error occurred:", error);
     }
   };
   const getColorDetail = async () => {
