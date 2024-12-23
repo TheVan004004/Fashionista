@@ -92,7 +92,8 @@ const addNewProductDetail = async (productDetailData) => {
                 foundProductId, image, 4, foundColorId, 0, quantity_size2XL, cost, price, sale,
             ]
         );
-        const result = resData('Add new product successfully', 0, insertProductDetail.rows);
+        let result = await productServices.filterProducts({ name: name });
+        result = resData('Add new product successfully', 0, result.data.products[0]);
         return result;
     }
     // product exists but has new productDetail ('newColor' come with 'newImage')
@@ -130,7 +131,8 @@ const addNewProductDetail = async (productDetailData) => {
                     foundProductId, image, 4, foundColorId, 0, quantity_size2XL, cost, price, sale,
                 ]
             );
-            const result = resData('Add new product successfully', 0, insertProductDetail.rows);
+            let result = await productServices.filterProducts({ name: name });
+            result = resData('Add new product successfully', 0, result.data.products[0]);
             return result;
         }
 
@@ -167,7 +169,8 @@ const addNewProductDetail = async (productDetailData) => {
                     foundProductId, image, 4, foundColorId, 0, quantity_size2XL, cost, price, sale,
                 ]
             );
-            const result = resData('Add new product successfully', 0, insertProductDetail.rows);
+            let result = await productServices.filterProducts({ name: name });
+            result = resData('Add new product successfully', 0, result.data.products[0]);
             return result;
         }
         const result = resData('Product existed. Try adding new product again', 1, '');
