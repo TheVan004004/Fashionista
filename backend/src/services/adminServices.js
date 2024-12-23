@@ -170,16 +170,6 @@ const updateProduct = async (productId, updateData) => {
     `UPDATE product_details
          SET price =$1, sale = $2
          WHERE product_id =$3;`,
-<<<<<<< HEAD
-        [newPrice, newSale, productId]
-    );
-    const getAllProducts = await productServices.filterProducts({});
-    const allProducts = getAllProducts.data.products;
-    let updatedProduct = allProducts.find((product) => product.id == productId);
-    const result = resData('Updated product successfully', 0, updatedProduct);
-    return result;
-}
-=======
     [newPrice, newSale, productId]
   );
   const getAllProducts = await productServices.filterProducts({});
@@ -188,7 +178,6 @@ const updateProduct = async (productId, updateData) => {
   const result = resData("Updated product successfully", 0, updatedProduct);
   return result;
 };
->>>>>>> 1a2eac6 (fix bug)
 
 const updateQuantityProductDetail = async (productDetailId, newQuantity) => {
   const { rows } = await db.query(
@@ -378,78 +367,63 @@ const getInfoProduct = async (productId) => {
 
   data = { ...data, listProductsInfoByColor: listProductsInfoByColor };
 
-<<<<<<< HEAD
+  const result = resData("Get product info successfully", 0, data);
+  return result;
+};
+
 const getAllOrders = async (status, page, limit) => {
-    if (!status) {
-        let { rows } = await db.query(
-            `SELECT orders.id AS order_id,fullname, phone, address,total, created_at, status
+  if (!status) {
+    let { rows } = await db.query(
+      `SELECT orders.id AS order_id,fullname, phone, address,total, created_at, status
             FROM orders
 			JOIN users ON users.id = orders.user_id
             ORDER BY orders.id ASC;`
-        );
-        rows = pagination(rows, page, limit)
-        const data = {
-            orders: rows.newItems,
-            pageInfo: rows.pageInfo
-        }
+    );
+    rows = pagination(rows, page, limit);
+    const data = {
+      orders: rows.newItems,
+      pageInfo: rows.pageInfo,
+    };
 
-        const result = resData(`Get all orders successfully`, 0, data);
-        return result;
-    }
-    let { rows } = await db.query(
-        `SELECT orders.id AS order_id,fullname, phone, address,total, created_at, status
+    const result = resData(`Get all orders successfully`, 0, data);
+    return result;
+  }
+  let { rows } = await db.query(
+    `SELECT orders.id AS order_id,fullname, phone, address,total, created_at, status
             FROM orders
 			JOIN users ON users.id = orders.user_id
             WHERE status = $1
             ORDER BY orders.id ASC;`,
-        [status]
-    );
-    rows = pagination(rows, page, limit)
-    const data = {
-        orders: rows.newItems,
-        pageInfo: rows.pageInfo
-    }
+    [status]
+  );
+  rows = pagination(rows, page, limit);
+  const data = {
+    orders: rows.newItems,
+    pageInfo: rows.pageInfo,
+  };
 
-    const result = resData(`Get orders successfully`, 0, data);
-    return result;
-}
+  const result = resData(`Get orders successfully`, 0, data);
+  return result;
+};
 
 const updateOrderAdmin = async (orderId) => {
-    const resultStatus = await db.query(
-        `SELECT status
+  const resultStatus = await db.query(
+    `SELECT status
          FROM orders
          where id= $1`,
-        [orderId]
-    )
-    if (resultStatus.rows[0].status == 'pending') {
-        const { rows } = await db.query(
-            `UPDATE orders
+    [orderId]
+  );
+  if (resultStatus.rows[0].status == "pending") {
+    const { rows } = await db.query(
+      `UPDATE orders
          SET status = $1
          WHERE id=$2
          RETURNING *;`,
-            ['processing', orderId]
-        )
-        const result = resData('Update successfully', 0, rows[0]);
-        return result;
-    }
-}
-
-const adminServices = {
-    addNewProductDetail,
-    updateProduct,
-    updateQuantityProductDetail,
-    getInfoBuyTurnUser,
-    getProductsByMonth,
-    getTotalSalesByMonth,
-    getBuyTurnByMonthOfProduct,
-    getInfoProduct,
-    getAllOrders,
-    updateOrderAdmin,
-}
-export default adminServices;
-=======
-  const result = resData("Get product info successfully", 0, data);
-  return result;
+      ["processing", orderId]
+    );
+    const result = resData("Update successfully", 0, rows[0]);
+    return result;
+  }
 };
 
 const adminServices = {
@@ -461,6 +435,7 @@ const adminServices = {
   getTotalSalesByMonth,
   getBuyTurnByMonthOfProduct,
   getInfoProduct,
+  getAllOrders,
+  updateOrderAdmin,
 };
 export default adminServices;
->>>>>>> 1a2eac6 (fix bug)
