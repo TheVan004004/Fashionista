@@ -33,6 +33,8 @@ router.post("/api/logout", authController.apiLogout); // Log out
 //Order
 router.post("/api/order", orderController.apiOrder);
 router.patch("/api/order/:order_id", orderController.apiUpdateOrder);
+router.get("/api/getOrders", orderController.apiGetOrders);
+router.get("/api/getOrderInfo/:order_id", orderController.apiGetOrderInfo);
 
 // Require User's account is logged in
 //Profile
@@ -48,6 +50,7 @@ router.get("/api/admin/getProductsByMonth", adminController.apiGetProductsByMont
 router.get("/api/admin/getTotalSalesByMonth", adminController.apiGetTotalSalesByMonth);
 router.get("/api/admin/getBuyTurnByMonthOfProduct/:product_id", adminController.apiGetBuyTurnByMonthOfProduct);
 router.get("/api/admin/getInfoProduct/:product_id", adminController.apiGetInfoProduct);
-
+router.get("/api/admin/getOrders", adminController.apiGetAllOrders);
+router.patch("/api/admin/updateOrderAdmin/:order_id", adminController.apiUpdateOrderAdmin);
 
 export { router }

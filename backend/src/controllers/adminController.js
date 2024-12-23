@@ -101,6 +101,30 @@ const apiGetInfoProduct = async (req, res) => {
     }
 }
 
+const apiGetAllOrders = async (req, res) => {
+    try {
+        const { status, page, limit } = req.query;
+        const result = await adminServices.getAllOrders(status, page, limit);
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
+const apiUpdateOrderAdmin = async (req, res) => {
+    try {
+        const orderId = parseInt(req.params.order_id);
+        const result = await adminServices.updateOrderAdmin(orderId);
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
 const adminController = {
     apiAddNewProductDetail,
     apiUpdateProduct,
@@ -110,5 +134,7 @@ const adminController = {
     apiGetTotalSalesByMonth,
     apiGetBuyTurnByMonthOfProduct,
     apiGetInfoProduct,
+    apiGetAllOrders,
+    apiUpdateOrderAdmin,
 }
 export default adminController;

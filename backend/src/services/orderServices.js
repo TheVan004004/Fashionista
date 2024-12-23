@@ -1,5 +1,6 @@
 import { db } from "../config/database.js";
 import resData from "../helpers/jsonFormat.js";
+import pagination from "../helpers/paginate.js";
 
 const order = async (user_id, listItems) => {
     const userId = parseInt(user_id);
@@ -58,7 +59,7 @@ const updateStatusOrder = async (orderId) => {
          where id= $1`,
         [orderId]
     )
-    if (resultStatus.rows[0].status == 'pending') {
+    if (resultStatus.rows[0].status == 'processing') {
         const { rows } = await db.query(
             `UPDATE orders
          SET status = $1
@@ -70,5 +71,65 @@ const updateStatusOrder = async (orderId) => {
         return result;
     }
 }
-const orderServices = { order, updateStatusOrder };
+
+const getOrders = async (userId, status, page, limit) => {
+    if (!status) {
+        let { rows } = await db.query(
+            `SELECT id as order_id, created_at, total, status
+             FROM orders
+             WHERE user_id = $1
+             ORDER BY order_id ASC;`,
+            [userId]
+        );
+        rows = pagination(rows, page, limit)
+        const data = {
+            orders: rows.newItems,
+            pageInfo: rows.pageInfo
+        }
+
+        const result = resData(`Get all orders successfully`, 0, data);
+        return result;
+    }
+    let { rows } = await db.query(
+        `SELECT id as order_id, created_at, total, status
+         FROM orders
+         WHERE user_id = $1
+         AND status = $2
+         ORDER BY order_id ASC;`,
+        [userId, status]
+    );
+    rows = pagination(rows, page, limit);
+    const data = {
+        orders: rows.newItems,
+        pageInfo: rows.pageInfo
+    }
+
+    const result = resData(`Get orders successfully`, 0, data);
+    return result;
+}
+
+const getOrderInfo = async (orderId) => {
+    const { rows } = await db.query(
+        `SELECT products.name, color.name AS color_name, size.name AS size_name, product_details.price AS price, product_details.sale, order_details.quantity
+FROM orders
+JOIN order_details ON order_details.order_id = orders.id
+JOIN product_details ON product_details.id = order_details.product_details_id
+JOIN color ON color.id = product_details.color_id
+JOIN size ON size.id = product_details.size_id
+JOIN products ON products.id = product_details.product_id
+WHERE orders.id = $1 
+ORDER BY order_details.id ASC`,
+        [orderId]
+    );
+
+    const result = resData('Get order info successfully', 0, rows);
+    return result;
+}
+
+const orderServices = {
+    order,
+    updateStatusOrder,
+    getOrders,
+    getOrderInfo,
+};
 export default orderServices;

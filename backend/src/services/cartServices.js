@@ -18,8 +18,6 @@ const addCartItem = async (userId, cartItemData) => {
          WHERE id = $1 `,
     [product_details_id]
   );
-  console.log("check", quantity, product_details_id);
-  console.log("compare", compare);
   if (quantity > compare.rows[0].quantity) {
     const result = resData("Limited quantity", 0, "");
     return result;

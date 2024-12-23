@@ -63,7 +63,7 @@ const filterProducts = async (filterData) => {
         if (filterData.price_range) {
             const price_parts = filterData.price_range.split('-');
             const price_start = price_parts[0], price_end = price_parts[1];
-            const priceProduct = product.price;
+            const priceProduct = product.price * (100 - product.sale) / 100;
             check = check && (priceProduct >= price_start * 1000 && priceProduct <= price_end * 1000);
         }
         if (filterData.category_name) {
