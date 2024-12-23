@@ -357,9 +357,18 @@ const getInfoProduct = async (productId) => {
     //search product_details belongs this product
     let listProductsInfoByColor = [];
     for (let color of colorData.rows) {
+        const { rows } = await db.query(
+            `SELECT SUM(buyturn) AS total_buyturn, SUM (quantity) AS total_quantity
+             FROM product_details
+             WHERE product_id = $1
+             AND color_id = $2;`,
+            [productId, color.color_id]
+        );
         let itemOfList = {
             color_id: color.color_id,
             color_name: color.color_name,
+            total_buyturn: rows[0].total_buyturn,
+            total_quantity: rows[0].total_quantity,
             productInfoByColor: []
         }
         for (let i = 1; i <= 12; i++) {
