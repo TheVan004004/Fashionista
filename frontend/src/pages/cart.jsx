@@ -14,7 +14,7 @@ export default function Cart() {
   }, []);
   const getCart = async () => {
     const res = await getCartAPI();
-    const data = res.data.data;
+    const data = res.data.data.cartItems;
     setListProductInCart(data);
   };
   return (
@@ -25,6 +25,7 @@ export default function Cart() {
         listOrder={listOrder}
         listResultSearch={listResultSearch}
         setListOrder={setListOrder}
+        getCart={getCart}
       />
       {listProductInCart.length > 0 && (
         <Payment

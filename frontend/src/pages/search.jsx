@@ -34,7 +34,7 @@ const Search = () => {
 
   const getProduct = async () => {
     const res = await getProductsAPI({ page: 1, limit: limit });
-    const data = res.data.data;
+    const data = res.data.data.products;
     setListInit(data);
   };
   const handleSort = (value) => {

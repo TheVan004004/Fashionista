@@ -1,5 +1,4 @@
 #add-product {
-  width: 850px;
   display: grid;
   grid-template-columns: 2fr 3fr;
   gap: 15px;
@@ -59,7 +58,7 @@
 }
 
 #container_slide_product {
-  width: 850px;
+  width: 100%;
   overflow: hidden;
   position: relative;
 }
@@ -70,18 +69,20 @@
 }
 
 .container-card {
-  width: 850px;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .list-color {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
 }
 
 .list-color button {
-  width: 30px;
-  height: 30px;
+  padding: 0 !important;
+  width: 25px;
+  height: 25px;
   border-radius: 1000px !important;
   /* display: flex;
   justify-content: center;
@@ -97,5 +98,63 @@
 .container-input-add-product {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.manage-product-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+  height: 50px;
+  transition: all 500ms ease-in-out;
+}
+.manage-product-filter div {
+  font-weight: 600;
+}
+.manage-product-filter.active {
+  overflow: hidden;
+  height: 100px;
+}
+.filter-normal {
+  display: grid;
+  grid-template-columns: 2fr 1fr 0.5fr 0.5fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-extend {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.5fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.search-manage {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: aliceblue;
+}
+
+.search-manage ipnut:focus {
+  color: white;
+}
+
+.select-manage {
+  display: flex;
+  background-color: aliceblue;
+  padding: 10px 15px;
+  border-radius: 1000px;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.container-input-size {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   gap: 10px;
 }

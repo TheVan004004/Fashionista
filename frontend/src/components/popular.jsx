@@ -21,7 +21,7 @@ const Popular = () => {
   }, [categoryName]);
   const getProductPopularByCategory = async () => {
     const res = await getProductPopularByCategoryAPI(categoryName, limit);
-    setListPopular(res.data.data);
+    setListPopular(res.data.data.products);
   };
   const searchMore = async () => {
     setCategoryFilter(categoryName);

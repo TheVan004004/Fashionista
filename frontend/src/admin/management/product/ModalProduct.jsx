@@ -1,32 +1,85 @@
 import React, { useEffect, useState } from "react";
 import AddProduct from "./AddProduct";
-import { HiChevronLeft, HiChevronRight, HiOutlineX } from "react-icons/hi";
+import {
+  HiArrowCircleLeft,
+  HiArrowCircleRight,
+  HiChevronLeft,
+  HiChevronRight,
+  HiOutlinePlusCircle,
+  HiOutlineX,
+} from "react-icons/hi";
 import ViewProduct from "./ViewProduct";
+import { viewDetailProductAPI } from "../../../services/product.api";
+import { updateProductAPI } from "../../../services/admin.api";
 
 export default function ModalProduct({
   isOpenModalProduct,
   setIsOpenModalProduct,
   productView,
+  getProduct,
 }) {
-  useEffect(() => {}, []);
-  const getAllProductDetail = async () => {
-    // productView.color.forEach(() => {});
-  };
+  useEffect(() => {
+    getAllProductDetail();
+    setNameChange(productView.name);
+    setPriceChange(productView.price);
+    setSaleChange(productView.sale);
+  }, [productView]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const listProduct = [...(productView.color || []), {}];
+  const [listProductDetail, setListProductDetail] = useState([]);
+  const [nameChange, setNameChange] = useState(productView.name);
+  const [priceChange, setPriceChange] = useState(productView.price);
+  const [saleChange, setSaleChange] = useState(productView.price);
+  const [isEdit, setIsEdit] = useState(false);
   const toNext = () => {
     setCurrentIndex((index) => {
-      if (index === listProduct.length - 1) return 0;
+      if (index === listProductDetail.length - 1) return 0;
       else return index + 1;
     });
   };
   const toPrev = () => {
     setCurrentIndex((index) => {
-      if (index === 0) return listProduct.length - 1;
+      if (index === 0) return listProductDetail.length - 1;
       else return index - 1;
     });
   };
-
+  const getAllProductDetail = async () => {
+    let listProductDetailCurr = [];
+    if (productView.length === 0) {
+      setListProductDetail(["add"]);
+      return;
+    }
+    try {
+      const promises = productView?.color?.map((color) =>
+        viewDetailProductAPI({
+          product_id: productView.id,
+          color: color.hex_code,
+          size: "L",
+        })
+      );
+      const results = await Promise.all(promises);
+      listProductDetailCurr = results.map((res) => res.data.data);
+      listProductDetailCurr = [...listProductDetailCurr, "add"];
+      console.log(listProductDetailCurr);
+      // Cập nhật state
+      setListProductDetail(listProductDetailCurr);
+    } catch (error) {
+      console.error("Failed to fetch product details:", error);
+    }
+  };
+  const handleChange = async () => {
+    if (isEdit) {
+      await updateProductAPI({
+        product_id: productView.id,
+        newName: nameChange,
+        newPrice: priceChange,
+        newSale: saleChange,
+      });
+      setIsEdit(false);
+    } else {
+      setIsEdit(true);
+    }
+  };
   return (
     <>
       <div
@@ -54,13 +107,19 @@ export default function ModalProduct({
             backgroundColor: "var(--sale-color)",
             zIndex: isOpenModalProduct ? "100" : "-1",
             color: "white",
+            opacity: isOpenModalProduct ? "1" : "0",
             fontSize: "14px",
             transition: "ease-in-out 500ms",
             display: "flex",
             justifyContent: "center",
             alignContent: "center",
           }}
-          onClick={() => setIsOpenModalProduct(false)}
+          onClick={() => {
+            setIsOpenModalProduct(false);
+            setCurrentIndex(0);
+            setListProductDetail([]);
+            getProduct();
+          }}
         />
         <div
           className={
@@ -69,8 +128,34 @@ export default function ModalProduct({
               : "modal-product-container"
           }
         >
-          <div style={{ display: "flex", gap: "15px" }}>
-            <div style={{ display: "flex", gap: "10x", alignItems: "center" }}>
+          <div
+            style={{
+              padding: "0px 15px",
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr 1fr 0.5fr",
+              alignItems: "center",
+              gap: "15px",
+              height: listProductDetail.length === 1 ? "0" : "60px",
+              overflow: "hidden",
+              backgroundColor: "var(--accent-color)",
+              transition: "all 500ms",
+              color: "white",
+              fontWeight: "600",
+            }}
+          >
+            <input
+              style={{ fontSize: "20px", color: "white", fontWeight: "600" }}
+              value={nameChange}
+              onChange={(e) => setNameChange(e.target.value)}
+              disabled={!isEdit}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <div
                 style={{
                   whiteSpace: "nowrap",
@@ -78,23 +163,27 @@ export default function ModalProduct({
                   fontWeight: "600",
                 }}
               >
-                Tên sản phẩm:
+                Giá bán:
               </div>
-              <input style={{ width: "300px" }} value={productView.name} />
-            </div>
-            <div style={{ display: "flex", gap: "10x", alignItems: "center" }}>
-              <div
+              <input
                 style={{
-                  whiteSpace: "nowrap",
                   fontSize: "20px",
+                  color: "white",
                   fontWeight: "600",
                 }}
-              >
-                Giá:
-              </div>
-              <input style={{ width: "100px" }} value={productView.price} />
+                value={priceChange}
+                onChange={(e) => setPriceChange(e.target.value)}
+                disabled={!isEdit}
+              />
             </div>
-            <div style={{ display: "flex", gap: "10x", alignItems: "center" }}>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "20px",
+                alignItems: "center",
+              }}
+            >
               <div
                 style={{
                   whiteSpace: "nowrap",
@@ -104,7 +193,17 @@ export default function ModalProduct({
               >
                 Giảm giá:
               </div>
-              <select value={productView.sale}>
+              <select
+                disabled={!isEdit}
+                value={saleChange}
+                onChange={(e) => setSaleChange(e.target.value)}
+                style={{
+                  width: "70px",
+                  fontSize: "20px",
+                  color: "white",
+                  fontWeight: "600",
+                }}
+              >
                 <option value={10}>10%</option>
                 <option value={20}>20%</option>
                 <option value={30}>30%</option>
@@ -116,46 +215,84 @@ export default function ModalProduct({
                 <option value={90}>90%</option>
               </select>
             </div>
-            <button className="btn10">Lưu thay đổi</button>
-          </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <HiChevronLeft onClick={toPrev} style={{ fontSize: "24px" }} />
-            <div className="list-color">
-              {listProduct?.map((color, index) => {
-                return (
-                  <button
-                    style={{
-                      backgroundColor: color.hex_code,
-                      boxShadow: "none",
-                      // colorPicked.hex_code === color.hex_code
-                      //   ? "0 0 0 4px white, 0 0 0 5px  var(--text-color)"
-                      //   : "none",
-                    }}
-                    // onClick={() => setColorPicked(color)}
-                  ></button>
-                );
-              })}
-            </div>
-            <HiChevronRight onClick={toNext} style={{ fontSize: "24px" }} />
-          </div>
-          <div id="container_slide_product">
-            <div
-              id="slide_product"
-              style={{
-                translate: `-${100 * currentIndex}%`,
-              }}
+            <button
+              className=""
+              style={{ height: "40px" }}
+              onClick={handleChange}
             >
-              {listProduct?.map((banner, index) => {
-                return (
-                  <div className="container-card" key={`banner_${index}`}>
-                    {index === listProduct.length - 1 ? (
-                      <AddProduct />
-                    ) : (
-                      <ViewProduct />
-                    )}
+              {isEdit ? "Lưu" : "Thay đổi"}
+            </button>
+          </div>
+          <div
+            style={{
+              padding: "0px 30px 30px 30px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              {listProductDetail.length > 1 && (
+                <>
+                  <HiChevronLeft
+                    onClick={toPrev}
+                    style={{ fontSize: "30px", cursor: "pointer" }}
+                  />
+
+                  <div className="list-color">
+                    {listProductDetail.map((product, index) => {
+                      if (index === listProductDetail.length - 1)
+                        return (
+                          <HiOutlinePlusCircle
+                            style={{
+                              boxShadow: "none",
+                              fontSize: "25px",
+                              scale: index === currentIndex ? "130%" : "100%",
+                              transition: "all 1s ease-in-out",
+                            }}
+                            onClick={() => setCurrentIndex(index)}
+                          />
+                        );
+                      return (
+                        <button
+                          style={{
+                            backgroundColor: product.hex_code,
+                            boxShadow:
+                              index === currentIndex
+                                ? "0 0 0 4px white, 0 0 0 5px  var(--text-color)"
+                                : "none",
+                          }}
+                          onClick={() => setCurrentIndex(index)}
+                        ></button>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                  <HiChevronRight
+                    onClick={toNext}
+                    style={{ fontSize: "30px", cursor: "pointer" }}
+                  />
+                </>
+              )}
+            </div>
+            <div id="container_slide_product">
+              <div
+                id="slide_product"
+                style={{
+                  translate: `-${100 * currentIndex}%`,
+                }}
+              >
+                {listProductDetail.map((product, index) => {
+                  return (
+                    <div className="container-card" key={`banner_${index}`}>
+                      {index === listProductDetail.length - 1 ? (
+                        <AddProduct />
+                      ) : (
+                        <ViewProduct product={product} />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

@@ -22,3 +22,15 @@ export const updateProductAPI = ({
     withCredentials: true,
   });
 };
+
+export const addNewProductAPI = (formData) => {
+  return axios.post(`${url}api/admin/addNewProductDetail`, formData, {
+    withCredentials: true,
+  });
+};
+
+export const getChartBuyturnProductAPI = (product_id) => {
+  return axios.get(`${url}api/admin/getBuyTurnByMonthOfProduct/${product_id}`, {
+    withCredentials: true,
+  });
+};

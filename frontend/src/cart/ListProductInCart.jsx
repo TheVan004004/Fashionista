@@ -7,6 +7,7 @@ export default function ListProductInCart({
   setListProductInCart,
   setListOrder,
   listOrder,
+  getCart,
 }) {
   return (
     <div className="container-list-product">
@@ -63,6 +64,7 @@ export default function ListProductInCart({
         {listProductInCart.map((product, index) => {
           return (
             <ProductInCart
+              getCart={getCart}
               product={product}
               key={index}
               index={index}

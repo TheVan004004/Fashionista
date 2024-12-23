@@ -22,8 +22,8 @@ const Login = ({ boxUser, setBoxUser, setIsOpenModalUser }) => {
         console.log(res);
         setUser(data);
         setIsOpenModalUser(false);
+        toast.success("Đăng nhập thành công");
       }
-      toast.success("Đăng nhập thành công");
     } catch (e) {
       // console.log();
       toast.error(e.response.data.message);

@@ -45,7 +45,7 @@ export const getAllColorAPI = () => {
   return axios.get(`${url}api/collection/color`);
 };
 
-export const getAllCategoryrAPI = () => {
+export const getAllCategoryAPI = () => {
   return axios.get(`${url}api/collection/category`);
 };
 

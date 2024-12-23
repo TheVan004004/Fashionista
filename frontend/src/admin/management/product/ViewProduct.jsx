@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
-export default function ViewProduct() {
+import { getChartBuyturnProductAPI } from "../../../services/admin.api";
+import ChartProductBuyTurn from "./ChartProductBuyTurn";
+export default function ViewProduct({ product }) {
+  useEffect(() => {
+    getChartBuyturn();
+    return () => {
+      setDataChart([]);
+    };
+  }, [product]);
+  const [dataChart, setDataChart] = useState([]);
+  const getChartBuyturn = async () => {
+    const res = await getChartBuyturnProductAPI(product.id);
+    const data = res.data.data.map(
+      (d) => d.total_buyturn + Math.floor(Math.random() * 10001)
+    );
+    setDataChart(data);
+  };
   return (
     <div id="add-product">
       <div className="left">
-        <a className=""></a>
+        <a className="" style={{ border: "none" }}>
+          <img
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+            src={product.image}
+          />
+        </a>
         <button className="btn10">Thay đổi ảnh</button>
       </div>
       <div
@@ -23,7 +48,7 @@ export default function ViewProduct() {
               backgroundColor: "var(--blur-color)",
             }}
           >
-            Chart mua sản phẩm
+            <ChartProductBuyTurn data={dataChart} />
           </div>
           <div className="container-input-quantity">
             <div className="container-input">

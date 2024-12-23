@@ -9,11 +9,12 @@ export default function ({
   setListOrder,
   index,
   setListProductInCart,
+  getCart,
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const [colors, setColors] = useState([]);
-  const sizes = ["M", "L", "XL", "XXL"];
-  const [colorChange, setColorChange] = useState(product.color_name);
+  const sizes = ["M", "L", "XL"];
+  const [colorChange, setColorChange] = useState(product.hex_code);
   const [sizeChange, setSizeChange] = useState(product.size_name);
   const deleteItemInCart = async () => {
     try {
@@ -32,17 +33,31 @@ export default function ({
   }, []);
   const getInfor = async () => {
     const res = await getProductByNameAPI(product.name);
-    const data = res.data.data;
+    const data = res.data.data.products;
     setColors(data[0].color);
   };
   const updateProductInCart = async () => {
-    console.log(product.item_id, product.product_details_id);
     await updateItemCartAPI({
       item_id: product.item_id,
       color: colorChange,
-      size: colorChange,
+      size: sizeChange,
       quantity: product.quantity_item,
     });
+    getCart();
+    setIsEdit(false);
+  };
+  const updateQuantity = async (option) => {
+    if (option === "minus" && product.quantity_item === 1) return;
+    await updateItemCartAPI({
+      item_id: product.item_id,
+      color: product.hex_code,
+      size: product.size_name,
+      quantity:
+        option === "add"
+          ? product.quantity_item + 1
+          : product.quantity_item - 1,
+    });
+    getCart();
   };
   return (
     <div className="product">
@@ -209,9 +224,9 @@ export default function ({
                   justifyContent: "space-between",
                 }}
               >
-                <div>-</div>
+                <div onClick={() => updateQuantity("minus")}>-</div>
                 <p>{product.quantity_item}</p>
-                <div>+</div>
+                <div onClick={() => updateQuantity("add")}>+</div>
               </div>
             </div>
           </div>

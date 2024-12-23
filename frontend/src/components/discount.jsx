@@ -20,7 +20,7 @@ const Discount = () => {
           </div>
         </div>
         <div className="body">
-          {listBestSaler.map((product, index) => {
+          {listBestSaler?.map((product, index) => {
             if (index < 5)
               return (
                 <ProductDiscount
