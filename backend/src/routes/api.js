@@ -52,5 +52,6 @@ router.get("/api/admin/getBuyTurnByMonthOfProduct/:product_id", adminController.
 router.get("/api/admin/getInfoProduct/:product_id", adminController.apiGetInfoProduct);
 router.get("/api/admin/getOrders", adminController.apiGetAllOrders);
 router.patch("/api/admin/updateOrderAdmin/:order_id", adminController.apiUpdateOrderAdmin);
+router.get("/api/admin/getOrderQuantityByStatus", adminController.apiGetOrderQuantityByStatus);
 
 export { router }

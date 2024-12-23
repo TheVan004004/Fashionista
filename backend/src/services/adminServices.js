@@ -454,6 +454,36 @@ const updateOrderAdmin = async (orderId) => {
     }
 }
 
+const getOrderQuantityByStatus = async () => {
+    const { rows } = await db.query(
+        `SELECT status, SUM(quantity) AS total_quantity
+         FROM orders
+         JOIN order_details ON order_details.order_id = orders.id
+         GROUP BY status;`
+    );
+    let data = [
+        {
+            status: 'pending',
+            total_quantity: 0
+        },
+        {
+            status: 'processing',
+            total_quantity: 0
+        },
+        {
+            status: 'completed',
+            total_quantity: 0
+        }
+    ];
+    rows.forEach((item) => {
+        if (item.status == 'pending') data[0] = item;
+        if (item.status == 'processing') data[1] = item;
+        if (item.status == 'completed') data[2] = item;
+    });
+    const result = resData('Get order quantity by status successfully', 0, data);
+    return result;
+}
+
 const adminServices = {
     addNewProductDetail,
     updateProduct,
@@ -465,5 +495,6 @@ const adminServices = {
     getInfoProduct,
     getAllOrders,
     updateOrderAdmin,
+    getOrderQuantityByStatus,
 }
 export default adminServices;

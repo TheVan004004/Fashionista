@@ -125,10 +125,9 @@ const apiUpdateOrderAdmin = async (req, res) => {
     }
 }
 
-const apiDeleteProductDetail = async (req, res) => {
+const apiGetOrderQuantityByStatus = async (req, res) => {
     try {
-        const { product_id, color_id } = req.query;
-        const result = await adminServices.deleteProductDetail(product_id, color_id);
+        const result = await adminServices.getOrderQuantityByStatus();
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
@@ -148,5 +147,6 @@ const adminController = {
     apiGetInfoProduct,
     apiGetAllOrders,
     apiUpdateOrderAdmin,
+    apiGetOrderQuantityByStatus,
 }
 export default adminController;
