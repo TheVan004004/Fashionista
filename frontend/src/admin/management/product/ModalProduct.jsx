@@ -107,6 +107,7 @@ export default function ModalProduct({
             backgroundColor: "var(--sale-color)",
             zIndex: isOpenModalProduct ? "100" : "-1",
             color: "white",
+            opacity: isOpenModalProduct ? "1" : "0",
             fontSize: "14px",
             transition: "ease-in-out 500ms",
             display: "flex",
