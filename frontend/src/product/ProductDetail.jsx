@@ -5,6 +5,11 @@ import { toast } from "react-toastify";
 import { searchAPI, viewDetailProductAPI } from "../services/product.api";
 import { addToCartAPI } from "../services/cart.api";
 import Product from "./product";
+import locationIcon from "../access/icon/location.svg";
+import phoneIcon from "../access/icon/phone.svg";
+import returnIcon from "../access/icon/return.svg";
+import return60Icon from "../access/icon/return-60.svg";
+
 const ProductDetail = () => {
   const navigate = useNavigate();
   const { user, productDetail, setProductDetail } = useContext(MainContext);
@@ -73,7 +78,6 @@ const ProductDetail = () => {
       toast.error(e.response.data.message);
     }
   };
-  const searchMore = () => {};
   return (
     <>
       {productDetail && productDetail.id && (
@@ -234,42 +238,56 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            <div className="service">
+            <div className="service" style={{ paddingTop: "10px" }}>
               <div className="product-policy">
                 <div className="line">
-                  <div>
+                  <div style={{ display: "flex", gap: "10px" }}>
                     <div className="img">
-                      <img src="icon/return.svg" />
+                      <img src={returnIcon} />
                     </div>
-                    <div className="passage">
-                      Đổi trả cực dễ chỉ cần số
-                      <br /> điện thoại
+                    <div
+                      className="passage"
+                      style={{ fontWeight: "600", fontSize: "16px" }}
+                    >
+                      Đổi trả cực dễ chỉ cần
+                      <br /> số điện thoại
                     </div>
                   </div>
-                  <div>
+                  <div style={{ display: "flex", gap: "10px" }}>
                     <div className="img">
-                      <img src="icon/return-60.svg" />
+                      <img src={return60Icon} />
                     </div>
-                    <div className="passage">
-                      60 ngày đổi tra vì bất cứ lí do gì
+                    <div
+                      className="passage"
+                      style={{ fontWeight: "600", fontSize: "16px" }}
+                    >
+                      60 ngày đổi trả
+                      <br />
+                      vì bất cứ lí do gì
                     </div>
                   </div>
                 </div>
                 <div className="line">
-                  <div>
+                  <div style={{ display: "flex", gap: "10px" }}>
                     <div className="img">
-                      <img src="icon/phone.svg" />
+                      <img src={phoneIcon} />
                     </div>
-                    <div className="passage">
+                    <div
+                      className="passage"
+                      style={{ fontWeight: "600", fontSize: "16px" }}
+                    >
                       Hotline 1900.27.27.37 hỗ
                       <br /> trợ từ 8h30 - 22h mỗi ngày
                     </div>
                   </div>
-                  <div>
+                  <div style={{ display: "flex", gap: "10px" }}>
                     <div className="img">
-                      <img src="icon/location.svg" />
+                      <img src={locationIcon} alt="location-icon" />
                     </div>
-                    <div className="passage">
+                    <div
+                      className="passage"
+                      style={{ fontWeight: "600", fontSize: "16px" }}
+                    >
                       Đến tận nơi nhận hàng trả,
                       <br />
                       hoàn tiền trong 24h
@@ -277,15 +295,29 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </div>
-              <div id="product-feature">
-                <div className="prominent">Đặc điểm nổi bật</div>
-                <div>* Chất liệu 100% Cotton mềm mại, chống nhăn</div>
-                <div>* Form dáng: Regular</div>
-                <div>
-                  * Vải thoáng khí và thấm hút mồ hôi tốt, thân thiện với da
+              <div
+                id="product-feature"
+                style={{
+                  paddingTop: "20px",
+                  fontSize: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <div
+                  className="prominent"
+                  style={{ fontSize: "20px", fontWeight: "600" }}
+                >
+                  Đặc điểm nổi bật
                 </div>
-                <div>* Người mẫu: 1m77 - 74kg; mặc áo size XL</div>
-                <div>* Tự hào sản xuất tại Việt Nam</div>
+                <div>- Chất liệu 100% Cotton mềm mại, chống nhăn</div>
+                <div>- Form dáng: Regular</div>
+                <div>
+                  - Vải thoáng khí và thấm hút mồ hôi tốt, thân thiện với da
+                </div>
+                <div>- Người mẫu: 1m77 - 74kg; mặc áo size XL</div>
+                <div>- Tự hào sản xuất tại Việt Nam</div>
               </div>
             </div>
           </div>

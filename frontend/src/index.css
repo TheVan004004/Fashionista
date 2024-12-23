@@ -112,3 +112,15 @@ img {
 .icon-react:hover {
   scale: 120%;
 }
+
+@keyframes blinkingBackground {
+  0% {
+    background-color: #97cadb17;
+  }
+  50% {
+    background-color: #97cadb8b;
+  }
+  100% {
+    background-color: #97cadb17;
+  }
+}
