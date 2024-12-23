@@ -291,6 +291,24 @@ const getBuyTurnByAMonthOfProductColor = async (month, product_id, color_id) => 
     return data;
 }
 
+const getTotalBenefitsByAMonth = async (month) => {
+    const { rows } = await db.query(
+        `SELECT SUM(benefits) AS total_benefits_in_month
+         FROM (
+         SELECT orders.id, user_id, status, total, created_at, SUM(cost) AS cost, (total - SUM(cost)) AS benefits 
+         FROM orders
+         JOIN order_details ON order_details.order_id = orders.id
+         JOIN product_details ON product_details.id = order_details.product_details_id
+         WHERE EXTRACT(MONTH FROM created_at) = $1
+         GROUP BY orders.id, user_id, status, total, created_at
+         ORDER BY orders.id
+         ) Subquery`,
+        [month]
+    );
+    const data = { ...rows[0], month: month };
+    return data;
+}
+
 
 // a year (12 months)
 const getProductsByMonth = async () => {
@@ -364,9 +382,22 @@ const getInfoProduct = async (productId) => {
              AND color_id = $2;`,
             [productId, color.color_id]
         );
+        const getInfo = await db.query(
+            `SELECT *
+             FROM product_details
+             WHERE product_id = $1
+             AND color_id = $2
+             ORDER BY size_id`,
+            [productId, color.color_id]
+        )
         let itemOfList = {
             color_id: color.color_id,
             color_name: color.color_name,
+            image: `http://${hostname}:${port}/public/images/${getInfo.rows[0].image}.png`,
+            quantity_sizeM: getInfo.rows[0].quantity,
+            quantity_sizeL: getInfo.rows[1].quantity,
+            quantity_sizeXL: getInfo.rows[2].quantity,
+            quantity_size2XL: getInfo.rows[3].quantity,
             total_buyturn: rows[0].total_buyturn,
             total_quantity: rows[0].total_quantity,
             productInfoByColor: []
@@ -484,6 +515,43 @@ const getOrderQuantityByStatus = async () => {
     return result;
 }
 
+const getTotalBenefitsByMonth = async () => {
+    let data = [];
+    for (let i = 1; i <= 12; i++) {
+        let dataAMonth = await getTotalBenefitsByAMonth(i);
+        if (!dataAMonth.total_benefits_in_month) {
+            dataAMonth.total_benefits_in_month = 0;
+        }
+        data.push(dataAMonth);
+    }
+    const result = resData('Get total benefits by month successfully', 0, data);
+    return result;
+}
+
+const getTotalSoldProductsByCategory = async () => {
+    const { rows } = await db.query(
+        `SELECT category_id, total_buyturn_by_category, name AS category_name
+         FROM
+         (
+         SELECT category_id, SUM(order_details.quantity) AS total_buyturn_by_category
+         FROM order_details
+         JOIN product_details ON product_details.id = order_details.product_details_id
+         JOIN products ON products.id = product_details.product_id
+         GROUP BY category_id
+         ORDER BY category_id
+         )Subquery
+         JOIN categories ON categories.id = Subquery.category_id;`
+    );
+    let sum = 0;
+    rows.forEach((item) => { sum += parseInt(item.total_buyturn_by_category) });
+    const data = {
+        total_sold_products: sum,
+        listCategories: rows
+    }
+    const result = resData('Get total sold products by category successfully', 0, data);
+    return result;
+}
+
 const adminServices = {
     addNewProductDetail,
     updateProduct,
@@ -496,5 +564,7 @@ const adminServices = {
     getAllOrders,
     updateOrderAdmin,
     getOrderQuantityByStatus,
+    getTotalBenefitsByMonth,
+    getTotalSoldProductsByCategory,
 }
 export default adminServices;

@@ -136,6 +136,28 @@ const apiGetOrderQuantityByStatus = async (req, res) => {
     }
 }
 
+const apiGetTotalBenefitsByMonth = async (req, res) => {
+    try {
+        const result = await adminServices.getTotalBenefitsByMonth();
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
+const apiGetTotalSoldProductsByCategory = async (req, res) => {
+    try {
+        const result = await adminServices.getTotalSoldProductsByCategory();
+        res.json(result);
+    } catch (error) {
+        console.log(`>>> Error getting: ${error}`);
+        const result = resData('Server error', 1, '');
+        res.status(500).json(result);
+    }
+}
+
 const adminController = {
     apiAddNewProductDetail,
     apiUpdateProduct,
@@ -148,5 +170,7 @@ const adminController = {
     apiGetAllOrders,
     apiUpdateOrderAdmin,
     apiGetOrderQuantityByStatus,
+    apiGetTotalBenefitsByMonth,
+    apiGetTotalSoldProductsByCategory,
 }
 export default adminController;

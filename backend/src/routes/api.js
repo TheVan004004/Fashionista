@@ -53,5 +53,8 @@ router.get("/api/admin/getInfoProduct/:product_id", adminController.apiGetInfoPr
 router.get("/api/admin/getOrders", adminController.apiGetAllOrders);
 router.patch("/api/admin/updateOrderAdmin/:order_id", adminController.apiUpdateOrderAdmin);
 router.get("/api/admin/getOrderQuantityByStatus", adminController.apiGetOrderQuantityByStatus);
+router.get("/api/admin/getTotalBenefitsByMonth", adminController.apiGetTotalBenefitsByMonth);
+router.get("/api/admin/getTotalSoldProductsByCategory", adminController.apiGetTotalSoldProductsByCategory);
+
 
 export { router }
