@@ -69,15 +69,18 @@ const Header = () => {
           </div>
           {user ? (
             <>
-              <div
-                className="icon"
-                onClick={() => {
-                  navigate("/cart");
-                }}
-                name="bag-icon"
-              >
-                <HiOutlineShoppingBag />
-              </div>
+              {user.role === "user" && (
+                <div
+                  className="icon"
+                  onClick={() => {
+                    navigate("/cart");
+                  }}
+                  name="bag-icon"
+                >
+                  <HiOutlineShoppingBag />
+                </div>
+              )}
+
               <label
                 htmlFor="menu-user-check"
                 className="icon"

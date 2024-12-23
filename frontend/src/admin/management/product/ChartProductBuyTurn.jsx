@@ -45,5 +45,5 @@ export default function ChartProductBuyTurn({ data }) {
     setTooltip(tooltipChart);
   }, [data]);
 
-  return <LineChart series={series} title={"Lượt mua theo tháng"} />;
+  return <LineChart series={series} tooltip={tooltip} />;
 }

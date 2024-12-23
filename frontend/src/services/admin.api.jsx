@@ -82,3 +82,9 @@ export const getTotalSalesByMonthAPI = () => {
     withCredentials: true,
   });
 };
+
+export const getTotalBuyturnByMonthAPI = () => {
+  return axios.get(`${url}api/admin/getProductsByMonth`, {
+    withCredentials: true,
+  });
+};

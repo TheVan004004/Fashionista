@@ -99,7 +99,7 @@ function Register({ boxUser, setBoxUser, setIsOpenModalUser }) {
       </div>
       <button className="btn10" onClick={handleSubmit}>
         {" "}
-        Register{" "}
+        Đăng ký{" "}
       </button>
       <div
         style={{

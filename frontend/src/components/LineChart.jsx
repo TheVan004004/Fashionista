@@ -32,18 +32,21 @@ export default function LineChart({ series, title, tooltip }) {
           dateTimeLabelFormats: {
             month: "%b",
           },
-          categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          categories: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
           labels: {
             enabled: true,
           },
         },
-        yAxis: {
-          type: "",
-        },
 
-        // yAxis: {
-        //   type: "logarithmic",
-        // },
+        yAxis: {
+          labels: {
+            enabled: true, // Đảm bảo nhãn trên trục Y được bật
+          },
+          type: "linear", // Hoặc "linear" nếu cần
+          labels: {
+            enabled: true,
+          },
+        },
         legend: {
           enabled: false,
         },

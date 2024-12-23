@@ -79,7 +79,7 @@ const Login = ({ boxUser, setBoxUser, setIsOpenModalUser }) => {
       </div>
 
       <button className="btn10" onClick={handleSubmit}>
-        Login
+        Đăng nhập
       </button>
       <div
         style={{

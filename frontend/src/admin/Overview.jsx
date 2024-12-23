@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from "react";
 import {
   getOrderQuantityByStatusAPI,
+  getTotalBuyturnByMonthAPI,
   getTotalSalesByMonthAPI,
 } from "../services/admin.api";
 import PieChart from "./PieChart";
 import ChartProductSales from "./management/product/ChartProductSales";
+import ChartProductBuyTurn from "./management/product/ChartProductBuyTurn";
 
 export default function Overview() {
   const [orderQuantityByStatus, setOrderQuantityByStatus] = useState([]);
   const [saleByMonth, setSaleByMonth] = useState([]);
   const [topMonth, setTopMonth] = useState(null);
   const [currentMonthSales, setCurrentMonthSales] = useState(0);
+  const [buyturnByMonth, setBuyturnByMonth] = useState([]);
+  const [topBuyMonth, setTopBuyMonth] = useState(null);
+  const [currentMonthBuyturn, setCurrentMonthBuyturn] = useState(0);
 
   useEffect(() => {
     getOrderQuantityByStatus();
     getChartSales();
+    getChartBuyturn();
   }, []);
 
   const getChartSales = async () => {
@@ -25,15 +31,30 @@ export default function Overview() {
     }));
     setSaleByMonth(data);
 
-    // Tìm tháng bán chạy nhất
     const maxSales = Math.max(...data.map((d) => d.y));
     const topMonthData = data.find((d) => d.y === maxSales);
     setTopMonth(topMonthData);
 
-    // Tính doanh thu tháng này
-    const currentMonth = new Date().getMonth() + 1; // Tháng hiện tại (1-12)
+    const currentMonth = new Date().getMonth() + 1;
     const currentMonthData = data.find((d) => d.x === currentMonth);
     setCurrentMonthSales(currentMonthData ? currentMonthData.y : 0);
+  };
+
+  const getChartBuyturn = async () => {
+    const res = await getTotalBuyturnByMonthAPI();
+    const data = res.data.data.map((d) => ({
+      x: d.month,
+      y: parseInt(d.total_products_in_month),
+    }));
+    setBuyturnByMonth(data);
+
+    const maxSales = Math.max(...data.map((d) => d.y));
+    const topMonthData = data.find((d) => d.y === maxSales);
+    setTopBuyMonth(topMonthData);
+
+    const currentMonth = new Date().getMonth() + 1;
+    const currentMonthData = data.find((d) => d.x === currentMonth);
+    setCurrentMonthBuyturn(currentMonthData ? currentMonthData.y : 0);
   };
 
   const getOrderQuantityByStatus = async () => {
@@ -192,6 +213,81 @@ export default function Overview() {
             >
               {currentMonthSales
                 ? `${currentMonthSales.toLocaleString("vi-VN")} VND`
+                : "Đang tải..."}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        style={{
+          padding: "20px",
+          display: "grid",
+          gridTemplateColumns: "3fr 1fr",
+          gap: "40px",
+          alignItems: "center",
+          boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+          borderRadius: "20px",
+        }}
+      >
+        <h2>Doanh số theo tháng</h2> <div></div>
+        <ChartProductBuyTurn data={buyturnByMonth} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "30px",
+            padding: "10px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "24px",
+                fontWeight: "800",
+              }}
+            >
+              Tháng bán nhiều nhất:{" "}
+            </div>
+            <div
+              style={{
+                fontSize: "18px",
+                color: "var(--sale-color)",
+              }}
+            >
+              {topBuyMonth ? `${topBuyMonth.y} sản phẩm` : "Đang tải..."}
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: "800",
+              }}
+            >
+              Doanh thu tháng này:{" "}
+            </div>
+            <div
+              style={{
+                fontSize: "16px",
+                color: "var(--sale-color)",
+              }}
+            >
+              {currentMonthBuyturn
+                ? `${currentMonthBuyturn} sản phẩm`
                 : "Đang tải..."}
             </div>
           </div>

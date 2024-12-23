@@ -20,6 +20,7 @@ import OrderSuccess from "./pages/order-success";
 import ProductManage from "./admin/management/product/ProductManage";
 import Overview from "./admin/Overview";
 import CustomerManage from "./admin/management/user/CustomerManage";
+import PrivateAdmin from "./pages/private.admin";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -74,9 +75,9 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: (
-          // <Private>
-          <Admin />
-          // </Private>
+          <PrivateAdmin>
+            <Admin />
+          </PrivateAdmin>
         ),
         children: [
           {

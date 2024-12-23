@@ -60,12 +60,12 @@ export default function PieChart(props) {
         },
       },
       colors: [
-        "#FFC1C1",
-        "#FFD8A8",
-        "#C1FFC1",
-        "#E5C1FF",
-        "#C1E1FF",
-        "#E0E0E0",
+        "#FFB3B3", // Sáng hơn #FFC1C1 (Đỏ nhạt hơn)
+        "#FFEB8C", // Sáng hơn #FFD8A8 (Vàng cam sáng hơn)
+        "#A6FFB3", // Sáng hơn #C1FFC1 (Xanh lá sáng hơn)
+        "#D6A6FF", // Sáng hơn #E5C1FF (Tím sáng hơn)
+        "#A6C9FF", // Sáng hơn #C1E1FF (Xanh dương sáng hơn)
+        "#E6E6E6", // Sáng hơn #E0E0E0 (Xám sáng hơn)
       ],
       series: [
         {
