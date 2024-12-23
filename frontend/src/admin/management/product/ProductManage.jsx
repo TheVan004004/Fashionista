@@ -57,7 +57,7 @@ export default function ProductManage() {
         limitSearch
       );
       if (res && res.data) {
-        const data = res.data.data;
+        const data = res.data.data.products;
         setListProducts(data);
         setListProductsCache(data);
       }

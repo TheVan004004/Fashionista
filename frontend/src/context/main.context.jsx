@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { getUserProfileAPI } from "../services/user.api";
 import {
-  getAllCategoryrAPI,
+  getAllCategoryAPI,
   getMostPopularAPI,
   getMostSaleAPI,
   searchAPI,
@@ -60,7 +60,7 @@ export const ContextWrapper = (props) => {
   };
   const getAllCategory = async () => {
     try {
-      const res = await getAllCategoryrAPI();
+      const res = await getAllCategoryAPI();
       setCategories(res.data.data);
     } catch (e) {
       console.log("check", e.response);
@@ -68,12 +68,12 @@ export const ContextWrapper = (props) => {
   };
   const getProductPopular = async () => {
     const res = await getMostPopularAPI();
-    const data = await res.data.data;
+    const data = await res.data.data.products;
     setListPopular(data);
   };
   const getBestSaler = async () => {
     const res = await getMostSaleAPI();
-    const data = await res.data.data;
+    const data = await res.data.data.products;
     setListBestSaler(data);
   };
   const search = async () => {
@@ -91,7 +91,7 @@ export const ContextWrapper = (props) => {
         limitSearch
       );
       if (res && res.data) {
-        const data = res.data.data;
+        const data = res.data.data.products;
         setListResultSearch(data);
       }
       setIsSearching(true);

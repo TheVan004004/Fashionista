@@ -33,7 +33,7 @@ export default function ({
   }, []);
   const getInfor = async () => {
     const res = await getProductByNameAPI(product.name);
-    const data = res.data.data;
+    const data = res.data.data.products;
     setColors(data[0].color);
   };
   const updateProductInCart = async () => {
