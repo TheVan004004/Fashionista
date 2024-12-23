@@ -95,7 +95,7 @@ export const ContextWrapper = (props) => {
         setListResultSearch(data);
       }
       setIsSearching(true);
-    } catch (e) {}
+    } catch (e) { }
   };
   return (
     <MainContext.Provider
