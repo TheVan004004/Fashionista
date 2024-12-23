@@ -29,7 +29,7 @@ export default function ProductManage() {
   const [sortBy, setSortBy] = useState("most_buyturn");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000000);
+  const [maxPrice, setMaxPrice] = useState(100000);
   const [limitSearch, setLimitSearch] = useState(10);
   const [pageSearch, setPageSearch] = useState(1);
   const [prevPage, setPrevPage] = useState(null);
@@ -131,7 +131,7 @@ export default function ProductManage() {
         }
       >
         <div className="filter-normal">
-          <div className="search-manage btn10">
+          <div className="search-manage" style={{ borderRadius: "1000px" }}>
             <input
               value={inputSearch}
               placeholder="Tìm kiếm sản phẩm"
@@ -190,6 +190,7 @@ export default function ProductManage() {
                   </option>
                 );
               })}
+              <option value={""}>Không</option>
             </select>
           </div>
           <div className="select-manage">
@@ -206,22 +207,33 @@ export default function ProductManage() {
                   </option>
                 );
               })}
+              <option value={""}>Không</option>
             </select>
           </div>
           <div className="select-manage">
             <div style={{ textWrap: "nowrap" }}>Khoảng giá từ:</div>
-            <select value={5}>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={null}>Không</option>
+            <select
+              value={minPrice}
+              onChange={(e) => {
+                setMinPrice(e.target.value);
+              }}
+            >
+              <option value={50}>50.000đ</option>
+              <option value={100}>100.000đ</option>
+              <option value={200}>200.000đ</option>
+              <option value={0}>Không</option>
             </select>
             <div style={{ textWrap: "nowrap" }}>đến:</div>
-            <select value={5}>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={null}>Không</option>
+            <select
+              value={maxPrice}
+              onChange={(e) => {
+                setMaxPrice(e.target.value);
+              }}
+            >
+              <option value={300}>300.000đ</option>
+              <option value={400}>400.000</option>
+              <option value={500}>500.000</option>
+              <option value={100000}>Không</option>
             </select>
           </div>
         </div>
@@ -328,6 +340,7 @@ export default function ProductManage() {
                       )
                     }
                   >
+                    <option value={0}>Không</option>
                     <option value={10}>10%</option>
                     <option value={20}>20%</option>
                     <option value={30}>30%</option>

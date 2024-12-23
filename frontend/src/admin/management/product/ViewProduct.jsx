@@ -17,20 +17,18 @@ export default function ViewProduct({ product }) {
     );
     setDataChart(data);
   };
+  const sizes = ["L", "M", "XL"];
   return (
     <div id="add-product">
       <div className="left">
-        <a className="" style={{ border: "none" }}>
-          <img
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-            src={product.image}
-          />
-        </a>
-        <button className="btn10">Thay đổi ảnh</button>
+        <img
+          style={{
+            width: "100%",
+            height: "500px",
+            objectFit: "cover",
+          }}
+          src={product.image}
+        />
       </div>
       <div
         style={{
@@ -44,30 +42,43 @@ export default function ViewProduct({ product }) {
             style={{
               width: "100%",
               flexGrow: "1",
-              height: "320px",
+              height: "305px",
+              border: "2px solid var(--blur-color)",
               backgroundColor: "var(--blur-color)",
             }}
           >
             <ChartProductBuyTurn data={dataChart} />
           </div>
-          <div className="container-input-quantity">
-            <div className="container-input">
-              <div style={{ flexShrink: "0", whiteSpace: "nowrap" }}>
-                Tồn kho:
+          {sizes.map((size, index) => {
+            return (
+              <div className="container-input-quantity">
+                <div style={{ fontSize: "18px", fontWeight: "600" }}>
+                  Size {size}:
+                </div>
+                <div className="container-input">
+                  <div style={{ flexShrink: "0", whiteSpace: "nowrap" }}>
+                    Tồn kho:
+                  </div>
+                  <input
+                    type="number"
+                    value={1}
+                    style={{ width: "100%" }}
+                  ></input>
+                </div>
+                <div className="container-input">
+                  <div style={{ flexShrink: "0", whiteSpace: "nowrap" }}>
+                    Nhập thêm :
+                  </div>
+                  <input
+                    type="number"
+                    value={1}
+                    style={{ width: "100%" }}
+                  ></input>
+                </div>
+                <button className="btn10">Nhập</button>
               </div>
-              <input type="number" value={1} style={{ width: "100%" }}></input>
-            </div>
-            <div className="container-input">
-              <div style={{ flexShrink: "0", whiteSpace: "nowrap" }}>
-                Nhập thêm sản phẩm:
-              </div>
-              <input type="number" value={1} style={{ width: "100%" }}></input>
-            </div>
-          </div>
-        </div>
-        <div className="container-input-add-product">
-          <button className="btn12">Thêm màu mới</button>
-          <button className="btn10">Nhập thêm sản phẩm</button>
+            );
+          })}
         </div>
       </div>
     </div>

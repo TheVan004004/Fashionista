@@ -5,7 +5,6 @@ import {
   getOrdersAPI,
   updateStatusOrderAdminAPI,
 } from "../../services/admin.api";
-import ModalOrderDetail from "../../components/ModalOrderDetail";
 import empty from "../../access/empty.png";
 import ModalOrderAminDetail from "./ModalOrderDetailAdmin";
 export default function OrderManage() {
@@ -127,6 +126,9 @@ export default function OrderManage() {
                   <th style={{ width: "100px", textAlign: "center" }}>
                     Mã đơn hàng
                   </th>
+                  <th style={{ width: "100px", textAlign: "center" }}>
+                    Tên người dùng
+                  </th>
                   <th style={{ width: "200px", textAlign: "center" }}>
                     Thời gian đặt
                   </th>
@@ -146,6 +148,9 @@ export default function OrderManage() {
                       <tr>
                         <td style={{ textAlign: "center" }}>
                           {order.order_id}
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          {order.fullname}
                         </td>
                         <td style={{ textAlign: "center" }}>
                           {order.created_at.slice(0, 10)}

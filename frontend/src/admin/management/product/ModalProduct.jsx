@@ -11,6 +11,7 @@ import {
 import ViewProduct from "./ViewProduct";
 import { viewDetailProductAPI } from "../../../services/product.api";
 import { updateProductAPI } from "../../../services/admin.api";
+import AddColorProduct from "./AddColorProduct";
 
 export default function ModalProduct({
   isOpenModalProduct,
@@ -204,6 +205,7 @@ export default function ModalProduct({
                   fontWeight: "600",
                 }}
               >
+                <option value={0}>Không</option>
                 <option value={10}>10%</option>
                 <option value={20}>20%</option>
                 <option value={30}>30%</option>

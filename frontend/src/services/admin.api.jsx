@@ -58,3 +58,9 @@ export const updateStatusOrderAdminAPI = (order_id) => {
     }
   );
 };
+
+export const getInfoProductAdminAPI = (product_id) => {
+  return axios.get(`${url}api/admin/getInfoProduct/${product_id}`, {
+    withCredentials: true,
+  });
+};

@@ -30,7 +30,7 @@
 
 #add-product .container-input input {
   border: 2px solid var(--blur-color);
-  padding: 10px !important;
+  padding: 8px !important;
   transition: all 500ms;
 }
 
@@ -53,8 +53,9 @@
 
 #add-product .container-input-category {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
+  transition: all 500ms ease-in-out;
 }
 
 #container_slide_product {
@@ -91,8 +92,9 @@
 
 .container-input-quantity {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 0.5fr 1fr 1fr 0.5fr;
   gap: 10px;
+  align-items: center;
 }
 
 .container-input-add-product {
