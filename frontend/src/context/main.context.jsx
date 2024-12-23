@@ -18,7 +18,7 @@ export const ContextWrapper = (props) => {
   const [listResultSearch, setListResultSearch] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const [productDetail, setProductDetail] = useState(
-    JSON.parse(localStorage.getItem("product_detail") | "") || ""
+    JSON.parse(localStorage.getItem("product_detail")) || ""
   );
   const [sort, setSort] = useState("most_buyturn");
   const [listPopular, setListPopular] = useState([]);
@@ -26,8 +26,9 @@ export const ContextWrapper = (props) => {
   const [user, setUser] = useState("");
   const [isSearch, setIsSearching] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [pageSearch, setPageSearch] = useState("");
-  const [limitSearch, setLimitSearch] = useState("");
+  const [pageSearch, setPageSearch] = useState(1);
+  const [limitSearch, setLimitSearch] = useState(16);
+  const [nextPageSearch, setNextPageSearch] = useState(1);
   useEffect(() => {
     getUserProfile();
     getProductPopular();
@@ -131,6 +132,9 @@ export const ContextWrapper = (props) => {
         setPageSearch,
         limitSearch,
         setLimitSearch,
+        nextPageSearch,
+        setNextPageSearch,
+        getUserProfile,
       }}
     >
       {props.children}

@@ -116,7 +116,7 @@
 
 #product .picture {
   margin-bottom: 20px;
-  height: 850px;
+  height: 620px;
   width: 100%;
   object-fit: cover;
   cursor: pointer;
@@ -262,81 +262,6 @@
    */
 
 /* chưa duyệt */
-#similar {
-  margin: 80px;
-}
-
-#similar .title {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding-top: 50px;
-}
-#similar .line {
-  display: flex;
-  align-items: center;
-}
-#similar .line-infor {
-  height: 2px;
-  width: 300px;
-  color: gray;
-  background-color: gray;
-  border: none;
-}
-#similar .text {
-  display: grid;
-  justify-content: center;
-  font-size: 30px;
-  font-weight: bold;
-  font-size: roboto;
-  padding-left: 20px;
-  padding-right: 20px;
-  font-family: roboto;
-}
-#similar .product {
-  display: flex;
-  flex-direction: row;
-  margin-top: 45px;
-  margin-bottom: 45px;
-  height: 280px;
-  gap: "10px";
-}
-
-#similar .img-object {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  height: 300px;
-  flex: 1;
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-#similar .last-img-object {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  height: 300px;
-  flex: 1;
-  margin-right: -60px;
-  margin-bottom: 10px;
-}
-.img-object img,
-.last-img-object img {
-  height: 420px;
-  width: 80%;
-}
-#text-object {
-  display: flex;
-  flex-direction: column;
-}
-#text-object .name-product {
-  font-size: 15px;
-  padding-top: 12px;
-}
-#text-object .price {
-  padding-top: 5px;
-}
-
 .modal-product-container {
   width: 1000px;
   overflow: hidden;

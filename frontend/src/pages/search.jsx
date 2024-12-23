@@ -16,10 +16,17 @@ const Search = () => {
     setInputSearch,
     isSearch,
     setIsSearching,
+    pageSearch,
+    setPageSearch,
+    limitSearch,
+    setLimitSearch,
+    nextPageSearch,
+    setNextPageSearch,
   } = useContext(MainContext);
   const [listInit, setListInit] = useState([]);
   const [sortInput, setSortInput] = useState("");
   const [limit, setLimit] = useState(16);
+  const [nextPage, setNextPage] = useState(1);
   useEffect(() => {
     setIsSearching(false);
     window.scrollTo({ top: 0 });
@@ -34,8 +41,9 @@ const Search = () => {
 
   const getProduct = async () => {
     const res = await getProductsAPI({ page: 1, limit: limit });
-    const data = res.data.data.products;
-    setListInit(data);
+    const data = res.data.data;
+    setNextPage(data.pageInfo.nextPage);
+    setListInit(data.products);
   };
   const handleSort = (value) => {
     setSortInput(value);
@@ -100,6 +108,14 @@ const Search = () => {
                 <h3>Không tìm thấy sản phẩm phù hợp</h3>
               </div>
             )}
+            {/* {nextPageSearch && (
+              <button
+                className="view-more btn12"
+                onClick={() => setLimitSearch((prev) => prev + 16)}
+              >
+                Xem thêm
+              </button>
+            )} */}
           </>
         ) : (
           <>
@@ -111,12 +127,14 @@ const Search = () => {
                 );
               })}
             </div>
-            <button
-              className="view-more btn12"
-              onClick={() => setLimit((prev) => prev + 16)}
-            >
-              Xem thêm
-            </button>
+            {nextPage && (
+              <button
+                className="view-more btn12"
+                onClick={() => setLimit((prev) => prev + 16)}
+              >
+                Xem thêm
+              </button>
+            )}
           </>
         )}
       </div>

@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../context/main.context";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { viewDetailProductAPI } from "../services/product.api";
+import { searchAPI, viewDetailProductAPI } from "../services/product.api";
 import { addToCartAPI } from "../services/cart.api";
+import Product from "./product";
 const ProductDetail = () => {
   const navigate = useNavigate();
   const { user, productDetail, setProductDetail } = useContext(MainContext);
@@ -12,14 +13,37 @@ const ProductDetail = () => {
   const [colorPicked, setColorPicked] = useState("");
   const [sizePicked, setSizePicked] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [listPopularSimilar, setListPopularSimilar] = useState([]);
+  const [limitViewMore, setLimitViewMore] = useState(5);
+  const [pageViewMore, setPageViewMore] = useState(1);
   const sizes = ["M", "L", "XL"];
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
-  console.log(productDetail);
+  useEffect(() => {
+    getProductSimilar();
+  }, [limitViewMore]);
   useEffect(() => {
     getProduct();
   }, [colorPicked, sizePicked]);
+  const getProductSimilar = async () => {
+    try {
+      const res = await searchAPI(
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        productDetail.category_name,
+        1,
+        limitViewMore
+      );
+      const data = res.data.data;
+      setListPopularSimilar(data.products);
+      setPageViewMore(data.pageInfo.nextPage);
+    } catch (e) {}
+  };
   const getProduct = async () => {
     try {
       if (!productDetail.id) return;
@@ -47,6 +71,7 @@ const ProductDetail = () => {
       toast.error(e.response.data.message);
     }
   };
+  const searchMore = () => {};
   return (
     <>
       {productDetail && productDetail.id && (
@@ -57,7 +82,7 @@ const ProductDetail = () => {
           <div className="right-section">
             <div className="infor">
               <div className="name-clothe">{productDetail.name}</div>
-              <div className="describe">Thoáng khí</div>
+              {/* <div className="describe">Thoáng khí</div> */}
               <div
                 style={{
                   marginTop: "5px",
@@ -104,11 +129,11 @@ const ProductDetail = () => {
                 )}
               </div>
 
-              <div className="discount">
+              {/* <div className="discount">
                 <a>Mã giảm giá (Chưa có)</a>
                 <box>Giảm 50k</box>
                 <box>Giảm 100k</box>
-              </div>
+              </div> */}
 
               <div
                 style={{
@@ -184,7 +209,7 @@ const ProductDetail = () => {
                 <div className="quantity_input">
                   <div
                     onClick={() => {
-                      if (quantity > 0) setQuantity(quantity - 1);
+                      if (quantity > 1) setQuantity(quantity - 1);
                     }}
                   >
                     -
@@ -264,6 +289,33 @@ const ProductDetail = () => {
           </div>
         </div>
       )}
+      <div
+        style={{
+          margin: "0px 7vw 30px 7vw",
+        }}
+      >
+        <div id="similar">
+          <div className="title">Sản phẩm tương tự </div>
+          <div className="body">
+            {listPopularSimilar.map((product, index) => {
+              return (
+                <Product
+                  product={product}
+                  key={"popular_" + product.id + index}
+                />
+              );
+            })}
+          </div>
+          {pageViewMore && (
+            <button
+              className="view-more btn12"
+              onClick={() => setLimitViewMore((prev) => prev + 8)}
+            >
+              Tìm kiếm thêm
+            </button>
+          )}
+        </div>
+      </div>
 
       {/* <div id="similar">
                 <div className="title" >

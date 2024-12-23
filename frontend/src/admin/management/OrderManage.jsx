@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 export default function OrderManage() {
   const [listProducts, setListProducts] = useState([]);
@@ -9,7 +10,7 @@ export default function OrderManage() {
   return (
     <>
       <h2>Product:</h2>
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -32,7 +33,7 @@ export default function OrderManage() {
         </div>
 
         <button>Thêm sản phẩm mới</button>
-      </div>
+      </div> */}
 
       <table style={{ marginTop: "10px", position: "relative" }}>
         <thead>
@@ -54,6 +55,100 @@ export default function OrderManage() {
             );
           })}
         </tbody>
+        {/* <div
+          style={{
+            position: "relative",
+            width: "100%",
+            display: "flex",
+            justifyContent: "right",
+            alignItems: "center",
+            gap: "10px",
+            zIndex: "20",
+            marginTop: "10px",
+          }}
+        >
+          {pageSearch !== 1 && (
+            <HiChevronLeft
+              style={{
+                fontSize: "30px",
+              }}
+              onClick={() =>
+                setPageSearch((prev) => (prev === 1 ? 1 : prev - 1))
+              }
+            />
+          )}
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "right",
+              alignItems: "center",
+              gap: "20px",
+              zIndex: "20",
+            }}
+          >
+            {prevPage && (
+              <div
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "1000px",
+                  backgroundColor: "var(--blur-color)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+                onClick={() => setPageSearch((prev) => prev - 1)}
+              >
+                {prevPage}
+              </div>
+            )}
+
+            <div
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "1000px",
+                backgroundColor: "var(--accent-color)",
+                color: "white",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              {pageSearch}
+            </div>
+            {nextPage && (
+              <div
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "1000px",
+                  backgroundColor: "var(--blur-color)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+                onClick={() => setPageSearch((prev) => prev + 1)}
+              >
+                {nextPage}
+              </div>
+            )}
+          </div>
+          {pageSearch < totalPage && (
+            <HiChevronRight
+              style={{
+                fontSize: "30px",
+              }}
+              onClick={() =>
+                setPageSearch((prev) => (prev === totalPage ? prev : prev + 1))
+              }
+            />
+          )}
+        </div> */}
         <div
           style={{
             position: "absolute",

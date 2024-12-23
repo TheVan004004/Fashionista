@@ -99,7 +99,7 @@
 
 #cart th,
 #cart thead {
-  display: none;
+  /* display: none; */
 }
 
 #cart .order {

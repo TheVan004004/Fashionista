@@ -14,7 +14,7 @@ const DropdownMenu = () => {
     <div htmlFor="menu-user-check" id="menu-user">
       <input type="checkbox" id="menu-user-check" defaultChecked />
       <a
-        className="btn2"
+        className="btn"
         onClick={() => {
           navigate("/admin");
         }}
@@ -22,7 +22,7 @@ const DropdownMenu = () => {
         Quản lý sản phẩm
       </a>
       <a
-        className="btn2"
+        className="btn"
         onClick={() => {
           navigate("/user");
         }}
@@ -30,14 +30,14 @@ const DropdownMenu = () => {
         Tài khoản của tôi
       </a>
       <a
-        className="btn2"
+        className="btn"
         onClick={() => {
           navigate("/user/shopping");
         }}
       >
         Đơn hàng
       </a>
-      <a className="btn2" onClick={logout}>
+      <a className="btn" onClick={logout}>
         Đăng xuất{" "}
       </a>
     </div>

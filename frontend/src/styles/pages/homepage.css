@@ -125,7 +125,7 @@
 }
 
 #discount .header .right .tooltip {
-  background-color: var(--sale-color);
+  background-color: var(--hot-color);
   color: white;
   padding: 1vw;
   display: flex;
@@ -177,14 +177,16 @@
 }
 
 /* POPULAR */
-#popular {
+#popular,
+#similar {
   display: flex;
   gap: 10px;
   flex-direction: column;
   justify-content: center;
 }
 
-#popular .title {
+#popular .title,
+#similar .title {
   font-size: 24px;
   display: flex;
   align-items: center;
@@ -193,7 +195,9 @@
 }
 
 #popular .title::before,
-#popular .title::after {
+#popular .title::after,
+#similar .title::before,
+#similar .title::after {
   flex: 1;
   content: "";
   padding: 1px;
@@ -201,7 +205,8 @@
 }
 
 #popular .body,
-#popular_2 .body {
+#popular_2 .body,
+#similar .body {
   margin-top: 1vw;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

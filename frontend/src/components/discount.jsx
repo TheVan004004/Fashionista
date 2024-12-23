@@ -9,8 +9,10 @@ const Discount = () => {
       <div id="discount">
         <div className="header">
           <div className="left">
-            <p style={{ fontSize: "32px", fontWeight: "600" }}>Sale 20%</p>
-            <p>Toàn bộ sản phẩm nữ</p>
+            <p style={{ fontSize: "36px", fontWeight: "600", color: "white" }}>
+              Sale bung nóc, giá huỷ diệt
+            </p>
+            <p style={{ color: "white" }}>Săn ưu đãi hot - Độc quyền website</p>
           </div>
 
           <div className="right">

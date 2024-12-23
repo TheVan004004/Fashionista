@@ -15,6 +15,10 @@
   z-index: 1;
 }
 
+.btn:hover {
+  background-color: var(--blur-color);
+}
+
 /*======= Button 2 =======*/
 .btn2::before {
   content: "";
