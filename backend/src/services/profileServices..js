@@ -7,8 +7,18 @@ const getProfile = async (userId) => {
         [userId]
     );
     const dob = rows[0].dob;
-    const dobVN = new Date(dob).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
+    const date = new Date(dob);
+
+    // Đảm bảo tháng và ngày luôn có 2 chữ số
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    // Kết hợp thành định dạng YYYY-MM-DD
+    const dobVN = `${year}-${month}-${day}`;
+
     rows[0] = { ...rows[0], dob: dobVN };
+
     const result = resData('Lấy thông tin cá nhân thành công', 0, rows);
     return result;
 }

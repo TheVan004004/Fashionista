@@ -433,8 +433,18 @@ const getAllOrders = async (status, page, limit) => {
         );
         rows = rows.map((item) => {
             const created_at = item.created_at;
-            const created_at_vn = new Date(created_at).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
-            return { ...item, created_at: created_at_vn }
+            const date = new Date(created_at);
+
+            // Đảm bảo tháng và ngày luôn có 2 chữ số
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0 nên cần +1
+            const day = String(date.getDate()).padStart(2, '0');
+
+            // Kết hợp thành định dạng YYYY-MM-DD
+            const created_at_vn = `${year}-${month}-${day}`;
+
+            return { ...item, created_at: created_at_vn };
+
         })
         rows = pagination(rows, parseInt(page), parseInt(limit))
         const data = {
@@ -455,8 +465,18 @@ const getAllOrders = async (status, page, limit) => {
     );
     rows = rows.map((item) => {
         const created_at = item.created_at;
-        const created_at_vn = new Date(created_at).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
-        return { ...item, created_at: created_at_vn }
+        const date = new Date(created_at);
+
+        // Đảm bảo tháng và ngày luôn có 2 chữ số
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0 nên cần +1
+        const day = String(date.getDate()).padStart(2, '0');
+
+        // Kết hợp thành định dạng YYYY-MM-DD
+        const created_at_vn = `${year}-${month}-${day}`;
+
+        return { ...item, created_at: created_at_vn };
+
     })
     rows = pagination(rows, parseInt(page), parseInt(limit))
     const data = {
@@ -490,9 +510,8 @@ const updateOrderAdmin = async (orderId) => {
 
 const getOrderQuantityByStatus = async () => {
     const { rows } = await db.query(
-        `SELECT status, SUM(quantity) AS total_quantity
+        `SELECT status, COUNT(orders.id) AS total_quantity
          FROM orders
-         JOIN order_details ON order_details.order_id = orders.id
          GROUP BY status;`
     );
     let data = [
