@@ -88,3 +88,16 @@ export const getTotalBuyturnByMonthAPI = () => {
     withCredentials: true,
   });
 };
+
+export const updateQuantityProductDetailAPI = (id, quantity) => {
+  const data = {
+    new_quantity: quantity,
+  };
+  return axios.patch(
+    `${url}api/admin/updateQuantityProductDetail/${id}`,
+    data,
+    {
+      withCredentials: true,
+    }
+  );
+};

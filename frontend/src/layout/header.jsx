@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <>
       <div id="header">
-        <div className="logo">LOGO is here</div>
+        <div className="logo">Fashionista</div>
         <div id="menu-left">
           <div
             className="icon"

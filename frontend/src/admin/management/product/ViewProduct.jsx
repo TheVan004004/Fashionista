@@ -1,13 +1,37 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import ChartProductBuyTurn from "./ChartProductBuyTurn";
-export default function ViewProduct({ product }) {
+import { updateQuantityProductDetailAPI } from "../../../services/admin.api";
+import { viewDetailProductAPI } from "../../../services/product.api";
+export default function ViewProduct({
+  product,
+  color,
+  productView,
+  setProductView,
+}) {
+  const [quantityM, setQuantityM] = useState(0);
+  const [quantityL, setQuantityL] = useState(0);
+  const [quantityXL, setQuantityXL] = useState(0);
+  const [quantity2XL, setQuantity2XL] = useState(0);
   useEffect(() => {
     getChartBuyturn();
     return () => {
       setDataChart([]);
     };
   }, [product]);
+  const updateQuantitySize = async (size, quantity) => {
+    const id = await getProductDetail(size);
+    await updateQuantityProductDetailAPI(id, quantity);
+    setProductView((prev) => ({ ...prev, update: true }));
+  };
+  const getProductDetail = async (size) => {
+    const res = await viewDetailProductAPI({
+      product_id: productView.id,
+      size: size,
+      color: color,
+    });
+    return res.data.data.id;
+  };
   const [dataChart, setDataChart] = useState([]);
   const getChartBuyturn = async () => {
     const data = product.productInfoByColor.map((d) => ({
@@ -64,9 +88,24 @@ export default function ViewProduct({ product }) {
               <div style={{ flexShrink: "0", whiteSpace: "nowrap" }}>
                 Nhập thêm :
               </div>
-              <input type="number" value={1} style={{ width: "100%" }}></input>
+              <input
+                type="number"
+                value={quantityM}
+                onChange={(e) => setQuantityM(e.target.value)}
+                style={{ width: "100%" }}
+              ></input>
             </div>
-            <button className="btn10">Nhập</button>
+            <button
+              className="btn10"
+              onClick={() =>
+                updateQuantitySize(
+                  "M",
+                  parseInt(quantityM) + parseInt(product.quantity_sizeM)
+                )
+              }
+            >
+              Nhập
+            </button>
           </div>
           <div className="container-input-quantity">
             <div style={{ fontSize: "18px", fontWeight: "600" }}>Size L</div>
@@ -84,9 +123,24 @@ export default function ViewProduct({ product }) {
               <div style={{ flexShrink: "0", whiteSpace: "nowrap" }}>
                 Nhập thêm :
               </div>
-              <input type="number" value={1} style={{ width: "100%" }}></input>
+              <input
+                type="number"
+                value={quantityL}
+                onChange={(e) => setQuantityL(e.target.value)}
+                style={{ width: "100%" }}
+              ></input>
             </div>
-            <button className="btn10">Nhập</button>
+            <button
+              className="btn10"
+              onClick={() =>
+                updateQuantitySize(
+                  "L",
+                  parseInt(quantityL) + parseInt(product.quantity_sizeL)
+                )
+              }
+            >
+              Nhập
+            </button>
           </div>
           <div className="container-input-quantity">
             <div style={{ fontSize: "18px", fontWeight: "600" }}>Size XL</div>
@@ -104,9 +158,24 @@ export default function ViewProduct({ product }) {
               <div style={{ flexShrink: "0", whiteSpace: "nowrap" }}>
                 Nhập thêm :
               </div>
-              <input type="number" value={1} style={{ width: "100%" }}></input>
+              <input
+                type="number"
+                value={quantityXL}
+                onChange={(e) => setQuantityXL(e.target.value)}
+                style={{ width: "100%" }}
+              ></input>
             </div>
-            <button className="btn10">Nhập</button>
+            <button
+              className="btn10"
+              onClick={() =>
+                updateQuantitySize(
+                  "XL",
+                  parseInt(quantityXL) + parseInt(product.quantity_sizeXL)
+                )
+              }
+            >
+              Nhập
+            </button>
           </div>
           <div className="container-input-quantity">
             <div style={{ fontSize: "18px", fontWeight: "600" }}>Size 2XL</div>
@@ -124,9 +193,24 @@ export default function ViewProduct({ product }) {
               <div style={{ flexShrink: "0", whiteSpace: "nowrap" }}>
                 Nhập thêm :
               </div>
-              <input type="number" value={1} style={{ width: "100%" }}></input>
+              <input
+                type="number"
+                value={quantity2XL}
+                onChange={(e) => setQuantity2XL(e.target.value)}
+                style={{ width: "100%" }}
+              ></input>
             </div>
-            <button className="btn10">Nhập</button>
+            <button
+              className="btn10"
+              onClick={() =>
+                updateQuantitySize(
+                  "2XL",
+                  parseInt(quantity2XL) + parseInt(product.quantity_size2XL)
+                )
+              }
+            >
+              Nhập
+            </button>
           </div>
         </div>
       </div>

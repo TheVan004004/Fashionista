@@ -287,7 +287,12 @@ export default function ModalProduct({
                           setProductView={setProductView}
                         />
                       ) : (
-                        <ViewProduct product={product} />
+                        <ViewProduct
+                          setProductView={setProductView}
+                          product={product}
+                          productView={productView}
+                          color={listColor[currentIndex].hex_code}
+                        />
                       )}
                     </div>
                   );

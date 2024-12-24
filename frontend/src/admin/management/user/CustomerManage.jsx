@@ -79,7 +79,6 @@ export default function CustomerManage() {
           <col style={{ width: "80px" }} />
           <col style={{ width: "180px" }} />
           <col style={{ width: "100px" }} />
-          <col style={{ width: "60px" }} />
         </colgroup>
         <thead>
           <tr>
@@ -88,7 +87,6 @@ export default function CustomerManage() {
             <th>Giới tính</th>
             <th>Địa chỉ</th>
             <th>Số lượt mua hàng</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -97,18 +95,18 @@ export default function CustomerManage() {
               <td>{user.username}</td>
               <td>{user.fullname || "Không"}</td>
               <td>
-                {user.sex === "male"
+                {user.sex === "Male"
                   ? "Nam"
-                  : user.sex === "female"
+                  : user.sex === "Female"
                   ? "Nữ"
                   : "Không"}
               </td>
               <td>{user.address || "Không"}</td>
-              <td>{user.buyturn}</td>
-              <td className="action">
+              <td style={{ textAlign: "center" }}>{user.buyturn}</td>
+              {/* <td className="action">
                 <HiPencilAlt className="icon edit" />
                 <HiOutlineTrash className="icon remove" />
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

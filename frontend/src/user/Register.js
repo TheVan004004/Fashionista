@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { validate, isRequired, isConfirmed, minChar } from "../validation";
 import { HiOutlineXCircle } from "react-icons/hi";
 import { MainContext } from "../context/main.context";
@@ -12,7 +12,13 @@ function Register({ boxUser, setBoxUser, setIsOpenModalUser }) {
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
   const [errorPasswordConfirmMessage, setErrorPasswordConfirmMessage] =
     useState("");
-  const { setUser } = useContext(MainContext);
+  const { setUser, user } = useContext(MainContext);
+  useEffect(() => {
+    if (user === "") {
+      setUsername("");
+      setPassword("");
+    }
+  }, [user]);
   const handleSubmit = async () => {
     const nameError = validate(username, [isRequired]);
     const passwordError = validate(password, [isRequired, minChar], { min: 5 });
