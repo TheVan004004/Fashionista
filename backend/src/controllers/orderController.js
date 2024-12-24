@@ -3,7 +3,7 @@ import orderServices from "../services/orderServices.js";
 
 const apiOrder = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 1, '');
+        const result = resData('Vui lòng đăng nhập', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -11,14 +11,14 @@ const apiOrder = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
 
 const apiUpdateOrder = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 1, '');
+        const result = resData('Vui lòng đăng nhập', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -28,14 +28,14 @@ const apiUpdateOrder = async (req, res) => {
     }
     catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
 
 const apiGetOrders = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 1, '');
+        const result = resData('Vui lòng đăng nhập', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -46,7 +46,7 @@ const apiGetOrders = async (req, res) => {
     }
     catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -57,7 +57,7 @@ const apiGetOrderInfo = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }

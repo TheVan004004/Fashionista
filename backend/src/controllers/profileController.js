@@ -3,7 +3,7 @@ import profileServices from '../services/profileServices..js';
 
 const apiGetProfile = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 1, '');
+        const result = resData('Vui lòng đăng nhập', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -11,14 +11,14 @@ const apiGetProfile = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
 
 const apiPostProfile = async (req, res) => {
     if (!req.user) {
-        const result = resData('Please login', 1, '');
+        const result = resData('Vui lòng đăng nhập', 1, '');
         return res.status(400).json(result);
     }
     try {
@@ -26,7 +26,7 @@ const apiPostProfile = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 

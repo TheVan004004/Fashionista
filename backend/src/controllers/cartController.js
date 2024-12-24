@@ -3,7 +3,7 @@ import cartSerVices from "../services/cartServices.js";
 
 const apiAddCartItem = async (req, res) => {
   if (!req.user) {
-    const result = resData("Please login", 1, "");
+    const result = resData("Vui lòng đăng nhập", 1, "");
     return res.status(400).json(result);
   }
   try {
@@ -12,13 +12,13 @@ const apiAddCartItem = async (req, res) => {
     res.json(result);
   } catch (error) {
     console.log(`>>> Error getting: ${error}`);
-    const result = resData("Server error", 1, "");
+    const result = resData('Lỗi server', 1, "");
     res.status(500).json(result);
   }
 };
 const apiGetAllCartItems = async (req, res) => {
   if (!req.user) {
-    const result = resData("Please login", 1, "");
+    const result = resData("Vui lòng đăng nhập", 1, "");
     return res.status(400).json(result);
   }
   try {
@@ -28,14 +28,14 @@ const apiGetAllCartItems = async (req, res) => {
     res.json(result);
   } catch (error) {
     console.log(`>>> Error getting: ${error}`);
-    const result = resData("Server error", 1, "");
+    const result = resData('Lỗi server', 1, "");
     res.status(500).json(result);
   }
 };
 //Change color, size, quantity of item
 const apiUpdateCartItem = async (req, res) => {
   if (!req.user) {
-    const result = resData("Please login", 1, "");
+    const result = resData("Vui lòng đăng nhập", 1, "");
     return res.status(400).json(result);
   }
   try {
@@ -44,13 +44,13 @@ const apiUpdateCartItem = async (req, res) => {
     res.json(result);
   } catch (error) {
     console.log(`>>> Error getting: ${error}`);
-    const result = resData("Server error", 1, "");
+    const result = resData('Lỗi server', 1, "");
     res.status(500).json(result);
   }
 };
 const apiDeleteCartItem = async (req, res) => {
   if (!req.user) {
-    const result = resData("Please login", 1, "");
+    const result = resData("Vui lòng đăng nhập", 1, "");
     return res.status(400).json(result);
   }
   try {
@@ -59,7 +59,7 @@ const apiDeleteCartItem = async (req, res) => {
     res.json(result);
   } catch (error) {
     console.log(`>>> Error getting: ${error}`);
-    const result = resData("Server error", 1, "");
+    const result = resData('Lỗi server', 1, "");
     res.status(500).json(result);
   }
 };

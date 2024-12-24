@@ -25,7 +25,7 @@ const searchProductDetail = async (productId, searchData) => {
         [productId, color, size]
     );
     const data = { ...rows[0], image: `http://${hostname}:${port}/public/images/${rows[0].image}.png` };
-    const result = resData(`Get Product details with id = ${data.id} successfully`, 0, data);
+    const result = resData(`Lấy sản phẩm chi tiết id = ${data.id} thành công`, 0, data);
     return result;
 }
 

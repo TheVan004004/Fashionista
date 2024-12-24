@@ -18,14 +18,14 @@ passport.use(new Strategy(async function verify(username, password, cb) {
                     return cb(err);
                 else {
                     if (result)
-                        return cb(null, user, { message: 'Login successful' });
+                        return cb(null, user, { message: 'Đăng nhập thành công' });
                     else
-                        return cb(null, false, { message: 'Incorrect password' });
+                        return cb(null, false, { message: 'Mật khẩu không đúng' });
                 }
             })
         }
         else
-            return cb(null, false, { message: 'User not found' });
+            return cb(null, false, { message: 'Không tìm thấy người dùng' });
     } catch (error) {
         cb(error);
     }

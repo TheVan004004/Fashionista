@@ -10,7 +10,7 @@ const apiSignup = async (req, res) => {
     try {
         const checkUsernameExist = await db.query("SELECT * FROM users WHERE username= $1", [username]);
         if (checkUsernameExist.rows.length > 0) {
-            const result = resData('Username already exists. Try logging in.', 1, '');
+            const result = resData('Tên tài khoản đã tồn tại. Vui lòng đăng nhập lại', 1, '');
             res.status(400).json(result);
         }
         else {
@@ -18,7 +18,7 @@ const apiSignup = async (req, res) => {
             bcrypt.hash(password, 10, async (err, hash) => {
                 if (err) {
                     console.error(">>> Error hashing password:", err);
-                    const result = resData('Error hashing password', 1, '');
+                    const result = resData('Lỗi hashing password', 1, '');
                     res.status(500).json(result);
                 } else {
                     const result = await db.query(
@@ -33,11 +33,11 @@ const apiSignup = async (req, res) => {
                     );
                     req.login(user, (err) => {
                         if (err) {
-                            const result = resData('Login error', 1, '');
+                            const result = resData('Lỗi đăng nhập', 1, '');
                             res.status(500).json(result);
                         }
                         else {
-                            const result = resData('Registration successful', 0, user);
+                            const result = resData('Đăng ký thành công', 0, user);
                             res.json(result);
                         }
                     })
@@ -45,7 +45,7 @@ const apiSignup = async (req, res) => {
             })
         }
     } catch (error) {
-        const result = resData('Sever error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -54,22 +54,22 @@ const apiSignup = async (req, res) => {
 const apiLogin = (req, res) => {
     passport.authenticate('local', (err, user, info) => { //get err, user, info from cb(err, user, info) 
         if (err) {
-            const result = resData('Error during authentication', 1, '');
+            const result = resData('Lỗi trong quá trình xác thực', 1, '');
             res.status(500).json(result);
         }
         else {
             if (!user) {
-                let message = info?.message || 'Invalid credentials';
+                let message = info?.message || 'Xác thực không thành công';
                 const result = resData(message, 1, '');
                 return res.status(400).json({ ...result, success: false });
             }
             req.login(user, (err) => {
                 if (err) {
-                    const result = resData('Sever error', 1, '');
+                    const result = resData('Lỗi server', 1, '');
                     res.status(500).json(result);
                 }
                 else {
-                    let message = info?.message || 'Login successful';
+                    let message = info?.message || 'Đăng nhập thành công';
                     const result = resData(message, 0, req.user);
                     res.json({ ...result, success: true });
                 }
@@ -81,11 +81,11 @@ const apiLogin = (req, res) => {
 const apiLogout = (req, res) => {
     req.logout((err) => {
         if (err) {
-            const result = resData('Logout error', 1, '');
+            const result = resData('Lỗi đăng xuất', 1, '');
             res.status(500).json(result);
         }
         else {
-            const result = resData('Logout successfully', 0, '');
+            const result = resData('Đăng xuất thành công', 0, '');
             res.json(result);
         }
     })

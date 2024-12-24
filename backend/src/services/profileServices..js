@@ -9,7 +9,7 @@ const getProfile = async (userId) => {
     const dob = rows[0].dob;
     const dobVN = new Date(dob).toLocaleDateString('vi-VN', { timeZone: "Asia/Bangkok" });
     rows[0] = { ...rows[0], dob: dobVN };
-    const result = resData('Get profile successfully', 0, rows);
+    const result = resData('Lấy thông tin cá nhân thành công', 0, rows);
     return result;
 }
 
@@ -35,7 +35,7 @@ const postProfile = async (profileData, userId) => {
             userId
         ]
     )
-    const result = resData('Update profile successfully', 0, rows);
+    const result = resData('Cập nhật thông tin cá nhân thành công', 0, rows);
     return result;
 }
 

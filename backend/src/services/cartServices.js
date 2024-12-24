@@ -19,7 +19,7 @@ const addCartItem = async (userId, cartItemData) => {
     [product_details_id]
   );
   if (quantity > compare.rows[0].quantity) {
-    const result = resData("Limited quantity", 1, "");
+    const result = resData("Số lượng có hạn", 1, "");
     return result;
   }
 
@@ -48,7 +48,7 @@ const addCartItem = async (userId, cartItemData) => {
       [quantity + getProductDetail.rows[0].quantity, product_details_id, cartId]
     );
     const result = resData(
-      "Update quantity of item that added in cart",
+      "Cập nhật số lượng thành công",
       0,
       rows[0]
     );
@@ -60,7 +60,7 @@ const addCartItem = async (userId, cartItemData) => {
              RETURNING *;`,
     [cartId, product_details_id, quantity]
   );
-  const result = resData("Add item into the cart successfully", 0, rows[0]);
+  const result = resData("Thêm vào giỏ hàng thành công", 0, rows[0]);
   return result;
 };
 
@@ -92,7 +92,7 @@ const getAllCartItems = async (userId, pageInfo) => {
     cartItems: rows.newItems,
     pageInfo: rows.pageInfo
   }
-  const result = resData("Get all items of cart successfully", 0, data);
+  const result = resData("Lấy các danh mục sản phẩm trong giỏ thành công", 0, data);
   return result;
 };
 
@@ -103,7 +103,7 @@ const deleteCartItem = async (itemId) => {
        RETURNING *`,
     [itemId]
   );
-  const result = resData(`Item with id=${rows[0].id} was deleted`, 0, rows[0]);
+  const result = resData(`Danh mục sản phẩm với id=${rows[0].id} đã được xóa`, 0, rows[0]);
   return result;
 };
 
@@ -163,7 +163,7 @@ const updateCartItem = async (itemId, updateData) => {
       [itemId]
     );
     const result = resData(
-      "Update quantity of item that added in cart",
+      "Cập nhật số lượng thành công",
       0,
       rows[0]
     );
@@ -178,7 +178,7 @@ const updateCartItem = async (itemId, updateData) => {
     [product_details_id, quantity, itemId]
   );
 
-  const result = resData("Update successfully", 0, rows[0]);
+  const result = resData("Cập nhật thành công", 0, rows[0]);
   return result;
 };
 

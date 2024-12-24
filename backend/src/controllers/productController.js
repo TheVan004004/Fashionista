@@ -7,7 +7,7 @@ const apiFilteredProducts = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -18,7 +18,7 @@ const apiGetAllColors = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -29,7 +29,7 @@ const apiGetAllCategories = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }

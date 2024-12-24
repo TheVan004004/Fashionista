@@ -93,7 +93,7 @@ const addNewProductDetail = async (productDetailData) => {
             ]
         );
         let result = await productServices.filterProducts({ name: name });
-        result = resData('Add new product successfully', 0, result.data.products[0]);
+        result = resData('Thêm sản phẩm mới thành công', 0, result.data.products[0]);
         return result;
     }
     // product exists but has new productDetail ('newColor' come with 'newImage')
@@ -132,7 +132,7 @@ const addNewProductDetail = async (productDetailData) => {
                 ]
             );
             let result = await productServices.filterProducts({ name: name });
-            result = resData('Add new product successfully', 0, result.data.products[0]);
+            result = resData('Thêm sản phẩm mới thành công', 0, result.data.products[0]);
             return result;
         }
 
@@ -170,10 +170,10 @@ const addNewProductDetail = async (productDetailData) => {
                 ]
             );
             let result = await productServices.filterProducts({ name: name });
-            result = resData('Add new product successfully', 0, result.data.products[0]);
+            result = resData('Thêm sản phẩm mới thành công', 0, result.data.products[0]);
             return result;
         }
-        const result = resData('Product existed. Try adding new product again', 1, '');
+        const result = resData('Sản phẩm này đã tồn tại. Hãy thêm sản phẩm mới khác', 1, '');
         return result;
     }
 }
@@ -199,7 +199,7 @@ const updateProduct = async (productId, updateData) => { //updateData {newName, 
     const getAllProducts = await productServices.filterProducts({ page: 1, limit: 1000 });
     const allProducts = getAllProducts.data.products;
     let updatedProduct = allProducts.find((product) => product.id == productId);
-    const result = resData('Updated product successfully', 0, updatedProduct);
+    const result = resData('Cập nhật sản phẩm thành công', 0, updatedProduct);
     return result;
 }
 
@@ -211,7 +211,7 @@ const updateQuantityProductDetail = async (productDetailId, newQuantity) => {
          RETURNING *;`,
         [newQuantity, productDetailId]
     );
-    const result = resData('Update quantity successfully', 0, rows[0]);
+    const result = resData('Cập nhật số lượng thành công', 0, rows[0]);
     return result;
 }
 
@@ -237,7 +237,7 @@ const getInfoBuyTurnUser = async (sort, page, limit) => {
         infoUserBuyTurn: rows.newItems,
         pageInfo: rows.pageInfo
     }
-    const result = resData(`Get user buy turn information successfully`, 0, data);
+    const result = resData(`Lấy lượt mua của người dùng thành công`, 0, data);
     return result;
 
 }
@@ -323,7 +323,7 @@ const getProductsByMonth = async () => {
         }
         data.push(dataAMonth);
     }
-    const result = resData('Get total sold products by month successfully', 0, data);
+    const result = resData('Lấy tổng số sản phẩm bán ra theo tháng thành công', 0, data);
     return result;
 }
 
@@ -336,7 +336,7 @@ const getTotalSalesByMonth = async () => {
         }
         data.push(dataAMonth);
     }
-    const result = resData('Get total sales by month successfully', 0, data);
+    const result = resData('Lấy tổng doanh thu theo tháng thành công', 0, data);
     return result;
 }
 
@@ -349,7 +349,7 @@ const getBuyTurnByMonthOfProduct = async (productId) => {
         }
         data.push(dataAMonth);
     }
-    const result = resData('Get buy turn by month successfully', 0, data);
+    const result = resData('Lấy tổng lượt mua theo tháng thành công', 0, data);
     return result;
 }
 
@@ -418,7 +418,7 @@ const getInfoProduct = async (productId) => {
     data = { ...data, listProductsInfoByColor: listProductsInfoByColor };
 
 
-    const result = resData('Get product info successfully', 0, data);
+    const result = resData('Lấy thông tin sản phẩm thành công', 0, data);
     return result;
 
 }
@@ -442,7 +442,7 @@ const getAllOrders = async (status, page, limit) => {
             pageInfo: rows.pageInfo
         }
 
-        const result = resData(`Get all orders successfully`, 0, data);
+        const result = resData(`Lấy tất cả đơn hàng thành công`, 0, data);
         return result;
     }
     let { rows } = await db.query(
@@ -464,7 +464,7 @@ const getAllOrders = async (status, page, limit) => {
         pageInfo: rows.pageInfo
     }
 
-    const result = resData(`Get orders successfully`, 0, data);
+    const result = resData(`Lấy đơn hàng thành công`, 0, data);
     return result;
 }
 
@@ -483,7 +483,7 @@ const updateOrderAdmin = async (orderId) => {
          RETURNING *;`,
             ['processing', orderId]
         )
-        const result = resData('Update successfully', 0, rows[0]);
+        const result = resData('Cập nhật thành công', 0, rows[0]);
         return result;
     }
 }
@@ -514,7 +514,7 @@ const getOrderQuantityByStatus = async () => {
         if (item.status == 'processing') data[1] = item;
         if (item.status == 'completed') data[2] = item;
     });
-    const result = resData('Get order quantity by status successfully', 0, data);
+    const result = resData('Lấy số lượng đơn hàng theo trạng thái thành công', 0, data);
     return result;
 }
 
@@ -527,7 +527,7 @@ const getTotalBenefitsByMonth = async () => {
         }
         data.push(dataAMonth);
     }
-    const result = resData('Get total benefits by month successfully', 0, data);
+    const result = resData('Lấy tổng lợi nhuận theo tháng thành công', 0, data);
     return result;
 }
 
@@ -551,7 +551,7 @@ const getTotalSoldProductsByCategory = async () => {
         total_sold_products: sum,
         listCategories: rows
     }
-    const result = resData('Get total sold products by category successfully', 0, data);
+    const result = resData('Lấy tổng sản phẩm bán ra theo loại cho mỗi tháng thành công', 0, data);
     return result;
 }
 

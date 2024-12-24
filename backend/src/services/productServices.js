@@ -31,7 +31,7 @@ const getAllProducts = async () => {
         data.push({ ...product, image: `http://${hostname}:${port}/public/images/${product.image}.png`, color: colorData.rows });
 
     };
-    const result = resData('Get products successfully', 0, data);
+    const result = resData('Lấy sản phẩm thành công', 0, data);
     return result;
 };
 
@@ -95,7 +95,7 @@ const filterProducts = async (filterData) => {
         products: allProducts.newItems,
         pageInfo: allProducts.pageInfo
     }
-    const result = resData('Get products successfully', 0, data);
+    const result = resData('Lấy sản phẩm thành công', 0, data);
     return result;
 }
 
@@ -103,7 +103,7 @@ const getAllColors = async () => {
     const { rows } = await db.query(
         `SELECT * FROM color`
     );
-    const result = resData('Get all colors successfully', 0, rows);
+    const result = resData('Lấy tất cả các màu thành công', 0, rows);
     return result;
 }
 
@@ -111,7 +111,7 @@ const getAllCategories = async () => {
     const { rows } = await db.query(
         `SELECT * FROM categories`
     );
-    const result = resData('Get all categories', 0, rows);
+    const result = resData('Lấy tất cả loại hàng thành công', 0, rows);
     return result;
 }
 

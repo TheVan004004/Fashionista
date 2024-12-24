@@ -55,7 +55,7 @@ const order = async (user_id, listItems) => {
       [item.id]
     );
   }
-  const result = resData("Order successfully", 0, newOrder.rows[0]);
+  const result = resData("Đặt hàng thành công", 0, newOrder.rows[0]);
   return result;
 };
 
@@ -74,7 +74,7 @@ const updateStatusOrder = async (orderId) => {
          RETURNING *;`,
       ["completed", orderId]
     );
-    const result = resData("Update successfully", 0, rows[0]);
+    const result = resData("Cập nhật thành công", 0, rows[0]);
     return result;
   }
 };
@@ -99,7 +99,7 @@ const getOrders = async (userId, status, page, limit) => {
       pageInfo: rows.pageInfo
     }
 
-    const result = resData(`Get all orders successfully`, 0, data);
+    const result = resData(`Lấy tất cả đơn hàng thành công`, 0, data);
     return result;
   }
   let { rows } = await db.query(
@@ -121,7 +121,7 @@ const getOrders = async (userId, status, page, limit) => {
     pageInfo: rows.pageInfo
   }
 
-  const result = resData(`Get orders successfully`, 0, data);
+  const result = resData(`Lấy các đơn hàng thành công`, 0, data);
   return result;
 };
 
@@ -139,7 +139,7 @@ ORDER BY order_details.id ASC`,
     [orderId]
   );
 
-  const result = resData("Get order info successfully", 0, rows);
+  const result = resData("Lấy thông tin của đơn hàng thành công", 0, rows);
   return result;
 };
 

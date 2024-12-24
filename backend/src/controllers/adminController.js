@@ -13,7 +13,7 @@ const apiAddNewProductDetail = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -25,7 +25,7 @@ const apiUpdateProduct = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -38,7 +38,7 @@ const apiUpdateQuantityProductDetail = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -50,7 +50,7 @@ const apiGetInfoBuyTurnUser = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -61,7 +61,7 @@ const apiGetProductsByMonth = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -72,7 +72,7 @@ const apiGetTotalSalesByMonth = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -84,7 +84,7 @@ const apiGetBuyTurnByMonthOfProduct = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -96,7 +96,7 @@ const apiGetInfoProduct = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -108,7 +108,7 @@ const apiGetAllOrders = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -120,7 +120,7 @@ const apiUpdateOrderAdmin = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -131,7 +131,7 @@ const apiGetOrderQuantityByStatus = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -142,7 +142,7 @@ const apiGetTotalBenefitsByMonth = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
@@ -153,7 +153,7 @@ const apiGetTotalSoldProductsByCategory = async (req, res) => {
         res.json(result);
     } catch (error) {
         console.log(`>>> Error getting: ${error}`);
-        const result = resData('Server error', 1, '');
+        const result = resData('Lỗi server', 1, '');
         res.status(500).json(result);
     }
 }
