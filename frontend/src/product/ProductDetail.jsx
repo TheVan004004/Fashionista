@@ -73,7 +73,6 @@ const ProductDetail = () => {
         quantity: quantity,
         user_id: user.id,
       });
-      console.log(res.data.errorCount);
       if (res.data.errorCount === 1) {
         toast.error("Sản phẩm đã hết hàng!");
         return;

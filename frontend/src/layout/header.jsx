@@ -21,7 +21,13 @@ const Header = () => {
   return (
     <>
       <div id="header">
-        <div className="logo">Fashionista</div>
+        <div
+          className="logo"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        >
+          Fashionista
+        </div>
         <div id="menu-left">
           <div
             className="icon"
