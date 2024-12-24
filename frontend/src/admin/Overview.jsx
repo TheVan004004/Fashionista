@@ -95,7 +95,7 @@ export default function Overview() {
         }}
       >
         <PieChart data={orderQuantityByStatus} />
-        <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "60px" }}>
           <h2>Trạng thái đơn hàng</h2>
           <div
             style={{
