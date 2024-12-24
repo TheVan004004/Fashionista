@@ -20,14 +20,18 @@ export default function Payment({ listOrder, setListOrder }) {
     setSum(sumCurr);
   }, [listOrder]);
   const order = async () => {
-    if (listOrder.length > 0) {
-      if (!user.fullname && !user.phone && !user.address) {
-        toast.error("Hãy điền đầy đủ thông tin cá nhân trước khi đặt hàng");
-        return;
+    try {
+      if (listOrder.length > 0) {
+        if (!user.fullname && !user.phone && !user.address) {
+          toast.error("Hãy điền đầy đủ thông tin cá nhân trước khi đặt hàng");
+          return;
+        }
+        await orderAPI(listOrder.map((i) => i.item_id));
+        toast.success("Đặt hàng thành công");
+        navigate("/order-success");
       }
-      await orderAPI(listOrder.map((i) => i.item_id));
-      toast.success("Đặt hàng thành công");
-      navigate("/order-success");
+    } catch (e) {
+      toast.error(e.response.data.message);
     }
   };
   return (
