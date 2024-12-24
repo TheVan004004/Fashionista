@@ -11,6 +11,7 @@ export default function AddColorProduct() {
     { size: "M", quantity: 1 },
     { size: "L", quantity: 1 },
     { size: "XL", quantity: 1 },
+    { size: "2XL", quantity: 1 },
   ]);
   const [color, setColor] = useState(1);
   const [listColor, setListColor] = useState([]);

@@ -13,6 +13,12 @@
   background-color: var(--accent-color);
   border-radius: 0 !important;
 }
+.logo {
+  font-size: 24px;
+  color: white;
+  font-family: cursive;
+  font-weight: 600;
+}
 
 #menu-left {
   display: flex;

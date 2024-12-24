@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { validate, isRequired } from "../validation";
 import { HiOutlineXCircle } from "react-icons/hi";
 import { MainContext } from "../context/main.context";
@@ -9,7 +9,13 @@ const Login = ({ boxUser, setBoxUser, setIsOpenModalUser }) => {
   const [password, setPassword] = useState("");
   const [errorNameMessage, setErrorNameMessage] = useState("");
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
-  const { setUser } = useContext(MainContext);
+  const { setUser, user } = useContext(MainContext);
+  useEffect(() => {
+    if (user === "") {
+      setUsername("");
+      setPassword("");
+    }
+  }, [user]);
   const handleSubmit = async () => {
     const nameError = validate(username, [isRequired]);
     const passwordError = validate(password, [isRequired]);
@@ -79,7 +85,7 @@ const Login = ({ boxUser, setBoxUser, setIsOpenModalUser }) => {
       </div>
 
       <button className="btn10" onClick={handleSubmit}>
-        Login
+        Đăng nhập
       </button>
       <div
         style={{

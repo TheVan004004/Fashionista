@@ -9,7 +9,7 @@ const Profile = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState(user.phone);
   const [sex, setSex] = useState(user.sex ? user.sex : "Nam");
-  const [dob, setDob] = useState(user?.dob?.slice(0, 10));
+  const [dob, setDob] = useState(user?.dob);
   const [address, setAddress] = useState(user.address);
   const [isEdit, setIsEdit] = useState(false);
   const updateDataUser = async () => {

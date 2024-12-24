@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { MainContext } from "../context/main.context";
 import { logoutAPI } from "../services/user.api";
 const DropdownMenu = () => {
-  const { setUser } = useContext(MainContext);
+  const { setUser, user } = useContext(MainContext);
   const navigate = useNavigate();
   const logout = async () => {
     logoutAPI();
@@ -13,22 +13,28 @@ const DropdownMenu = () => {
   return (
     <div htmlFor="menu-user-check" id="menu-user">
       <input type="checkbox" id="menu-user-check" defaultChecked />
-      <a
-        className="btn"
-        onClick={() => {
-          navigate("/admin");
-        }}
-      >
-        Quản lý sản phẩm
-      </a>
-      <a
-        className="btn"
-        onClick={() => {
-          navigate("/user");
-        }}
-      >
-        Tài khoản của tôi
-      </a>
+      {user.role === "user" ? (
+        <a
+          className="btn"
+          onClick={() => {
+            navigate("/user");
+          }}
+        >
+          Tài khoản
+        </a>
+      ) : (
+        <>
+          <a
+            className="btn"
+            onClick={() => {
+              navigate("/admin");
+            }}
+          >
+            Quản lý
+          </a>
+        </>
+      )}
+
       <a
         className="btn"
         onClick={() => {

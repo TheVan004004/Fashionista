@@ -58,6 +58,7 @@
   border-left: none;
   border-right: none;
   border-bottom: none;
+  min-height: calc(100vh - 440px);
 }
 #left-section {
   border-width: 1px;

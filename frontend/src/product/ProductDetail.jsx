@@ -21,7 +21,7 @@ const ProductDetail = () => {
   const [listPopularSimilar, setListPopularSimilar] = useState([]);
   const [limitViewMore, setLimitViewMore] = useState(5);
   const [pageViewMore, setPageViewMore] = useState(1);
-  const sizes = ["M", "L", "XL"];
+  const sizes = ["M", "L", "XL", "2XL"];
   useEffect(() => {
     window.scrollTo({ top: 0 });
     setColorPicked("");
@@ -68,11 +68,16 @@ const ProductDetail = () => {
   };
   const addToCart = async () => {
     try {
-      await addToCartAPI({
+      const res = await addToCartAPI({
         product_details_id: productDetailId,
         quantity: quantity,
         user_id: user.id,
       });
+      console.log(res.data.errorCount);
+      if (res.data.errorCount === 1) {
+        toast.error("Sản phẩm đã hết hàng!");
+        return;
+      }
       toast.success("Thêm vào giỏ hàng thành công");
     } catch (e) {
       toast.error(e.response.data.message);

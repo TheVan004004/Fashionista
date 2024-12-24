@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <>
       <div id="header">
-        <div className="logo">LOGO is here</div>
+        <div className="logo">Fashionista</div>
         <div id="menu-left">
           <div
             className="icon"
@@ -69,15 +69,18 @@ const Header = () => {
           </div>
           {user ? (
             <>
-              <div
-                className="icon"
-                onClick={() => {
-                  navigate("/cart");
-                }}
-                name="bag-icon"
-              >
-                <HiOutlineShoppingBag />
-              </div>
+              {user.role === "user" && (
+                <div
+                  className="icon"
+                  onClick={() => {
+                    navigate("/cart");
+                  }}
+                  name="bag-icon"
+                >
+                  <HiOutlineShoppingBag />
+                </div>
+              )}
+
               <label
                 htmlFor="menu-user-check"
                 className="icon"

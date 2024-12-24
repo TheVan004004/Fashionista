@@ -2,7 +2,7 @@ import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { useRef, useState, useEffect } from "react";
 
-export default function LineChart({ series, title }) {
+export default function LineChart({ series, title, tooltip }) {
   const [optionChart, setOptionChart] = useState({});
   async function getData() {
     try {
@@ -32,48 +32,26 @@ export default function LineChart({ series, title }) {
           dateTimeLabelFormats: {
             month: "%b",
           },
-          categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          categories: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
           labels: {
             enabled: true,
           },
         },
 
-        // yAxis: {
-        //   type: "logarithmic",
-        // },
+        yAxis: {
+          labels: {
+            enabled: true, // Đảm bảo nhãn trên trục Y được bật
+          },
+          type: "linear", // Hoặc "linear" nếu cần
+          labels: {
+            enabled: true,
+          },
+        },
         legend: {
           enabled: false,
         },
 
-        tooltip: {
-          formatter() {
-            let result = `<div style="min-width:50px; padding:8px 8px 1px 8px; "> `;
-            this.points.forEach((element) => {
-              result += `<div style="margin-bottom:7px;">
-                                     <div style="font-size:16px; color: ${element.color};font-weight:600; font-family:'Open Sans', sans-serif;">Tháng ${element.x}</div>
-                                    <div style="color: ${element.color};font-weight:400; font-family:'Open Sans', sans-serif;">${element.y} lượt mua</div>
-                                </div>`;
-            });
-            result += "</div>";
-            return result;
-          },
-          style: {
-            fontFamily: "'Open Sans', sans-serif",
-            fontSize: "12px",
-          },
-          shadow: {
-            color: "#0000001F",
-            offsetX: 0,
-            offsetY: 0,
-            opacity: 0.2,
-            width: 6,
-          },
-          backgroundColor: "white",
-          borderRadius: 10,
-          borderWidth: 0,
-          shared: true,
-          useHTML: true,
-        },
+        tooltip: tooltip,
         series: series,
       };
       setOptionChart(options);

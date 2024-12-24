@@ -50,7 +50,7 @@ export default function ProductManage() {
   ]);
   useEffect(() => {
     getColor();
-  }, []);
+  }, [isOpenModalProduct]);
   const getProduct = async () => {
     try {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -67,7 +67,6 @@ export default function ProductManage() {
       );
       if (res && res.data) {
         const data = res.data.data;
-        console.log(data.products);
         setTotalPage(data.pageInfo.totalPages);
         setPrevPage(data.pageInfo.prevPage);
         setNextPage(data.pageInfo.nextPage);
@@ -366,6 +365,7 @@ export default function ProductManage() {
                     onClick={() => {
                       setIsOpenModalProduct(true);
                       setProductView(product);
+                      console.log(product);
                     }}
                   />
                 </td>
@@ -480,6 +480,8 @@ export default function ProductManage() {
         )}
       </div>
       <ModalProduct
+        getColor={getColor}
+        setProductView={setProductView}
         getProduct={getProduct}
         productView={productView}
         isOpenModalProduct={isOpenModalProduct}
